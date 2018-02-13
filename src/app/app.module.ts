@@ -27,6 +27,7 @@ import { IconsModule } from './modules/icons.module';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginGuard } from './guards/login.guard';
 import { EndpointService } from './services/endpoint.service';
+import { TechnicianDetailComponent } from './components/technician-detail/technician-detail.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { EndpointService } from './services/endpoint.service';
     LoginComponent,
     HeaderComponent,
     LoadingComponent,
+    TechnicianDetailComponent,
   ],
   imports: [
     BrowserModule,

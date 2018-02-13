@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
-
 import 'rxjs/add/operator/map';
-
 
 import { Token } from '../models/token';
 import { HelpersService } from './helpers.service';
@@ -28,7 +26,7 @@ export class AuthService {
         this.getParams(username, password),
         this.httpOptions
     )
-    .map(response => this.extractTokenFromJson(response))
+    .map(response => this.mapDataToModel(response))
     .catch(this.helpers.handleResponseError);
   }
 
@@ -58,7 +56,7 @@ export class AuthService {
 		.append('password', password);
   }
 
-  private extractTokenFromJson(response: any): Token {
+  private mapDataToModel(response: any): Token {
     var token: Token = new Token();
     token.access_token = response.access_token;
     token.token_type = response.token_type;

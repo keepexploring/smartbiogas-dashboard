@@ -23,4 +23,8 @@ export class HelpersService {
     return Observable.throw(errMsg);
   }
 
+  handleError(error: any) {
+    console.log('error', error);
+  }
+
 }

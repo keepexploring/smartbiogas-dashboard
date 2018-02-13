@@ -8,17 +8,19 @@ export class EndpointService {
   
   token = this.baseUrl + 'o/token/';
 
-  technicians: {} =  {
+  technicians: {index} =  {
     index: this.fullApiEndpoint('users')
   }
   
-  dashboard: {} =  {
+  dashboard: {index} =  {
     index: this.fullApiEndpoint('Dashboard')
   }
 
-  plants: {} = {}
+  plants: {index} = {
+    index: this.fullApiEndpoint('biogasplants')
+  }
   
-  jobs: {} = {
+  jobs: {index} = {
     index: this.fullApiEndpoint('jobs')
   }
 

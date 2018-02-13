@@ -5,13 +5,15 @@ import { PlantsComponent } from './components/plants/plants.component';
 import { TechniciansComponent } from './components/technicians/technicians.component';
 import { JobsComponent } from './components/jobs/jobs.component';
 import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
-  { path: 'plants', component: PlantsComponent },
-  { path: 'technicians', component: TechniciansComponent },
-  { path: 'jobs', component: JobsComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+  { path: 'plants', component: PlantsComponent, canActivate: [AuthGuard], },
+  { path: 'technicians', component: TechniciansComponent, canActivate: [AuthGuard] },
+  { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 

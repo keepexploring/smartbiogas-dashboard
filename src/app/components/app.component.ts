@@ -26,7 +26,6 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.dataService.getData().subscribe(data => {
-      console.log(data);
       this.isAuthenticated = data;
     });
 
@@ -35,7 +34,6 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-    console.log(changes);
     this.isAuthenticated = this.auth.isAuthenticated(); 
   }
 

@@ -4,11 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 
 import { AuthService } from '../services/auth.service'
+import { Router } from '@angular/router';
 
 @Injectable()
 export class UnauthorisedInterceptor implements HttpInterceptor {
 
-  constructor(public auth: AuthService) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     
@@ -19,8 +20,8 @@ export class UnauthorisedInterceptor implements HttpInterceptor {
     }, (err: any) => {
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
-          // redirect to the login route
-          console.log('TODO: Redirect to login.')
+          this.auth.logOut();
+          this.router.navigate(['/login']);
         }
       }
     });

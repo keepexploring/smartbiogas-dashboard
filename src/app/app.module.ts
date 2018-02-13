@@ -24,6 +24,8 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { DataService } from './services/data.service';
 import { IconsModule } from './modules/icons.module';
+import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { IconsModule } from './modules/icons.module';
     PlantsService,
     TechniciansService,
     JobsService,
-    DataService
+    DataService,
+    AuthGuard,
+    LoginGuard
   ],
   bootstrap: [
     AppComponent

@@ -1,0 +1,20 @@
+<app-view-header title="Log In"></app-view-header>
+
+<app-loading *ngIf="loading"></app-loading>
+
+<div *ngIf="!loading" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" aria-describedby="username" placeholder="Username" name="username" [(ngModel)]="username" (change)="clearErrors()">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" placeholder="Password" name="password" [(ngModel)]="password" (change)="clearErrors()">
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary" [disabled]="!username || username == '' || !password || password == ''">Submit</button>
+    </div>
+    <small *ngIf="hasError || errorMessage != ''" class="text-danger">{{errorMessage}}</small>
+  </form>
+</div>

@@ -4,14 +4,15 @@ import { Observable } from 'rxjs/Rx';
 
 import 'rxjs/add/operator/map';
 
-import { environment } from '../../environments/environment';
+
 import { Token } from '../models/token';
 import { HelpersService } from './helpers.service';
+import { EndpointService } from './endpoint.service';
 
 @Injectable()
 export class AuthService {
 
-  private baseUrl = environment.baseUrl + 'o/token/';
+  constructor(private http: HttpClient, private helpers: HelpersService, private endpoints: EndpointService) { }
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -20,11 +21,10 @@ export class AuthService {
     })
   };
 
-  constructor(private http: HttpClient, private helpers: HelpersService) { }
 
   login(username: string, password: string): Observable<Token> {
     return this.http.post(
-        this.baseUrl,
+        this.endpoints.token,
         this.getParams(username, password),
         this.httpOptions
     )

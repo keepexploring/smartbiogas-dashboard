@@ -26,6 +26,7 @@ import { DataService } from './services/data.service';
 import { IconsModule } from './modules/icons.module';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginGuard } from './guards/login.guard';
+import { EndpointService } from './services/endpoint.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { LoginGuard } from './guards/login.guard';
     JobsService,
     DataService,
     AuthGuard,
-    LoginGuard
+    LoginGuard,
+    EndpointService
   ],
   bootstrap: [
     AppComponent

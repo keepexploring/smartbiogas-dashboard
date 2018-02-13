@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../services/auth.service';
 import { DataService } from '../../services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   hasError = false;
   errorMessage: string;
 
-  constructor(private authService: AuthService, private dataService: DataService) { }
+  constructor(private authService: AuthService, private dataService: DataService, private router: Router) { }
 
   ngOnInit() { }
 
@@ -31,6 +32,9 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.username, this.password).subscribe(data => {
       this.loading = false;
       this.dataService.userAuthenticated(true);
+      this.username = '';
+      this.password = '';
+      this.router.navigate(['/dashboard']);
     },
     error => {
       console.log(error);

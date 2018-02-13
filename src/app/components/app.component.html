@@ -1,10 +1,10 @@
 <nav id="main-nav" class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><img src="/assets/images/logo.png"></a>
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/"><img src="/assets/images/logo.png"></a>
   <input class="d-none form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" *ngIf="!isAuthenticated" routerLinkActive="active" routerLink="/login">Sign in <i-log-in></i-log-in></a>
-      <a class="nav-link logout" *ngIf="isAuthenticated" (click)="logOut()">Sign Out <i-log-out></i-log-out></a>
+      <!-- <a class="nav-link" *ngIf="!isAuthenticated" routerLinkActive="active" routerLink="/login">Log in <i-log-in></i-log-in></a> -->
+      <a class="nav-link nav-logout-link" *ngIf="isAuthenticated" (click)="logOut()">Log Out <i-log-out></i-log-out></a>
     </li>
   </ul>
 </nav>

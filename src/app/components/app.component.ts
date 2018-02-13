@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { AuthService } from '../services/auth.service';
 import { DataService } from '../services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -15,11 +16,12 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
   isLoading = true;
   subscription: Subscription;
 
-  constructor(private auth: AuthService, private dataService: DataService) {}
+  constructor(private auth: AuthService, private dataService: DataService, private router: Router) {}
 
   logOut() {
     this.auth.logOut();
     this.isAuthenticated = false;
+    this.router.navigate(['/login']);
   }
 
   ngOnInit() {

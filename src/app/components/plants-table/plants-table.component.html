@@ -1,0 +1,21 @@
+<table *ngIf="plants" [class.table-hover]="selectable" class="table table-sm">
+    <thead>
+      <tr>
+        <th class="" scope="col">Plant Status</th>
+        <th scope="col">Type/Model</th>
+        <th class="" scope="col">Install Tech ID</th>
+        <th class="" scope="col">QP</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let plant of plants" (click)="select(plant)" [class.bg-light]="selectable && selectedPlant == plant">
+        <td>
+          <app-plant-status [size]="'small'" [status]="plant.current_status"></app-plant-status>
+        </td>
+        <td>{{plant.type_biogas}}</td>
+        <td></td>
+        <td>{{plant.QP_status}}</td>
+      </tr>
+    </tbody>
+  </table>
+  

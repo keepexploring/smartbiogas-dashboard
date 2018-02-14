@@ -1,0 +1,74 @@
+<ul class="list-group list-group-flush">
+  <li class="list-group-item p-0">
+    <table class="table table-sm">
+      <tbody>
+        <tr>
+          <th>ID</th>
+          <td>{{ plant.id }}</td>
+        </tr>
+        <tr>
+          <th>Status</th>
+          <td>
+              <app-plant-status [size]="'small'" [status]="plant.current_status"></app-plant-status>
+          </td>
+        </tr>
+        <tr>
+          <th>Sensor Status</th>
+          <td>
+            <app-plant-status [size]="'small'" [status]="plant.sensor_status"></app-plant-status>
+          </td>
+        </tr>
+        <tr>
+          <th>Owner</th>
+          <td>
+            {{ plant.getOwner() ? plant.getOwner().getFullName() : '' }}
+          </td>
+        </tr>
+        <tr>
+          <th>Phone Number</th>
+          <td>
+            {{ plant.getOwner() ? plant.getOwner().phone_number : '' }}
+          </td>
+        </tr>
+        <tr>
+          <th>Location (What3Words)</th>
+          <td>
+            {{plant.what3words}}
+          </td>
+        </tr>
+        <tr>
+          <th>Plant Type</th>
+          <td>
+            {{plant.type_biogas}}
+          </td>
+        </tr>
+        <tr>
+          <th>Plant Volume</th>
+          <td>
+            {{plant.volume_biogas}}
+          </td>
+        </tr>
+        <tr>
+          <th>Supplier of Plant</th>
+          <td>
+            {{plant.supplier}}
+          </td>
+        </tr>
+        <tr>
+          <th>Funding Source</th>
+          <td>
+            {{plant.funding_souce}}
+          </td>
+        </tr>
+        <tr *ngIf="jobs">
+          <th>Jobs</th>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li class="list-group-item p-0">
+    <app-loading *ngIf="loadingJobs"></app-loading>
+    <app-jobs-table [jobs]="jobs" [selectable]="false"></app-jobs-table>
+  </li>
+</ul>

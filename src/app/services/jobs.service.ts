@@ -19,8 +19,19 @@ export class JobsService {
       .catch(this.helpers.handleResponseError);
   }
   
+  getForUser(userId: number): Observable<Job[]>{
+     return this.http.get(this.endpoints.jobs.user + userId)
+      .map(response => this.mapDataToModel(response))
+      .catch(this.helpers.handleResponseError);
+  }
+
+  getForPlant(plantId: number): Observable<Job[]>{
+    return this.http.get(this.endpoints.plants.jobs + plantId)
+     .map(response => this.mapDataToModel(response))
+     .catch(this.helpers.handleResponseError);
+ }
+
   private mapDataToModel(response: any): Job[] {
-    console.log(response);
     let items: Job[] = [];
     response.objects.forEach(data => {
       let item = new Job();
@@ -30,7 +41,6 @@ export class JobsService {
       item.overdue_for_acceptance = data.overdue_for_acceptance;
       item.priority = data.priority;
       item.additional_information = data.additional_information;
-
       item.client_feedback_additional = data.client_feedback_additional;
       item.client_feedback_star = data.client_feedback_star;
       item.completed = data.completed;

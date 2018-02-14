@@ -1,7 +1,7 @@
 import { User } from "./user";
 
 export class Technician extends User{
-	technician_id: string;
+	technician_id: number;
 	country: string;
 	datetime_created: string;
 	datetime_modified: string;
@@ -22,7 +22,6 @@ export class Technician extends User{
 	willing_to_travel: number;
 	user_photo: string;
 	village: string;
-	ward: string;
 
 	getAddress(): string {
 		let address = "";

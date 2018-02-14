@@ -8,6 +8,7 @@ import { Technician } from '../../models/technician';
 })
 export class TechniciansTableComponent implements OnInit {
   @Input() technicians: Technician[];
+  @Input() selectable: boolean = true;
   @Output() selectTechnician = new EventEmitter<Technician>();
   selectedTechnician: Technician;
 

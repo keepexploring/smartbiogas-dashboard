@@ -1,1 +1,15 @@
 <app-view-header title="Plants"></app-view-header>
+<app-loading *ngIf="loading"></app-loading>
+
+<div class="row" *ngIf="plants">
+  <div class="col-sm-5">
+    <div class="table-responsive list-table">
+      <app-plants-table [plants]="plants" (selectPlant)="selectPlant($event)"></app-plants-table>
+    </div>
+  </div>
+  <div class="col-sm-7" *ngIf="selectedPlant">
+    <div class="table-responsive list-table">
+      <app-plant-detail [plant]="selectedPlant"></app-plant-detail>
+    </div>
+  </div>
+</div>

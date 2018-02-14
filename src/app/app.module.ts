@@ -34,6 +34,11 @@ import { JobsTableComponent } from './components/jobs-table/jobs-table.component
 import { TechniciansTableComponent } from './components/technicians-table/technicians-table.component';
 import { JobDetailComponent } from './components/job-detail/job-detail.component';
 import { JobStatusComponent } from './components/job-status/job-status.component';
+import { TechnicianStatusComponent } from './components/technician-status/technician-status.component';
+import { PlantDetailsComponent } from './components/plant-details/plant-details.component';
+import { PlantsTableComponent } from './components/plants-table/plants-table.component';
+import { PlantDetailComponent } from './components/plant-detail/plant-detail.component';
+import { PlantStatusComponent } from './components/plant-status/plant-status.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +55,11 @@ import { JobStatusComponent } from './components/job-status/job-status.component
     TechniciansTableComponent,
     JobDetailComponent,
     JobStatusComponent,
+    TechnicianStatusComponent,
+    PlantDetailsComponent,
+    PlantsTableComponent,
+    PlantDetailComponent,
+    PlantStatusComponent,
   ],
   imports: [
     BrowserModule,

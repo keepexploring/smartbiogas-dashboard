@@ -8,7 +8,7 @@
       <div class="col-sm-9 d-flex flex-column justify-content-sm-center">
         <h1 class="h5">{{ technician.getFullName() }}</h1>
         <h2 class="h6 text-muted">{{ technician.country ? technician.country : 'Unknown Country' }}</h2>
-        <div class="status status-small" [class.status-danger]="!technician.status" [class.status-success]="technician.status">{{ technician.getStatus() }}</div>
+        <app-technician-status [size]="'small'" [status]="technician.status"></app-technician-status>
       </div>
     </div>
   </li>
@@ -48,23 +48,15 @@
           <th>Joining Date</th>
           <td>{{ technician.datetime_created | date }}</td>
         </tr>
+        <tr *ngIf="jobs">
+          <th>Jobs</th>
+          <td></td>
+        </tr>
       </tbody>
     </table>
-  </li>
-  <li class="list-group-item">
-    <h1 class="h5">Jobs</h1>
   </li>
   <li class="list-group-item p-0">
-    <table class="table table-sm">
-      <thead>
-        <tr>
-          <th class="d-xs-none" scope="col">ID</th>
-          <th scope="col">Date Flagged</th>
-          <th class="d-xs-none" scope="col">Fault Description</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+    <app-loading *ngIf="loadingJobs"></app-loading>
+    <app-jobs-table [jobs]="jobs"></app-jobs-table>
   </li>
 </ul>

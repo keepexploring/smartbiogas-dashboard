@@ -1,8 +1,1 @@
-<div class="status" 
-[class.status-small]="size && size == 'small'"
-[class.status-danger]="status == 'Resolving'"
-[class.status-success]="status == 'Resolved'"
-[class.status-info]="status == 'Unassigned'"
-[class.status-warning]="status == 'Assistance'"
-[class.status-default]="status == 'Flag'"
->{{ status }}</div>
+<div [class]="'status ' + statusStyle" [class.status-small]="size && size == 'small'">{{ status ? status : 'Unknown' }}</div>

@@ -19,7 +19,6 @@ export class TechniciansService {
   }
   
   private mapDataToModel(response: any): Technician[] {
-    console.log(response);
     let items: Technician[] = [];
     response.objects.forEach(data => {
       let item = new Technician();
@@ -50,7 +49,6 @@ export class TechniciansService {
       item.willing_to_travel = data.willing_to_travel;
       item.user_photo = data.user_photo;
       item.village = data.village;
-      item.ward = data.ward;
       items.push(item);
     });
     return items;

@@ -8,6 +8,8 @@ import { Job } from '../../models/job';
 })
 export class JobsTableComponent implements OnInit {
   @Input() jobs: Job[];
+  @Input() selectable: boolean = true;
+  @Input() enableModal: boolean = false;
   @Output() selectJob = new EventEmitter<Job>();
   selectedJob: Job;
   constructor() { }

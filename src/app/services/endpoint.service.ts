@@ -9,25 +9,27 @@ export class EndpointService {
   token = this.baseUrl + 'o/token/';
 
   technicians: {index} =  {
-    index: this.fullApiEndpoint('users')
+    index: this.fullApiEndpoint('users/?format=json')
   }
   
   dashboard: {index} =  {
-    index: this.fullApiEndpoint('Dashboard')
+    index: this.fullApiEndpoint('Dashboard/?format=json')
   }
 
-  plants: {index} = {
-    index: this.fullApiEndpoint('biogasplants')
+  plants: {index, jobs} = {
+    index: this.fullApiEndpoint('biogasplants/?format=json'),
+    jobs: this.fullApiEndpoint('jobs/?plant__id=')
   }
   
-  jobs: {index} = {
-    index: this.fullApiEndpoint('jobs')
+  jobs: {index, user} = {
+    index: this.fullApiEndpoint('jobs/?format=json'),
+    user: this.fullApiEndpoint('jobs/?fixers__user__id=')
   }
 
   constructor() { }
 
   private fullApiEndpoint(path): string {
-    return this.baseUrl + this.basePath + path + '/?format=json';
+    return this.baseUrl + this.basePath + path;
   }
 
 }

@@ -1,14 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-job-status',
-  templateUrl: './job-status.component.html',
-  styleUrls: ['./job-status.component.sass']
+  selector: 'app-plant-status',
+  templateUrl: './plant-status.component.html',
+  styleUrls: ['./plant-status.component.sass']
 })
-export class JobStatusComponent implements OnInit {
+export class PlantStatusComponent implements OnInit {
   @Input() status: string;
   @Input() size: string;
   statusStyle: string;
+  statusText: string;
 
   constructor() { }
 
@@ -19,30 +20,24 @@ export class JobStatusComponent implements OnInit {
   private getStatus() {
     if(this.status){
       switch (this.status.toLowerCase()) {
-        case 'resolving':
-          this.statusStyle = 'cyan';
-          break;
-        case 'flag':
+        case 'fault':
           this.statusStyle = 'red';
+          this.statusText = this.status;
           break;
-        case 'resolved':
+        case 'active':
           this.statusStyle = 'green';
-          break;
-        case 'unassigned':
-          this.statusStyle = 'gray';
-          break;
-        case 'assistance':
-          this.statusStyle = 'orange';
+          this.statusText = this.status;
           break;
         default:
           this.statusStyle = 'empty';
-          this.status = 'Unknown'
+          this.statusText = 'Unknown'
           break;
       }
     } else {
       this.statusStyle = 'empty';
-      this.status = 'Unknown'
+      this.statusText = 'Unknown';
     }
     this.statusStyle = 'status-' + this.statusStyle;
   }
+
 }

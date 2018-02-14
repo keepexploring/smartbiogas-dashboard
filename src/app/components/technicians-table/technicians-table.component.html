@@ -1,4 +1,4 @@
-<table class="table table-hover table-sm">
+<table class="table table-sm" [class.table-hover]="selectable">
   <thead>
     <tr>
       <th scope="col">Name</th>
@@ -8,11 +8,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let technician of technicians" (click)="select(technician)" [class.bg-light]="selectedTechnician == technician">
+    <tr *ngFor="let technician of technicians" (click)="select(technician)" [class.bg-light]="selectable && selectedTechnician == technician">
       <th scope="row">
         {{ technician.getFullName() }}
         <br>
-        <div class="status status-small" [class.status-danger]="!technician.status" [class.status-success]="technician.status">{{ technician.getStatus() }}</div>
+        <app-technician-status [size]="'small'" [status]="technician.status"></app-technician-status>
       </th>
       <td class="d-xs-none small">{{ technician.phone_number }}</td>
       <td class="d-xs-none">{{ technician.country }}</td>

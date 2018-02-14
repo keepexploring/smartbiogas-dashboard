@@ -9,7 +9,6 @@ import { Technician } from '../../models/technician';
   styleUrls: ['./technicians.component.sass']
 })
 export class TechniciansComponent implements OnInit {
-
   loading: boolean = true;
   technicians: Technician[];
   selectedTechnician: Technician;
@@ -22,7 +21,6 @@ export class TechniciansComponent implements OnInit {
 
   ngOnInit() {
     this.service.getAll().subscribe((response) => {
-      console.log('Response(component)', response);
       this.technicians = response;
       this.loading = false;
     }, (error) => {
@@ -30,5 +28,4 @@ export class TechniciansComponent implements OnInit {
       this.loading = false;
     });
   }
-
 }

@@ -1,18 +1,20 @@
-<div class="card">
-  <div class="card-header">
-    Technician Details
-  </div>
-  <div class="card-body">
+<ul class="list-group list-group-flush">
+  <li class="list-group-item">
     <div class="row">
       <div class="col-sm-3">
-        <img [src]="technician.user_photo ? technician.user_photo : '/assets/images/missing-user-photo.svg'" [alt]="technician.getFullName()" class="user-photo">
+        <img [src]="technician.user_photo ? technician.user_photo : '/assets/images/missing-user-photo.svg'" [alt]="technician.getFullName()"
+          class="user-photo">
       </div>
       <div class="col-sm-9 d-flex flex-column justify-content-sm-center">
-        <h1 class="h4">{{ technician.getFullName() }}</h1>
-        <h2 class="h5 text-muted">{{ technician.country ? technician.country : 'Unknown Country' }}</h2>
+        <h1 class="h5">{{ technician.getFullName() }}</h1>
+        <h2 class="h6 text-muted">{{ technician.country ? technician.country : 'Unknown Country' }}</h2>
+        <div class="status status-small" [class.status-danger]="!technician.status" [class.status-success]="technician.status">{{ technician.getStatus() }}</div>
       </div>
     </div>
-    <table class="table table-hover table-sm">
+  </li>
+
+  <li class="list-group-item p-0">
+    <table class="table table-sm">
       <tbody>
         <tr>
           <th>ID</th>
@@ -44,11 +46,25 @@
         </tr>
         <tr>
           <th>Joining Date</th>
-          <td>{{ technician.datetime_created }}</td>
+          <td>{{ technician.datetime_created | date }}</td>
         </tr>
       </tbody>
     </table>
-
-
-  </div>
-</div>
+  </li>
+  <li class="list-group-item">
+    <h1 class="h5">Jobs</h1>
+  </li>
+  <li class="list-group-item p-0">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th class="d-xs-none" scope="col">ID</th>
+          <th scope="col">Date Flagged</th>
+          <th class="d-xs-none" scope="col">Fault Description</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </li>
+</ul>

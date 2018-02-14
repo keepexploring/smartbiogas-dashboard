@@ -2,14 +2,25 @@
 @import 'src/assets/styles/mixins'
 @import 'node_modules/bootstrap/scss/bootstrap'
 
-#main-nav .navbar-brand
-	padding: 0
-	img
-		height: 33px
-		margin: auto
-		margin-left: 15px
-		margin-top: 3px
-		margin-bottom: 3px
+body
+	height: 100vh
+#main-wrapper
+	height: 100%
+	height: calc( 100% - 40px)
+main
+	height: 100%
+
+
+#main-nav 
+	background: #315025
+	.navbar-brand
+		padding: 0
+		img
+			height: 33px
+			margin: auto
+			margin-left: 15px
+			margin-top: 3px
+			margin-bottom: 3px
 
 .nav-logout-link
 	cursor: pointer
@@ -66,7 +77,7 @@
 		margin-right: 4px
 		color: #999
 	&.active
-		color: #007bff
+		color: $green
 	&:hover .feather, &.active .feather
 		color: inherit
 
@@ -101,5 +112,58 @@
 	border-bottom: 1px solid #e5e5e5
 
 .user-photo
-	width: 150px
+	max-width: 150px
 	height: auto
+
+.table-hover tbody tr
+	cursor: pointer
+
+.list-table
+	max-height: 85vh
+	overflow-y: auto
+	border: 1px solid #e5e5e5
+
+.thead-green
+	@extend .thead-dark
+	th
+		background-color: $dark-green !important
+		border-color: $dark-green !important
+
+.status
+	font-size: $font-size-base
+	color: $gray-500
+	font-weight: normal
+	text-transform: uppercase
+	letter-spacing: 1px
+
+	&:before
+		content: ' '
+		height: $font-size-base
+		width: $font-size-base
+		display: inline-block
+		margin-right: 4px
+		border-radius: 500px // very large to make a circle
+		transform: translateY(2px)
+	
+	&.status-danger:before
+		background: $red
+	
+	&.status-success:before
+		background: $green
+
+	&.status-info:before
+		background: $blue
+	
+	&.status-default:before
+		background: $gray-500
+	
+	&.status-warning:before
+		background: $orange
+	
+	&.status-small
+		font-size: 0.5rem
+
+		&:before
+			content: ' '
+			height: 10px
+			width: 10px

@@ -1,0 +1,22 @@
+<table class="table table-hover table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th class="d-xs-none" scope="col">Phone</th>
+      <th class="d-xs-none" scope="col">Country</th>
+      <th class="d-xs-none" scope="col">Jobs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let technician of technicians" (click)="select(technician)" [class.bg-light]="selectedTechnician == technician">
+      <th scope="row">
+        {{ technician.getFullName() }}
+        <br>
+        <div class="status status-small" [class.status-danger]="!technician.status" [class.status-success]="technician.status">{{ technician.getStatus() }}</div>
+      </th>
+      <td class="d-xs-none small">{{ technician.phone_number }}</td>
+      <td class="d-xs-none">{{ technician.country }}</td>
+      <td class="d-xs-none">{{ technician.number_jobs_active }}</td>
+    </tr>
+  </tbody>
+</table>

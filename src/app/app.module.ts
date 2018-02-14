@@ -28,6 +28,12 @@ import { AuthGuard } from './guards/auth.guard';
 import { LoginGuard } from './guards/login.guard';
 import { EndpointService } from './services/endpoint.service';
 import { TechnicianDetailComponent } from './components/technician-detail/technician-detail.component';
+import { UnauthorisedInterceptor } from './interceptors/unauthorised.interceptor';
+import { DatePipe } from '@angular/common';
+import { JobsTableComponent } from './components/jobs-table/jobs-table.component';
+import { TechniciansTableComponent } from './components/technicians-table/technicians-table.component';
+import { JobDetailComponent } from './components/job-detail/job-detail.component';
+import { JobStatusComponent } from './components/job-status/job-status.component';
 
 @NgModule({
   declarations: [
@@ -40,18 +46,27 @@ import { TechnicianDetailComponent } from './components/technician-detail/techni
     HeaderComponent,
     LoadingComponent,
     TechnicianDetailComponent,
+    JobsTableComponent,
+    TechniciansTableComponent,
+    JobDetailComponent,
+    JobStatusComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    IconsModule
+    IconsModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UnauthorisedInterceptor,
       multi: true
     },
     AuthService,
@@ -63,7 +78,8 @@ import { TechnicianDetailComponent } from './components/technician-detail/techni
     DataService,
     AuthGuard,
     LoginGuard,
-    EndpointService
+    EndpointService,
+    DatePipe
   ],
   bootstrap: [
     AppComponent

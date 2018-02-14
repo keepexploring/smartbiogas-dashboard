@@ -1,0 +1,23 @@
+<table *ngIf="jobs" class="table table-hover table-sm">
+  <thead>
+    <tr>
+      <th class="" scope="col">ID</th>
+      <th scope="col">Date Flagged</th>
+      <th class="" scope="col">Fault Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let job of jobs" (click)="select(job)" [class.bg-light]="selectedJob == job">
+      <td>
+        <small>{{ job.job_id }}</small>
+        <app-job-status [status]="job.job_status" [size]="'small'"></app-job-status>
+      </td>
+      <td class="small">
+        {{ job.date_flagged ? (job.date_flagged | date) : '' }}
+      </td>
+      <td class="small">
+        {{ job.fault_description ? job.fault_description.substring(0, 50) + '...' : '' }}
+      </td>
+    </tr>
+  </tbody>
+</table>

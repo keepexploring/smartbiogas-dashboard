@@ -1,0 +1,38 @@
+<table class="table table-sm">
+  <tbody>
+    <tr>
+      <th>ID</th>
+      <td>{{ job.job_id }}</td>
+    </tr>
+    <tr>
+      <th>Job Status</th>
+      <td>
+        <app-job-status [status]="job.job_status"></app-job-status>
+      </td>
+    </tr>
+    <tr>
+      <th>Plant ID</th>
+      <td>{{ job.plant_id }}</td>
+    </tr>
+    <tr>
+      <th>Technician ID</th>
+      <td>{{ job.constructing_tech.id }}</td>
+    </tr>
+    <tr>
+      <th>Date Flagged</th>
+      <td>{{ job.date_flagged ? (job.date_flagged | date) : '' }}</td>
+    </tr>
+    <tr>
+      <th>Overdue Date</th>
+      <td>{{ job.due_date ? (job.due_date | date) : '' }}</td>
+    </tr>
+    <tr>
+      <th>Issue Identitfied</th>
+      <td>{{ job.fault_description }}</td>
+    </tr>
+    <tr>
+      <th>Additional Information</th>
+      <td>{{ job.other }}</td>
+    </tr>
+  </tbody>
+</table>

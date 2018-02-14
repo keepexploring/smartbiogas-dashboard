@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { User } from '../models/user';
 
 @Injectable()
 export class HelpersService {
@@ -25,6 +26,23 @@ export class HelpersService {
 
   handleError(error: any) {
     console.log('error', error);
+  }
+
+  parseContactFromJsonData(contactData: {user_id, company_name, contact_type, first_name, last_name, phone_number, role, status}): User {
+    let contact = new User();
+    contact.id = contactData.user_id;
+    contact.contact_type = contactData.contact_type;
+    contact.first_name = contactData.first_name;
+    contact.last_name = contactData.last_name;
+    contact.phone_number = contactData.phone_number;
+    contact.role = contactData.role;
+    contact.status = contactData.status;
+  
+    if(contactData.company_name) { 
+      contact.company_name = contactData.company_name[0]; 
+    }
+    
+    return contact;
   }
 
 }

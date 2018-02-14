@@ -1,36 +1,40 @@
 <table class="table table-sm">
   <tbody>
-    <tr>
+    <tr *ngIf="job.job_id">
       <th>ID</th>
-      <td>{{ job.job_id }}</td>
+      <td>{{ job.id }}</td>
     </tr>
-    <tr>
+    <tr *ngIf="job.job_status">
       <th>Job Status</th>
       <td>
         <app-job-status [status]="job.job_status"></app-job-status>
       </td>
     </tr>
-    <tr>
+    <tr *ngIf="job.plant_id">
       <th>Plant ID</th>
       <td>{{ job.plant_id }}</td>
     </tr>
-    <tr>
+    <tr *ngIf="job.constructing_tech[0]">
       <th>Technician ID</th>
-      <td>{{ job.constructing_tech.id }}</td>
+      <td>{{ job.constructing_tech[0].id }}</td>
     </tr>
-    <tr>
+    <tr *ngIf="job.date_flagged">
       <th>Date Flagged</th>
       <td>{{ job.date_flagged ? (job.date_flagged | date) : '' }}</td>
     </tr>
-    <tr>
+    <tr *ngIf="job.due_date">
       <th>Overdue Date</th>
       <td>{{ job.due_date ? (job.due_date | date) : '' }}</td>
     </tr>
-    <tr>
+    <tr *ngIf="job.install_date">
+      <th>Install Date</th>
+      <td>{{ job.install_date ? (job.install_date | date) : '' }}</td>
+    </tr>
+    <tr *ngIf="job.fault_description">
       <th>Issue Identitfied</th>
       <td>{{ job.fault_description }}</td>
     </tr>
-    <tr>
+    <tr *ngIf="job.other">
       <th>Additional Information</th>
       <td>{{ job.other }}</td>
     </tr>

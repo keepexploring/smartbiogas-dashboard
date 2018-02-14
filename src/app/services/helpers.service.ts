@@ -15,7 +15,7 @@ export class HelpersService {
       const err = body.error || JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
-      if(error.error && error.error.error_description) {
+      if (error.error && error.error.error_description) {
         errMsg = error.error.error_description;
       } else {
         errMsg = error.message ? error.message : error.toString();
@@ -28,7 +28,7 @@ export class HelpersService {
     console.log('error', error);
   }
 
-  parseContactFromJsonData(contactData: {user_id, company_name, contact_type, first_name, last_name, phone_number, role, status}): User {
+  parseContactFromJsonData(contactData: { user_id, company_name, contact_type, first_name, last_name, phone_number, role, status }): User {
     let contact = new User();
     contact.id = contactData.user_id;
     contact.contact_type = contactData.contact_type;
@@ -37,12 +37,102 @@ export class HelpersService {
     contact.phone_number = contactData.phone_number;
     contact.role = contactData.role;
     contact.status = contactData.status;
-  
-    if(contactData.company_name) { 
-      contact.company_name = contactData.company_name[0]; 
+
+    if (contactData.company_name) {
+      contact.company_name = contactData.company_name[0];
     }
-    
+
     return contact;
   }
+
+  mapStyles = [
+    {
+      "featureType": "administrative",
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#444444"
+        }
+      ]
+    },
+    {
+      "featureType": "landscape",
+      "elementType": "all",
+      "stylers": [
+        {
+          "color": "#f2f2f2"
+        }
+      ]
+    },
+    {
+      "featureType": "poi",
+      "elementType": "all",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "road",
+      "elementType": "all",
+      "stylers": [
+        {
+          "saturation": -100
+        },
+        {
+          "lightness": 45
+        }
+      ]
+    },
+    {
+      "featureType": "road.highway",
+      "elementType": "all",
+      "stylers": [
+        {
+          "visibility": "simplified"
+        }
+      ]
+    },
+    {
+      "featureType": "road.highway",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#ffffff"
+        }
+      ]
+    },
+    {
+      "featureType": "road.arterial",
+      "elementType": "labels.icon",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "transit",
+      "elementType": "all",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "water",
+      "elementType": "all",
+      "stylers": [
+        {
+          "color": "#dde6e8"
+        },
+        {
+          "visibility": "on"
+        }
+      ]
+    }
+  ];
 
 }

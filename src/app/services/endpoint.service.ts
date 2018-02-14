@@ -13,7 +13,7 @@ export class EndpointService {
   }
   
   dashboard: {index} =  {
-    index: this.fullApiEndpoint('Dashboard/?format=json')
+    index: this.fullApiEndpoint('dashboard/?format=json')
   }
 
   plants: {index, jobs} = {

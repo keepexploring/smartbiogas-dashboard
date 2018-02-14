@@ -2,17 +2,17 @@
   <li class="list-group-item p-0">
     <table class="table table-sm">
       <tbody>
-        <tr>
+        <tr *ngIf="plant.id">
           <th>ID</th>
           <td>{{ plant.id }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="plant.current_status">
           <th>Status</th>
           <td>
               <app-plant-status [size]="'small'" [status]="plant.current_status"></app-plant-status>
           </td>
         </tr>
-        <tr>
+        <tr *ngIf="plant.sensor_status">
           <th>Sensor Status</th>
           <td>
             <app-plant-status [size]="'small'" [status]="plant.sensor_status"></app-plant-status>
@@ -30,34 +30,34 @@
             {{ plant.getOwner() ? plant.getOwner().phone_number : '' }}
           </td>
         </tr>
-        <tr>
+        <tr *ngIf="plant.what3words">
           <th>Location (What3Words)</th>
           <td>
-            {{plant.what3words}}
+            {{ plant.what3words }}
           </td>
         </tr>
-        <tr>
+        <tr *ngIf="plant.type_biogas">
           <th>Plant Type</th>
           <td>
-            {{plant.type_biogas}}
+            {{ plant.type_biogas }}
           </td>
         </tr>
-        <tr>
+        <tr *ngIf="plant.volume_biogas">
           <th>Plant Volume</th>
           <td>
-            {{plant.volume_biogas}}
+            {{ plant.volume_biogas }}
           </td>
         </tr>
-        <tr>
+        <tr *ngIf="plant.supplier">
           <th>Supplier of Plant</th>
           <td>
-            {{plant.supplier}}
+            {{ plant.supplier }}
           </td>
         </tr>
-        <tr>
+        <tr *ngIf="plant.funding_souce">
           <th>Funding Source</th>
           <td>
-            {{plant.funding_souce}}
+            {{ plant.funding_souce }}
           </td>
         </tr>
         <tr *ngIf="jobs">

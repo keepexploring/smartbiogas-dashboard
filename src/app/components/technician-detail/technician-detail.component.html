@@ -16,35 +16,35 @@
   <li class="list-group-item p-0">
     <table class="table table-sm">
       <tbody>
-        <tr>
+        <tr *ngIf="technician.id">
           <th>ID</th>
           <td>{{ technician.id }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="technician.getFullName">
           <th>Name</th>
           <td>{{ technician.getFullName() }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="technician.phone_number">
           <th>Phone Number</th>
           <td>{{ technician.phone_number }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="technician.getAddress">
           <th>Address</th>
           <td>{{ technician.getAddress() }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="technician.location">
           <th>Operating Location</th>
           <td>{{ technician.location }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="technician.acredit_to_install">
           <th>Accreditted Skills</th>
           <td>{{ technician.acredit_to_install }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="technician.acredit_to_install">
           <th>Languages Spoken</th>
           <td>{{ technician.acredit_to_install }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="technician.datetime_created">
           <th>Joining Date</th>
           <td>{{ technician.datetime_created | date }}</td>
         </tr>

@@ -17,6 +17,7 @@ export class PlantDetailComponent implements OnInit, OnChanges {
   constructor(private jobsService: JobsService, private helpers: HelpersService) { }
 
   getJobs() {
+    console.log(this.plant.id);
     this.jobsService.getForPlant(this.plant.id).subscribe((response) => {
       this.jobs = response;
       this.loadingJobs = false;
@@ -27,11 +28,14 @@ export class PlantDetailComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.getJobs();
+    if(this.plant) {
+      this.getJobs();
+    }
+    
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(!changes.plant.firstChange) {
+    if(this.plant && !changes.plant.firstChange) {
       this.loadingJobs = true;
       this.jobs = null;
       this.getJobs();

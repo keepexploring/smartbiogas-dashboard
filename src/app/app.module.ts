@@ -38,6 +38,9 @@ import { PlantDetailComponent } from './components/plant-detail/plant-detail.com
 import { PlantStatusComponent } from './components/plant-status/plant-status.component';
 import { JobDetailModalComponent } from './components/job-detail-modal/job-detail-modal.component';
 import { PlantsMapComponent } from './components/plants-map/plants-map.component';
+import { AgmCoreModule } from '@agm/core';
+
+import { environment } from '../environments/environment'
 
 @NgModule({
   declarations: [
@@ -67,6 +70,9 @@ import { PlantsMapComponent } from './components/plants-map/plants-map.component
     HttpClientModule,
     FormsModule,
     IconsModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMapsApiKey
+    })
   ],
   providers: [
     {

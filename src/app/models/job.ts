@@ -39,6 +39,7 @@ export class Job {
 	village: string;
 	volume_biogas: string;
 	ward: string;
+	install_date: string;
 
 	// Parse from contact arrays
 	constructing_tech: User[];

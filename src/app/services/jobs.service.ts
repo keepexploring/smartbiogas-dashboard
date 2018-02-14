@@ -20,12 +20,14 @@ export class JobsService {
   }
   
   getForUser(userId: number): Observable<Job[]>{
+    console.log(userId);
      return this.http.get(this.endpoints.jobs.user + userId)
       .map(response => this.mapDataToModel(response))
       .catch(this.helpers.handleResponseError);
   }
 
   getForPlant(plantId: number): Observable<Job[]>{
+    console.log(plantId);
     return this.http.get(this.endpoints.plants.jobs + plantId)
      .map(response => this.mapDataToModel(response))
      .catch(this.helpers.handleResponseError);
@@ -70,6 +72,7 @@ export class JobsService {
       item.village = data.system_info.village;
       item.volume_biogas = data.system_info.volume_biogas;
       item.ward = data.system_info.ward;
+      item.install_date = data.system_info.install_date;
       item.constructing_tech = this.mapConstructingTech(data);
       item.contact_info = this.mapContactList(data);
       item.fixers = this.mapFixersList(data);

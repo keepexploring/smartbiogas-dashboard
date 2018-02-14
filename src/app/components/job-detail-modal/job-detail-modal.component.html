@@ -1,0 +1,12 @@
+<div *ngIf="job" class="modal fade" id="jobDetailModal" tabindex="-1" role="dialog" aria-labelledby="jobDetailModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Job Details</h5>
+      </div>
+      <div class="modal-body">
+        <app-job-detail [job]="job"></app-job-detail>
+      </div>
+    </div>
+  </div>
+</div>

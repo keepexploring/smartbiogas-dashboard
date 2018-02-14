@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-job-status',
@@ -11,10 +11,6 @@ export class JobStatusComponent implements OnInit {
   statusStyle: string;
 
   constructor() { }
-
-  ngOnInit() {
-    this.getStatus();
-  }
 
   private getStatus() {
     if(this.status){
@@ -45,4 +41,9 @@ export class JobStatusComponent implements OnInit {
     }
     this.statusStyle = 'status-' + this.statusStyle;
   }
+
+  ngOnInit() {
+    this.getStatus();
+  }
+
 }

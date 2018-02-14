@@ -7,7 +7,7 @@ import { Job } from '../../models/job';
   styleUrls: ['./job-detail.component.sass']
 })
 export class JobDetailComponent implements OnInit {
-  @Input() job: Job;
+  @Input() job: Job = null;
   loading = false; 
   
   constructor() { }

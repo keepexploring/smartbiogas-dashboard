@@ -22,7 +22,9 @@
         "styles.sass"
       ],
       "scripts": [
-        "../node_modules/feather-icons/dist/feather.min.js"
+        "../node_modules/feather-icons/dist/feather.min.js",
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

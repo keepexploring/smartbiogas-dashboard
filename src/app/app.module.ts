@@ -1,10 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 import { AppComponent } from './components/app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -29,16 +28,15 @@ import { LoginGuard } from './guards/login.guard';
 import { EndpointService } from './services/endpoint.service';
 import { TechnicianDetailComponent } from './components/technician-detail/technician-detail.component';
 import { UnauthorisedInterceptor } from './interceptors/unauthorised.interceptor';
-import { DatePipe } from '@angular/common';
 import { JobsTableComponent } from './components/jobs-table/jobs-table.component';
 import { TechniciansTableComponent } from './components/technicians-table/technicians-table.component';
 import { JobDetailComponent } from './components/job-detail/job-detail.component';
 import { JobStatusComponent } from './components/job-status/job-status.component';
 import { TechnicianStatusComponent } from './components/technician-status/technician-status.component';
-import { PlantDetailsComponent } from './components/plant-details/plant-details.component';
 import { PlantsTableComponent } from './components/plants-table/plants-table.component';
 import { PlantDetailComponent } from './components/plant-detail/plant-detail.component';
 import { PlantStatusComponent } from './components/plant-status/plant-status.component';
+import { JobDetailModalComponent } from './components/job-detail-modal/job-detail-modal.component';
 
 @NgModule({
   declarations: [
@@ -56,10 +54,10 @@ import { PlantStatusComponent } from './components/plant-status/plant-status.com
     JobDetailComponent,
     JobStatusComponent,
     TechnicianStatusComponent,
-    PlantDetailsComponent,
     PlantsTableComponent,
     PlantDetailComponent,
     PlantStatusComponent,
+    JobDetailModalComponent,
   ],
   imports: [
     BrowserModule,

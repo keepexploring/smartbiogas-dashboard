@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { Technician } from '../../models/technician';
 import { JobsService } from '../../services/jobs.service';
 import { Job } from '../../models/job';
@@ -9,22 +9,32 @@ import { HelpersService } from '../../services/helpers.service';
   templateUrl: './technician-detail.component.html',
   styleUrls: ['./technician-detail.component.sass']
 })
-export class TechnicianDetailComponent implements OnInit {
-
+export class TechnicianDetailComponent implements OnInit, OnChanges {
   @Input() technician: Technician;
   loadingJobs = true;
   jobs: Job[];
-  
-  constructor(private jobsService: JobsService, private helpers: HelpersService) { }
 
-  ngOnInit() {
+  constructor(private jobsService: JobsService, private helpers: HelpersService) { }
+  
+  getJobs() {
     this.jobsService.getForUser(this.technician.technician_id).subscribe((response) => {
       this.jobs = response;
       this.loadingJobs = false;
     }, (error) => {
       this.helpers.handleError(error);
       this.loadingJobs = false;
-    });
+    }); 
   }
 
+  ngOnInit() {
+    this.getJobs();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(!changes.technician.firstChange) {
+      this.loadingJobs = true;
+      this.jobs = null;
+      this.getJobs();
+    }
+  }
 }

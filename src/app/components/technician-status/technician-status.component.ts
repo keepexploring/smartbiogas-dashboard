@@ -26,6 +26,5 @@ export class TechnicianStatusComponent implements OnInit {
       this.statusText = 'Inactive';
     }
     this.statusStyle = 'status-' + this.statusStyle;
-    console.log(this.statusStyle);
   }
 }

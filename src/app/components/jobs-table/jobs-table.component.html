@@ -7,7 +7,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let job of jobs" (click)="select(job)" [class.bg-light]="selectable && selectedJob == job">
+    <tr *ngFor="let job of jobs" (click)="select(job)" [class.bg-light]="selectable && selectedJob == job" data-toggle="modal" data-target="#jobDetailModal">
       <td>
         <app-job-status [status]="job.job_status" [size]="'small'"></app-job-status>
       </td>
@@ -20,3 +20,7 @@
     </tr>
   </tbody>
 </table>
+
+<div *ngIf="selectedJob">
+  <app-job-detail-modal [job]="selectedJob" *ngIf="enableModal"></app-job-detail-modal>
+</div>

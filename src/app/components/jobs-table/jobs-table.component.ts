@@ -12,6 +12,7 @@ export class JobsTableComponent implements OnInit {
   @Input() enableModal: boolean = false;
   @Output() selectJob = new EventEmitter<Job>();
   selectedJob: Job;
+  
   constructor() { }
 
   ngOnInit() { }
@@ -20,5 +21,4 @@ export class JobsTableComponent implements OnInit {
     this.selectedJob = job;
     this.selectJob.emit(job);
   }
-
 }

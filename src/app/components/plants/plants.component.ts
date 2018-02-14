@@ -9,10 +9,10 @@ import { HelpersService } from '../../services/helpers.service';
   styleUrls: ['./plants.component.sass']
 })
 export class PlantsComponent implements OnInit {
-  
   loading: boolean = true;
   plants: Plant[];
   selectedPlant: Plant;
+  currentViewList: boolean = true;
 
   constructor(private service: PlantsService, private helpers: HelpersService) { }
 

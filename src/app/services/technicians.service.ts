@@ -17,7 +17,7 @@ export class TechniciansService {
       .map(response => this.mapDataToModel(response))
       .catch(this.helpers.handleResponseError);
   }
-  
+
   private mapDataToModel(response: any): Technician[] {
     let items: Technician[] = [];
     response.objects.forEach(data => {

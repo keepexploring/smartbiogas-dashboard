@@ -19,7 +19,6 @@ export class AuthService {
     })
   };
 
-
   login(username: string, password: string): Observable<Token> {
     return this.http.post(
         this.endpoints.token,

@@ -37,6 +37,7 @@ import { PlantsTableComponent } from './components/plants-table/plants-table.com
 import { PlantDetailComponent } from './components/plant-detail/plant-detail.component';
 import { PlantStatusComponent } from './components/plant-status/plant-status.component';
 import { JobDetailModalComponent } from './components/job-detail-modal/job-detail-modal.component';
+import { PlantsMapComponent } from './components/plants-map/plants-map.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { JobDetailModalComponent } from './components/job-detail-modal/job-detai
     PlantDetailComponent,
     PlantStatusComponent,
     JobDetailModalComponent,
+    PlantsMapComponent,
   ],
   imports: [
     BrowserModule,

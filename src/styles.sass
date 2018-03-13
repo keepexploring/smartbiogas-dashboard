@@ -4,15 +4,20 @@
 
 body
 	height: 100vh
+
 #main-wrapper
 	height: 100%
 	height: calc( 100% - 40px )
+
 main
 	height: 100%
 
 agm-map
 	height: 800px
-	height: $default-column-height
+	height: $default-column-height - 10vh
+
+app-plants-map
+	width: 100%
 
 .table td
 	vertical-align: middle
@@ -37,7 +42,6 @@ agm-map
 
 .nav-logout-link
 	cursor: pointer
-
 
 button i-map,
 button i-list,
@@ -142,7 +146,6 @@ button i-compass,
 .list-table
 	max-height: $default-column-height
 	overflow-y: auto
-	border: 1px solid #e5e5e5
 
 .thead-green
 	@extend .thead-dark

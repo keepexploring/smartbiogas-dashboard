@@ -1,17 +1,17 @@
 <app-view-header title="Plants"></app-view-header>
 
-<div class="row">
+<div class="row d-flex">
   <div class="col-sm-12 text-left mb-2">
     <button class="btn btn-sm btn-outline-secondary" (click)="currentViewList  = !currentViewList">
       <i-map *ngIf="currentViewList"></i-map><i-list *ngIf="!currentViewList"></i-list> {{currentViewList ? 'View Map' : 'View List'}}
     </button>
   </div>
-  <div class="col-sm-5" *ngIf="currentViewList">
+  <div class="main-ui-container col-sm-5 d-flex" *ngIf="currentViewList">
     <div class="table-responsive list-table">
       <app-plants-table (selectPlant)="selectPlant($event)"></app-plants-table>
     </div>
   </div>
-  <div class="col-sm-7" *ngIf="!currentViewList">
+  <div class="main-ui-container col-sm-7 d-flex" *ngIf="!currentViewList">
       <app-plants-map (selectPlant)="selectPlant($event)"></app-plants-map>
   </div>
   <div [class.col-sm-7]="currentViewList" *ngIf="selectedPlant">

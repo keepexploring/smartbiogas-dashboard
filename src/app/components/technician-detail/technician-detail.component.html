@@ -1,5 +1,5 @@
 <ul class="list-group list-group-flush">
-  <li class="list-group-item">
+  <li class="list-group-item border-top border-right border-left">
     <div class="row">
       <div class="col-sm-3">
         <img [src]="technician.user_photo ? technician.user_photo : '/assets/images/missing-user-photo.svg'" [alt]="technician.getFullName()"
@@ -14,7 +14,7 @@
   </li>
 
   <li class="list-group-item p-0">
-    <table class="table table-sm mb-0">
+    <table class="table table-bordered mb-0">
       <tbody>
         <tr *ngIf="technician.id">
           <th class="vertical-th">ID</th>

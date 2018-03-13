@@ -12,7 +12,7 @@
         <app-job-status [status]="job.job_status" [size]="'small'"></app-job-status>
       </td>
       <td class="small">
-        {{ job.date_flagged ? (job.date_flagged | date) : '' }}
+        {{ job.date_flagged ? (job.date_flagged | date) : 'Unknown' }}
       </td>
       <td>
         {{ job.fault_description ? job.fault_description.substring(0, 30) + '...' : 'N/A' }}

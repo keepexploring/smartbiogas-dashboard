@@ -15,28 +15,13 @@ export class TechnicianDetailComponent implements OnInit, OnChanges {
   jobs: Job[];
 
   constructor(private jobsService: JobsService, private helpers: HelpersService) { }
-  
-  getJobs() {
-    this.jobsService.getForUser(this.technician.id).subscribe((response) => {
-      this.jobs = response;
-      this.loadingJobs = false;
-    }, (error) => {
-      this.helpers.handleError(error);
-      this.loadingJobs = false;
-    }); 
-  }
 
-  ngOnInit() {
-    if(this.technician){
-      this.getJobs();
-    }
-  }
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges) {
     if(this.technician && !changes.technician.firstChange) {
       this.loadingJobs = true;
       this.jobs = null;
-      this.getJobs();
     }
   }
 }

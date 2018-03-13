@@ -45,17 +45,13 @@ export class HelpersService {
   }
 
   getOffsetForPagination(page: number, itemsPerPage: number): string {
-    let offset =  page * itemsPerPage;
-
-    if (page == 1) {
-      offset = 0
-    } else {
-      offset = page * itemsPerPage
-    }
-
-    return '&offset=' + offset;
+    page = page - 1;
+    return '&offset=' + page * itemsPerPage;
   }
 
+  calculateTotalApiPages(totalItems:number, itemsPerPage: number) {
+    return Math.ceil(totalItems / itemsPerPage);
+  }
 
   mapStyles = [
     {

@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { TechniciansService } from '../../services/technicians.service';
-import { HelpersService } from '../../services/helpers.service';
+import { Component } from '@angular/core';
 import { Technician } from '../../models/technician';
 
 @Component({
@@ -8,24 +6,12 @@ import { Technician } from '../../models/technician';
   templateUrl: './technicians.component.html',
   styleUrls: ['./technicians.component.sass']
 })
-export class TechniciansComponent implements OnInit {
-  loading: boolean = true;
-  technicians: Technician[];
+export class TechniciansComponent {
   selectedTechnician: Technician;
 
-  constructor(private service: TechniciansService, private helpers: HelpersService) { }
+  constructor() { }
 
   selectTechnician(technician: Technician): void {
     this.selectedTechnician = technician;
-  }
-
-  ngOnInit() {
-    this.service.getAll().subscribe((response) => {
-      this.technicians = response;
-      this.loading = false;
-    }, (error) => {
-      this.helpers.handleError(error);
-      this.loading = false;
-    });
   }
 }

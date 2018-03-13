@@ -3,65 +3,65 @@
     <table class="table table-sm">
       <tbody>
         <tr *ngIf="plant.id">
-          <th>ID</th>
+          <th class="vertical-th">ID</th>
           <td>{{ plant.id }}</td>
         </tr>
         <tr *ngIf="plant.current_status">
-          <th>Status</th>
+          <th class="vertical-th">Status</th>
           <td>
               <app-plant-status [size]="'small'" [status]="plant.current_status"></app-plant-status>
           </td>
         </tr>
         <tr *ngIf="plant.sensor_status">
-          <th>Sensor Status</th>
+          <th class="vertical-th">Sensor Status</th>
           <td>
             <app-plant-status [size]="'small'" [status]="plant.sensor_status"></app-plant-status>
           </td>
         </tr>
         <tr>
-          <th>Owner</th>
+          <th class="vertical-th">Owner</th>
           <td>
             {{ plant.getOwner() ? plant.getOwner().getFullName() : '' }}
           </td>
         </tr>
         <tr>
-          <th>Phone Number</th>
+          <th class="vertical-th">Phone Number</th>
           <td>
             {{ plant.getOwner() ? plant.getOwner().phone_number : '' }}
           </td>
         </tr>
         <tr *ngIf="plant.what3words">
-          <th>Location (What3Words)</th>
+          <th class="vertical-th">Location (What3Words)</th>
           <td>
             {{ plant.what3words }}
           </td>
         </tr>
         <tr *ngIf="plant.type_biogas">
-          <th>Plant Type</th>
+          <th class="vertical-th">Plant Type</th>
           <td>
             {{ plant.type_biogas }}
           </td>
         </tr>
         <tr *ngIf="plant.volume_biogas">
-          <th>Plant Volume</th>
+          <th class="vertical-th">Plant Volume</th>
           <td>
             {{ plant.volume_biogas }}
           </td>
         </tr>
         <tr *ngIf="plant.supplier">
-          <th>Supplier of Plant</th>
+          <th class="vertical-th">Supplier of Plant</th>
           <td>
             {{ plant.supplier }}
           </td>
         </tr>
         <tr *ngIf="plant.funding_souce">
-          <th>Funding Source</th>
+          <th class="vertical-th">Funding Source</th>
           <td>
             {{ plant.funding_souce }}
           </td>
         </tr>
         <tr *ngIf="jobs">
-          <th>Jobs</th>
+          <th class="vertical-th">Jobs</th>
           <td></td>
         </tr>
       </tbody>
@@ -69,6 +69,6 @@
   </li>
   <li class="p-0">
     <app-loading *ngIf="loadingJobs"></app-loading>
-    <!-- <app-jobs-table [jobs]="jobs" [enableModal]="true"></app-jobs-table> -->
+    <app-jobs-table [plantId]="plant.id" [enableModal]="true"></app-jobs-table>
   </li>
 </ul>

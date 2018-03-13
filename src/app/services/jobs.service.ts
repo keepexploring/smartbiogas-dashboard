@@ -11,15 +11,15 @@ import { User } from '../models/user';
 
 @Injectable()
 export class JobsService {
-
   totalItems: number = 10;
   itemsPerPage: number = 10;
 
   constructor(private http: HttpClient, private helpers: HelpersService, private endpoints: EndpointService) { }
 
-  getJobs(page: number = 0): Observable<Job[]> {
-    let offset = this.helpers.getOffsetForPagination(page, this.itemsPerPage);
-    return this.http.get(this.endpoints.jobs.index + offset)
+  getJobs(page: number = 0, userId?: number, plantId?: number): Observable<Job[]> {
+    let endpoint = this.getEndpoint(page, userId, plantId);
+    console.log(endpoint);
+    return this.http.get(endpoint)
       .map(response => {
         this.totalItems = response['meta'] ? response['meta'].total_count : 0;
         this.itemsPerPage = response['meta'] ? response['meta'].limit : 0;
@@ -28,17 +28,16 @@ export class JobsService {
       .catch(this.helpers.handleResponseError);
   }
 
-  getForUser(userId: number): Observable<Job[]>{
-     return this.http.get(this.endpoints.jobs.user + userId)
-      .map(response => this.mapDataToModel(response))
-      .catch(this.helpers.handleResponseError);
+  private getEndpoint(page: number = 0, userId?: number, plantId?: number) {
+    let offset = this.helpers.getOffsetForPagination(page, this.itemsPerPage);
+    if (userId) {
+      return this.endpoints.jobs.user + userId + offset;
+    } else if (plantId) {
+      return this.endpoints.jobs.plant + plantId + offset;
+    } else {
+      return this.endpoints.jobs.index + offset;
+    }
   }
-
-  getForPlant(plantId: number): Observable<Job[]>{
-    return this.http.get(this.endpoints.plants.jobs + plantId)
-     .map(response => this.mapDataToModel(response))
-     .catch(this.helpers.handleResponseError);
- }
 
   private mapDataToModel(response: any): Job[] {
     let items: Job[] = [];

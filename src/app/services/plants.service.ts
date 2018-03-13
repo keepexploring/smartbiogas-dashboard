@@ -10,12 +10,21 @@ import { BiogasPlantContact } from '../models/biogas-plant-contact';
 
 @Injectable()
 export class PlantsService {
+  totalItems: number = 10;
+  itemsPerPage: number = 10;
 
   constructor(private http: HttpClient, private helpers: HelpersService, private endpoints: EndpointService) { }
 
-  getAll(): Observable<Plant[]>{
-    return this.http.get(this.endpoints.plants.index)
-      .map(response => this.mapDataToModel(response))
+  getPlants(page: number): Observable<Plant[]>{
+    let offset = this.helpers.getOffsetForPagination(page, this.itemsPerPage);
+    console.log(this.itemsPerPage, offset);
+    return this.http.get(this.endpoints.plants.index + offset )
+      .map(response => {
+        console.log(response);
+        this.totalItems = response['meta'] ? response['meta'].total_count : 0;
+        this.itemsPerPage = response['meta'] ? response['meta'].limit : 0;
+        return this.mapDataToModel(response);
+      })
       .catch(this.helpers.handleResponseError);
   }
 

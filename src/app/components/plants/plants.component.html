@@ -1,7 +1,6 @@
 <app-view-header title="Plants"></app-view-header>
-<app-loading *ngIf="loading"></app-loading>
 
-<div class="row" *ngIf="plants">
+<div class="row">
   <div class="col-sm-12 text-left mb-2">
     <button class="btn btn-sm btn-outline-secondary" (click)="currentViewList  = !currentViewList">
       <i-map *ngIf="currentViewList"></i-map><i-list *ngIf="!currentViewList"></i-list> {{currentViewList ? 'View Map' : 'View List'}}
@@ -9,11 +8,11 @@
   </div>
   <div class="col-sm-5" *ngIf="currentViewList">
     <div class="table-responsive list-table">
-      <app-plants-table [plants]="plants" (selectPlant)="selectPlant($event)"></app-plants-table>
+      <app-plants-table (selectPlant)="selectPlant($event)"></app-plants-table>
     </div>
   </div>
   <div class="col-sm-7" *ngIf="!currentViewList">
-      <app-plants-map [plants]="plants" (selectPlant)="selectPlant($event)"></app-plants-map>
+      <app-plants-map (selectPlant)="selectPlant($event)"></app-plants-map>
   </div>
   <div [class.col-sm-7]="currentViewList" *ngIf="selectedPlant">
     <div class="table-responsive list-table">

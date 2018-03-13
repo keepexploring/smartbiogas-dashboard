@@ -16,14 +16,14 @@ export class EndpointService {
     index: this.fullApiEndpoint('dashboard/?format=json&limit=10')
   }
 
-  plants: {index, jobs} = {
+  plants: {index} = {
     index: this.fullApiEndpoint('biogasplants/?format=json&limit=10'),
-    jobs: this.fullApiEndpoint('jobs/?plant__id=')
   }
 
-  jobs: {index, user} = {
+  jobs: {index, user, plant} = {
     index: this.fullApiEndpoint('jobs/?format=json&limit=10'),
-    user: this.fullApiEndpoint('jobs/?fixers__user__id=')
+    user: this.fullApiEndpoint('jobs/?limit=5&fixers__user__id='),
+    plant: this.fullApiEndpoint('jobs/?limit=5&plant__id=')
   }
 
   constructor() { }

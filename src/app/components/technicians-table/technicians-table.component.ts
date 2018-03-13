@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Technician } from '../../models/technician';
+import { TechniciansService } from '../../services/technicians.service';
+import { HelpersService } from '../../services/helpers.service';
 
 @Component({
   selector: 'app-technicians-table',
@@ -7,18 +9,45 @@ import { Technician } from '../../models/technician';
   styleUrls: ['./technicians-table.component.sass']
 })
 export class TechniciansTableComponent implements OnInit {
-  @Input() technicians: Technician[];
   @Input() selectable: boolean = true;
   @Output() selectTechnician = new EventEmitter<Technician>();
+
+  loading: boolean = true;
+  technicians: Technician[];
   selectedTechnician: Technician;
 
-  constructor() { }
+  page: number = 1;
+  totalItems: number = 0;
+  itemsPerPage: number = 0;
+  totalPages: number;
 
-  ngOnInit() { }
+  constructor(private service: TechniciansService, private helpers: HelpersService) { }
 
   select(technician: Technician) {
     this.selectedTechnician = technician;
     this.selectTechnician.emit(technician);
   }
 
+  ngOnInit() {
+    this.getTechnicians();
+  }
+
+  onPageChange(number: number) {
+    this.loading = true;
+    this.page = number;
+    this.getTechnicians();
+  }
+
+  getTechnicians() {
+    this.service.getTechnicians(this.page).subscribe((response) => {
+      this.technicians = response;
+      this.loading = false;
+      this.totalItems = this.service.totalItems;
+      this.itemsPerPage = this.service.itemsPerPage;
+      this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage)
+    }, (error) => {
+      this.helpers.handleError(error);
+      this.loading = false;
+    });
+  }
 }

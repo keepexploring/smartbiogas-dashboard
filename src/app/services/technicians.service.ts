@@ -10,11 +10,20 @@ import { Technician } from '../models/technician';
 
 @Injectable()
 export class TechniciansService {
+  totalItems: number = 10;
+  itemsPerPage: number = 10;
+
   constructor(private http: HttpClient, private helpers: HelpersService, private endpoints: EndpointService) { }
 
-  getAll(): Observable<Technician[]>{
-    return this.http.get(this.endpoints.technicians.index)
-      .map(response => this.mapDataToModel(response))
+  getTechnicians(page: number = 0): Observable<Technician[]>{
+    let offset = this.helpers.getOffsetForPagination(page, this.itemsPerPage);
+    return this.http.get(this.endpoints.technicians.index + offset)
+      .map(response => {
+        this.totalItems = response['meta'] ? response['meta'].total_count : 0;
+        this.itemsPerPage = response['meta'] ? response['meta'].limit : 0;
+        console.log(response);
+        return this.mapDataToModel(response);
+      })
       .catch(this.helpers.handleResponseError);
   }
 
@@ -23,7 +32,7 @@ export class TechniciansService {
     response.objects.forEach(data => {
       let item = new Technician();
       item.id = data.id;
-      item.technician_id = data.technician_id;
+      item.technician_id = data.technician_details.technician_id;
       item.country = data.country;
       item.datetime_created = data.datetime_created;
       item.datetime_modified = data.datetime_modified;
@@ -41,7 +50,7 @@ export class TechniciansService {
       item.average_rating = data.average_rating;
       item.location = data.location;
       item.max_num_jobs_allowed = data.max_num_jobs_allowed;
-      item.number_jobs_active = data.number_jobs_active;
+      item.number_jobs_active = data.technician_details.number_jobs_active;
       item.number_of_jobs_completed = data.number_of_jobs_completed;
       item.specialist_skills = data.specialist_skills;
       item.status = data.status;

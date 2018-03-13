@@ -14,50 +14,49 @@
   </li>
 
   <li class="list-group-item p-0">
-    <table class="table table-sm">
+    <table class="table table-sm mb-0">
       <tbody>
         <tr *ngIf="technician.id">
-          <th>ID</th>
+          <th class="vertical-th">ID</th>
           <td>{{ technician.id }}</td>
         </tr>
         <tr *ngIf="technician.getFullName">
-          <th>Name</th>
+          <th class="vertical-th">Name</th>
           <td>{{ technician.getFullName() }}</td>
         </tr>
         <tr *ngIf="technician.phone_number">
-          <th>Phone Number</th>
+          <th class="vertical-th">Phone Number</th>
           <td>{{ technician.phone_number }}</td>
         </tr>
         <tr *ngIf="technician.getAddress">
-          <th>Address</th>
+          <th class="vertical-th">Address</th>
           <td>{{ technician.getAddress() }}</td>
         </tr>
         <tr *ngIf="technician.location">
-          <th>Operating Location</th>
+          <th class="vertical-th">Operating Location</th>
           <td>{{ technician.location }}</td>
         </tr>
         <tr *ngIf="technician.acredit_to_install">
-          <th>Accreditted Skills</th>
+          <th class="vertical-th">Accreditted Skills</th>
           <td>{{ technician.acredit_to_install }}</td>
         </tr>
         <tr *ngIf="technician.acredit_to_install">
-          <th>Languages Spoken</th>
+          <th class="vertical-th">Languages Spoken</th>
           <td>{{ technician.acredit_to_install }}</td>
         </tr>
         <tr *ngIf="technician.datetime_created">
-          <th>Joining Date</th>
+          <th class="vertical-th">Joining Date</th>
           <td>{{ technician.datetime_created | date }}</td>
         </tr>
         <tr *ngIf="jobs">
-          <th>Jobs</th>
+          <th class="vertical-th">Jobs</th>
           <td></td>
         </tr>
       </tbody>
     </table>
   </li>
   <li class="p-0">
-    <app-loading *ngIf="loadingJobs"></app-loading>
-    <!-- <app-jobs-table [jobs]="jobs" [enableModal]="true"></app-jobs-table> -->
+    <app-jobs-table [enableModal]="true" [technicianId]="technician.id"></app-jobs-table>
   </li>
 </ul>
 

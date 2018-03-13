@@ -9,9 +9,11 @@ import { HelpersService } from '../../services/helpers.service';
   styleUrls: ['./jobs-table.component.sass']
 })
 export class JobsTableComponent implements OnInit {
+  @Output() selectJob = new EventEmitter<Job>();
   @Input() selectable: boolean = true;
   @Input() enableModal: boolean = false;
-  @Output() selectJob = new EventEmitter<Job>();
+  @Input() technicianId: number;
+  @Input() plantId: number;
 
   loading: boolean = true;
   jobs: Job[];
@@ -40,12 +42,12 @@ export class JobsTableComponent implements OnInit {
   }
 
   private getJobs() {
-    this.service.getJobs(this.page).subscribe((response) => {
+    this.service.getJobs(this.page, this.technicianId, this.plantId).subscribe((response) => {
       this.jobs = response;
       this.loading = false;
       this.totalItems = this.service.totalItems;
       this.itemsPerPage = this.service.itemsPerPage;
-      this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage)
+      this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage)
     }, (error) => {
       this.helpers.handleError(error);
       this.loading = false;

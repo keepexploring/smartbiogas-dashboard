@@ -8,26 +8,13 @@ import { HelpersService } from '../../services/helpers.service';
   templateUrl: './plants.component.html',
   styleUrls: ['./plants.component.sass']
 })
-export class PlantsComponent implements OnInit {
-  loading: boolean = true;
-  plants: Plant[];
+export class PlantsComponent {
   selectedPlant: Plant;
   currentViewList: boolean = true;
 
-  constructor(private service: PlantsService, private helpers: HelpersService) { }
+  constructor() { }
 
   selectPlant(plant: Plant): void {
     this.selectedPlant = plant;
   }
-
-  ngOnInit() {
-    this.service.getAll().subscribe((response) => {
-      this.plants = response;
-      this.loading = false;
-    }, (error) => {
-      this.helpers.handleError(error);
-      this.loading = false;
-    });
-  }
-
 }

@@ -1,13 +1,12 @@
 <app-view-header title="Technicians"></app-view-header>
-<app-loading *ngIf="loading"></app-loading>
 
-<div class="row" *ngIf="technicians">
-  <div class="col-sm-5">
+<div class="row d-flex">
+  <div class="col-sm-5  d-flex">
     <div class="table-responsive list-table">
-      <app-technicians-table [technicians]="technicians" (selectTechnician)="selectTechnician($event)"></app-technicians-table>
+      <app-technicians-table (selectTechnician)="selectTechnician($event)"></app-technicians-table>
     </div>
   </div>
-  <div class="col-sm-7" *ngIf="selectedTechnician">
+  <div class="col-sm-7 d-flex" *ngIf="selectedTechnician">
     <div class="table-responsive list-table">
       <app-technician-detail [technician]="selectedTechnician"></app-technician-detail>
     </div>

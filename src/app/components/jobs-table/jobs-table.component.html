@@ -7,7 +7,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let job of jobs | paginate: { itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalItems }" (click)="select(job)" [class.bg-light]="selectable && selectedJob == job" data-toggle="modal" data-target="#jobDetailModal">
+    <tr *ngFor="let job of jobs | paginate: { itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalItems, id: 'jobsTableResults' }" (click)="select(job)" [class.bg-light]="selectable && selectedJob == job" data-toggle="modal" data-target="#jobDetailModal">
       <td>
         <app-job-status [status]="job.job_status" [size]="'small'"></app-job-status>
       </td>
@@ -23,7 +23,7 @@
 
 <div class="table-pagination border-top">
   <app-loading *ngIf="loading"></app-loading>
-  <pagination-controls *ngIf="totalItems > itemsPerPage && !loading" (pageChange)="onPageChange($event)" [maxSize]="0"></pagination-controls>
+  <pagination-controls *ngIf="totalItems > itemsPerPage && !loading" (pageChange)="onPageChange($event)" [maxSize]="0" [id]="'jobsTableResults'"></pagination-controls>
   <div *ngIf="totalItems > itemsPerPage" class="small">
     Page {{ page }} / <span class="text-muted">{{ totalPages }}</span>
   </div>

@@ -13,7 +13,6 @@ const icons = [
 ];
 
 @NgModule({
-  declarations: icons,
   exports: icons
 })
 

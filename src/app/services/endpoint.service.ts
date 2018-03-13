@@ -9,20 +9,20 @@ export class EndpointService {
   token = this.baseUrl + 'o/token/';
 
   technicians: {index} =  {
-    index: this.fullApiEndpoint('users/?format=json')
+    index: this.fullApiEndpoint('users/?format=json&limit=10')
   }
 
   dashboard: {index} =  {
-    index: this.fullApiEndpoint('dashboard/?format=json')
+    index: this.fullApiEndpoint('dashboard/?format=json&limit=10')
   }
 
   plants: {index, jobs} = {
-    index: this.fullApiEndpoint('biogasplants/?format=json'),
+    index: this.fullApiEndpoint('biogasplants/?format=json&limit=10'),
     jobs: this.fullApiEndpoint('jobs/?plant__id=')
   }
 
   jobs: {index, user} = {
-    index: this.fullApiEndpoint('jobs/?format=json'),
+    index: this.fullApiEndpoint('jobs/?format=json&limit=10'),
     user: this.fullApiEndpoint('jobs/?fixers__user__id=')
   }
 

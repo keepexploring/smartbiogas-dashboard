@@ -5,6 +5,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+import { AgmCoreModule } from '@agm/core';
+
+import { IconsModule } from './modules/icons.module';
+
+import { AuthService } from './services/auth.service';
+import { HelpersService } from './services/helpers.service';
+import { DashboardService } from './services/dashboard.service';
+import { PlantsService } from './services/plants.service';
+import { TechniciansService } from './services/technicians.service';
+import { JobsService } from './services/jobs.service';
+import { DataService } from './services/data.service';
+import { EndpointService } from './services/endpoint.service';
+
 import { AppComponent } from './components/app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PlantsComponent } from './components/plants/plants.component';
@@ -12,22 +26,8 @@ import { TechniciansComponent } from './components/technicians/technicians.compo
 import { JobsComponent } from './components/jobs/jobs.component';
 import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
-import { AuthService } from './services/auth.service';
-import { HelpersService } from './services/helpers.service';
-import { DashboardService } from './services/dashboard.service';
-import { PlantsService } from './services/plants.service';
-import { TechniciansService } from './services/technicians.service';
-import { JobsService } from './services/jobs.service';
 import { LoadingComponent } from './components/loading/loading.component';
-
-import { TokenInterceptor } from './interceptors/token.interceptor';
-import { DataService } from './services/data.service';
-import { IconsModule } from './modules/icons.module';
-import { AuthGuard } from './guards/auth.guard';
-import { LoginGuard } from './guards/login.guard';
-import { EndpointService } from './services/endpoint.service';
 import { TechnicianDetailComponent } from './components/technician-detail/technician-detail.component';
-import { UnauthorisedInterceptor } from './interceptors/unauthorised.interceptor';
 import { JobsTableComponent } from './components/jobs-table/jobs-table.component';
 import { TechniciansTableComponent } from './components/technicians-table/technicians-table.component';
 import { JobDetailComponent } from './components/job-detail/job-detail.component';
@@ -38,7 +38,11 @@ import { PlantDetailComponent } from './components/plant-detail/plant-detail.com
 import { PlantStatusComponent } from './components/plant-status/plant-status.component';
 import { JobDetailModalComponent } from './components/job-detail-modal/job-detail-modal.component';
 import { PlantsMapComponent } from './components/plants-map/plants-map.component';
-import { AgmCoreModule } from '@agm/core';
+
+import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/login.guard';
+
+import { httpInterceptorProviders } from './interceptors';
 
 import { environment } from '../environments/environment'
 
@@ -70,21 +74,13 @@ import { environment } from '../environments/environment'
     HttpClientModule,
     FormsModule,
     IconsModule,
+    NgxPaginationModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsApiKey
     })
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: UnauthorisedInterceptor,
-      multi: true
-    },
+    httpInterceptorProviders,
     AuthService,
     HelpersService,
     DashboardService,

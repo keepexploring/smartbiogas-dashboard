@@ -8,7 +8,6 @@ export class HelpersService {
   constructor() { }
 
   handleResponseError(error: Response | any) {
-    // console.log("Error!", error);
     let errMsg: string = "";
     if (error instanceof Response) {
       const body: any = error.json() || '';
@@ -44,6 +43,19 @@ export class HelpersService {
 
     return contact;
   }
+
+  getOffsetForPagination(page: number, itemsPerPage: number): string {
+    let offset =  page * itemsPerPage;
+
+    if (page == 1) {
+      offset = 0
+    } else {
+      offset = page * itemsPerPage
+    }
+
+    return '&offset=' + offset;
+  }
+
 
   mapStyles = [
     {

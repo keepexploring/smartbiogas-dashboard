@@ -20,5 +20,4 @@ export class PlantsTableComponent implements OnInit {
     this.selectedPlant = plant;
     this.selectPlant.emit(plant);
   }
-
 }

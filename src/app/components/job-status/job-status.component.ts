@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-job-status',
   templateUrl: './job-status.component.html',
   styleUrls: ['./job-status.component.sass']
 })
-export class JobStatusComponent implements OnInit {
+export class JobStatusComponent implements OnInit, OnChanges {
   @Input() status: string;
   @Input() size: string;
   statusStyle: string;
@@ -43,6 +43,10 @@ export class JobStatusComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getStatus();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
     this.getStatus();
   }
 

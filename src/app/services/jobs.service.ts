@@ -11,11 +11,20 @@ import { User } from '../models/user';
 
 @Injectable()
 export class JobsService {
+
+  totalItems: number = 10;
+  itemsPerPage: number = 10;
+
   constructor(private http: HttpClient, private helpers: HelpersService, private endpoints: EndpointService) { }
 
-  getAll(): Observable<Job[]>{
-    return this.http.get(this.endpoints.jobs.index)
-      .map(response => this.mapDataToModel(response))
+  getJobs(page: number = 0): Observable<Job[]> {
+    let offset = this.helpers.getOffsetForPagination(page, this.itemsPerPage);
+    return this.http.get(this.endpoints.jobs.index + offset)
+      .map(response => {
+        this.totalItems = response['meta'] ? response['meta'].total_count : 0;
+        this.itemsPerPage = response['meta'] ? response['meta'].limit : 0;
+        return this.mapDataToModel(response);
+      })
       .catch(this.helpers.handleResponseError);
   }
 

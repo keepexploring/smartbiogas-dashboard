@@ -14,8 +14,17 @@ agm-map
 	height: 800px
 	height: $default-column-height
 
+.table td
+	vertical-align: middle
+.table th
+	text-transform: uppercase
+	letter-spacing: 1px
+	font-size: 0.85em
 
-#main-nav 
+.table .vertical-th
+	width: 140px
+
+#main-nav
 	background: #315025
 	.navbar-brand
 		padding: 0
@@ -43,14 +52,14 @@ agm-map
 	min-height: 300px
 	text-align: center
 	margin-bottom: $grid-gutter-width
-	
+
 	.dashboard-box-container
 		+flex-align-middle
 		color: #fff
 		height: 100%
 		width: 100%
 		background-color: $light-blue
-		
+
 	&:nth-child(2n) .dashboard-box-container
 		background-color: $green
 
@@ -144,6 +153,7 @@ agm-map
 	font-weight: normal
 	text-transform: uppercase
 	letter-spacing: 1px
+	min-width: 90px
 
 	&:before
 		content: ' '
@@ -193,7 +203,7 @@ agm-map
 	&.status-black:before
 		background-color: white
 		border: 1px solid $gray-300
-	
+
 	&.status-small
 		font-size: 0.6rem
 
@@ -204,8 +214,26 @@ agm-map
 	table &
 		margin-top: 4px
 
+app-loading
+	text-transform: uppercase
+	letter-spacing: 1px
+	color: #656565
+	font-size: 0.8rem
+
 .loading-spinner
 	height: 16px
 	width: 16px
 	margin: 5px
 
+.table-pagination
+	text-align: center
+	padding-top: 15px
+	padding-bottom: 15px
+
+pagination-controls
+	display: block
+	margin: auto
+	text-align: center
+
+.ngx-pagination
+	padding-left: 0

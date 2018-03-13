@@ -1,13 +1,13 @@
-<table class="table table-sm">
+<table class="table table-bordered mb-0">
   <tbody>
     <tr *ngIf="job.job_id">
       <th>ID</th>
       <td>{{ job.id }}</td>
     </tr>
-    <tr *ngIf="job.job_status">
-      <th>Job Status</th>
+    <tr>
+      <th class="vertical-th">Status</th>
       <td>
-        <app-job-status [status]="job.job_status"></app-job-status>
+        <app-job-status [status]="job.job_status" [size]="'small'"></app-job-status>
       </td>
     </tr>
     <tr *ngIf="job.plant_id">

@@ -13,11 +13,10 @@ export class PlantDetailComponent implements OnInit, OnChanges {
   @Input() plant: Plant;
   loadingJobs = true;
   jobs: Job[];
-  
+
   constructor(private jobsService: JobsService, private helpers: HelpersService) { }
 
   getJobs() {
-    console.log(this.plant.id);
     this.jobsService.getForPlant(this.plant.id).subscribe((response) => {
       this.jobs = response;
       this.loadingJobs = false;
@@ -31,7 +30,7 @@ export class PlantDetailComponent implements OnInit, OnChanges {
     if(this.plant) {
       this.getJobs();
     }
-    
+
   }
 
   ngOnChanges(changes: SimpleChanges) {

@@ -14,7 +14,7 @@ export class AuthService {
 
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
       'Accept': 'application/json'
     })
   };
@@ -36,7 +36,7 @@ export class AuthService {
   getToken() {
     return localStorage.getItem('token');
   }
-  
+
   isAuthenticated(): boolean {
     return this.getToken() ? true : false;
   }
@@ -47,12 +47,13 @@ export class AuthService {
   }
 
   private getParams(username: string, password: string) {
-    return new HttpParams()
-    .append('grant_type', 'password')
-    .append('client_id', '123456')
-    .append('client_secret', '123456')
-		.append('username', username)
-		.append('password', password);
+    return JSON.stringify({
+        username: username,
+        password: password,
+        grant_type: "password",
+        client_id: "123456",
+        client_secret: "123456"
+      });
   }
 
   private mapDataToModel(response: any): Token {

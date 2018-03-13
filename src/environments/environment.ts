@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://api.smartbiogas.net/',
+  baseUrl: 'http://127.0.0.1:9000/',
   googleMapsApiKey: 'AIzaSyBv5hn1XUw0YSSJlML9RJpOPEMRtGwmHME'
 };

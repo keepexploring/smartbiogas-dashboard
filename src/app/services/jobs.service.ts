@@ -18,16 +18,14 @@ export class JobsService {
       .map(response => this.mapDataToModel(response))
       .catch(this.helpers.handleResponseError);
   }
-  
+
   getForUser(userId: number): Observable<Job[]>{
-    console.log(userId);
      return this.http.get(this.endpoints.jobs.user + userId)
       .map(response => this.mapDataToModel(response))
       .catch(this.helpers.handleResponseError);
   }
 
   getForPlant(plantId: number): Observable<Job[]>{
-    console.log(plantId);
     return this.http.get(this.endpoints.plants.jobs + plantId)
      .map(response => this.mapDataToModel(response))
      .catch(this.helpers.handleResponseError);

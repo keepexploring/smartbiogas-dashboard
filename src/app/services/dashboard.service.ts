@@ -1,22 +1,29 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
+import { catchError, map } from "rxjs/operators";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
-import { HelpersService } from './helpers.service';
-import { EndpointService } from './endpoint.service';
-import { Dashboard } from '../models/dashboard';
+import { HelpersService } from "./helpers.service";
+import { EndpointService } from "./endpoint.service";
+import { Dashboard } from "../models/dashboard";
 
 @Injectable()
 export class DashboardService {
-  constructor(private http: HttpClient, private helpers: HelpersService, private endpoints: EndpointService) { }
+  constructor(
+    private http: HttpClient,
+    private helpers: HelpersService,
+    private endpoints: EndpointService
+  ) {}
 
-  getDashboard(): Observable<Dashboard>{
-    return this.http.get(this.endpoints.dashboard.index)
-      .map(response => this.mapDataToModel(response))
-      .catch(this.helpers.handleResponseError);
+  getDashboard(): Observable<Dashboard> {
+    return this.http
+      .get(this.endpoints.dashboard.index)
+      .pipe(
+        map(response => this.mapDataToModel(response)),
+        catchError(this.helpers.handleResponseError)
+      );
   }
-  
+
   private mapDataToModel(response: any): Dashboard {
     let firstDataObject = response.objects[0];
     let item = new Dashboard();

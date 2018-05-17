@@ -1,7 +1,7 @@
 // Service for component communication
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { Subject } from "rxjs";
 
 @Injectable()
 export class DataService {
@@ -10,7 +10,7 @@ export class DataService {
   userAuthenticated(message: boolean) {
     this.subject.next(message);
   }
-  
+
   sendData(message: string) {
     this.subject.next(message);
   }

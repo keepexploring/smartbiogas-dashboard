@@ -1,7 +1,9 @@
+
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
+import { Observable } from 'rxjs';
+import {tap} from 'rxjs/operators';
+
 
 import { AuthService } from '../services/auth.service'
 import { Router } from '@angular/router';
@@ -12,8 +14,8 @@ export class UnauthorisedInterceptor implements HttpInterceptor {
   constructor(private auth: AuthService, private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
-    return next.handle(request).do((event: HttpEvent<any>) => {
+
+    return next.handle(request).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         // do stuff (Not necessary)
       }
@@ -24,7 +26,7 @@ export class UnauthorisedInterceptor implements HttpInterceptor {
           this.router.navigate(['/login']);
         }
       }
-    });
+    }));
   }
 
 }

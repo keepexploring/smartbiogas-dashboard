@@ -1,30 +1,35 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { map, catchError, retry } from "rxjs/operators";
 
-import { EndpointService } from './endpoint.service';
-import { HelpersService } from './helpers.service';
-import { Technician } from '../models/technician';
-
+import { EndpointService } from "./endpoint.service";
+import { HelpersService } from "./helpers.service";
+import { Technician } from "../models/technician";
 
 @Injectable()
 export class TechniciansService {
   totalItems: number = 10;
   itemsPerPage: number = 10;
 
-  constructor(private http: HttpClient, private helpers: HelpersService, private endpoints: EndpointService) { }
+  constructor(
+    private http: HttpClient,
+    private helpers: HelpersService,
+    private endpoints: EndpointService
+  ) {}
 
-  getTechnicians(page: number = 0): Observable<Technician[]>{
+  getTechnicians(page: number = 0): Observable<Technician[]> {
     let offset = this.helpers.getOffsetForPagination(page, this.itemsPerPage);
-    return this.http.get(this.endpoints.technicians.index + offset)
-      .map(response => {
-        this.totalItems = response['meta'] ? response['meta'].total_count : 0;
-        this.itemsPerPage = response['meta'] ? response['meta'].limit : 0;
+    return this.http.get(this.endpoints.technicians.index + offset, { observe: "response" })
+    .pipe(
+      map(response => {
+        this.totalItems = response["meta"] ? response["meta"].total_count : 0;
+        this.itemsPerPage = response["meta"] ? response["meta"].limit : 0;
         console.log(response);
         return this.mapDataToModel(response);
-      })
-      .catch(this.helpers.handleResponseError);
+      }),
+      catchError(this.helpers.handleResponseError)
+    );
   }
 
   private mapDataToModel(response: any): Technician[] {

@@ -1,52 +1,16 @@
-<nav id="main-nav" class="navbar navbar-dark sticky-top flex-md-nowrap p-0">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/"><img src="/assets/images/logo.png"></a>
-  <input class="d-none form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-  <ul class="navbar-nav px-3">
-    <li class="nav-item text-nowrap">
-      <!-- <a class="nav-link" *ngIf="!isAuthenticated" routerLinkActive="active" routerLink="/login">Log in <i-log-in></i-log-in></a> -->
-      <a class="nav-link nav-logout-link" *ngIf="isAuthenticated" (click)="logOut()">Log Out <i-log-out></i-log-out></a>
-    </li>
-  </ul>
-</nav>
+<!-- <div *ngIf="didCheckAuth"> -->
+<app-loading *ngIf="isLoading"></app-loading>
+
+<app-nav-top [isAuthenticated]="isAuthenticated"></app-nav-top>
 
 <div id="main-wrapper" class="container-fluid">
-  <app-loading *ngIf="isLoading"></app-loading>
   <div class="row" *ngIf="!isLoading">
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-      <div class="sidebar-sticky">
-        <ul class="nav flex-column" *ngIf="isAuthenticated">
-          <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active" routerLink="/dashboard">
-              <i-layers></i-layers>
-              Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" routerLink="/plants">
-                <i-compass></i-compass>
-              Plants
-            </a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" routerLink="/technicians">
-                <i-users></i-users>
-              Technicians
-            </a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" routerLink="/jobs">
-                <i-truck></i-truck>
-              Jobs
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
+    <app-nav-sidebar [isAuthenticated]="isAuthenticated"></app-nav-sidebar>
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
       <router-outlet></router-outlet>
+      <h1>{{title}}</h1>
+      <pre>isAuthenticated: {{ isAuthenticated }}</pre>
     </main>
   </div>
 </div>
-
-
+<!-- </div> -->

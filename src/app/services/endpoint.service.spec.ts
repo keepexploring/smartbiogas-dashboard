@@ -1,15 +1,18 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { EndpointsService } from './endpoints.service';
+import { EndpointService } from './endpoint.service';
 
-describe('EndpointsService', () => {
+describe('EndpointService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [EndpointsService]
+      providers: [EndpointService],
     });
   });
 
-  it('should be created', inject([EndpointsService], (service: EndpointsService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([EndpointService], (service: EndpointService) => {
+      expect(service).toBeTruthy();
+    }),
+  );
 });

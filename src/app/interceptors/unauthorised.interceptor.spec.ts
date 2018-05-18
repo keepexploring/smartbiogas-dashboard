@@ -1,15 +1,18 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { UnauthorisedService } from './unauthorised.service';
+import { UnauthorisedInterceptor } from './unauthorised.interceptor';
 
-describe('UnauthorisedService', () => {
+describe('UnauthorisedInterceptor', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UnauthorisedService]
+      providers: [UnauthorisedInterceptor],
     });
   });
 
-  it('should be created', inject([UnauthorisedService], (service: UnauthorisedService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([UnauthorisedInterceptor], (service: UnauthorisedInterceptor) => {
+      expect(service).toBeTruthy();
+    }),
+  );
 });

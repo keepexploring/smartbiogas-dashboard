@@ -6,19 +6,21 @@ import { TechniciansComponent } from './components/technicians/technicians.compo
 import { JobsComponent } from './components/jobs/jobs.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
-import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
-  { path: 'plants', component: PlantsComponent, canActivate: [AuthGuard], },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'plants', component: PlantsComponent, canActivate: [AuthGuard] },
   { path: 'technicians', component: TechniciansComponent, canActivate: [AuthGuard] },
   { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

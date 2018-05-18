@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.sass']
+  styleUrls: ['./login.component.sass'],
 })
 export class LoginComponent implements OnInit {
   username: string;
@@ -16,12 +16,12 @@ export class LoginComponent implements OnInit {
   hasError = false;
   errorMessage: string;
 
-  constructor(private authService: AuthService, private dataService: DataService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   clearErrors() {
-    if(this.hasError || this.errorMessage != '') {
+    if (this.hasError || this.errorMessage != '') {
       this.hasError = false;
       this.errorMessage = '';
     }
@@ -29,20 +29,20 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.authService.login(this.username, this.password).subscribe(data => {
-      this.loading = false;
-      this.dataService.userAuthenticated(true);
-      this.username = '';
-      this.password = '';
-      this.router.navigate(['/dashboard']);
-    },
-    error => {
-      this.loading = false;
-      this.hasError = true;
-      this.username = '';
-      this.password = '';
-      this.errorMessage = error;
-    });
+    this.authService.login(this.username, this.password).subscribe(
+      data => {
+        this.loading = false;
+        this.username = '';
+        this.password = '';
+        this.router.navigate(['/dashboard']);
+      },
+      error => {
+        this.loading = false;
+        this.hasError = true;
+        this.username = '';
+        this.password = '';
+        this.errorMessage = error;
+      },
+    );
   }
-
 }

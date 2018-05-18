@@ -1,48 +1,35 @@
-import {
-  Component,
-  OnInit,
-  OnChanges,
-  SimpleChange,
-  OnDestroy
-} from "@angular/core";
-import { Subscription } from "rxjs";
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { AuthService } from "../services/auth.service";
-import { DataService } from "../services/data.service";
-import { Router } from "@angular/router";
+import { AuthService } from '../services/auth.service';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.sass"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.sass'],
 })
-export class AppComponent implements OnInit, OnChanges, OnDestroy {
-  isAuthenticated = false;
-  isLoading = true;
+export class AppComponent implements OnInit, OnDestroy {
+  isAuthenticated: boolean = false;
+  authenticationSubscription: Subscription;
+  isLoading: boolean = true;
 
-  constructor(
-    private auth: AuthService,
-    private dataService: DataService,
-    private router: Router
-  ) {}
-
-  logOut() {
-    this.auth.logOut();
-    this.isAuthenticated = false;
-    this.router.navigate(["/login"]);
+  constructor(private auth: AuthService) {
+    auth.check();
+    this.isAuthenticated = auth.authenticated;
+    this.authenticationSubscription = auth.authChanged.subscribe(value => {
+      this.isAuthenticated = value;
+    });
   }
 
   ngOnInit() {
-    this.auth.validateToken().subscribe(authenticated => {
-      console.log("Authenticated?", authenticated);
-      this.isAuthenticated = this.auth.authenticated;
+    console.log('App INIT');
+    this.auth.validateToken().subscribe(response => {
       this.isLoading = false;
     });
   }
 
-  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
-    this.isAuthenticated = this.auth.authenticated;
+  ngOnDestroy() {
+    //prevent memory leak when component destroyed
+    this.authenticationSubscription.unsubscribe();
   }
-
-  ngOnDestroy() {}
 }

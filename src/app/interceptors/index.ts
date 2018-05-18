@@ -8,16 +8,16 @@ export const httpInterceptorProviders = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
-    multi: true
+    multi: true,
   },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: UnauthorisedInterceptor,
-    multi: true
-  },
+  // {
+  //   provide: HTTP_INTERCEPTORS,
+  //   useClass: UnauthorisedInterceptor,
+  //   multi: true,
+  // },
   {
     provide: HTTP_INTERCEPTORS,
     useClass: CachingInterceptor,
-    multi: true
+    multi: true,
   },
 ];

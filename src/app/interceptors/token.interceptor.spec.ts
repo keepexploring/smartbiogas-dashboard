@@ -1,15 +1,18 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { TokenInterceptorService } from './token-interceptor.service';
+import { TokenInterceptor } from './token.interceptor';
 
-describe('TokenInterceptorService', () => {
+describe('TokenInterceptor', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TokenInterceptorService]
+      providers: [TokenInterceptor],
     });
   });
 
-  it('should be created', inject([TokenInterceptorService], (service: TokenInterceptorService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([TokenInterceptor], (service: TokenInterceptor) => {
+      expect(service).toBeTruthy();
+    }),
+  );
 });

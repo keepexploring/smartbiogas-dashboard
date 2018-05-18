@@ -40,11 +40,12 @@ import { JobDetailModalComponent } from './components/job-detail-modal/job-detai
 import { PlantsMapComponent } from './components/plants-map/plants-map.component';
 
 import { AuthGuard } from './guards/auth.guard';
-import { LoginGuard } from './guards/login.guard';
 
 import { httpInterceptorProviders } from './interceptors';
 
-import { environment } from '../environments/environment'
+import { environment } from '../environments/environment';
+import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.component';
+import { NavTopComponent } from './components/nav-top/nav-top.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,8 @@ import { environment } from '../environments/environment'
     PlantStatusComponent,
     JobDetailModalComponent,
     PlantsMapComponent,
+    NavSidebarComponent,
+    NavTopComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,8 +79,8 @@ import { environment } from '../environments/environment'
     IconsModule,
     NgxPaginationModule,
     AgmCoreModule.forRoot({
-      apiKey: environment.googleMapsApiKey
-    })
+      apiKey: environment.googleMapsApiKey,
+    }),
   ],
   providers: [
     httpInterceptorProviders,
@@ -89,12 +92,9 @@ import { environment } from '../environments/environment'
     JobsService,
     DataService,
     AuthGuard,
-    LoginGuard,
     EndpointService,
-    DatePipe
+    DatePipe,
   ],
-  bootstrap: [
-    AppComponent
-  ]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

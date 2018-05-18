@@ -1,18 +1,19 @@
-import { throwError as observableThrowError } from "rxjs";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { User } from "../models/user";
+import { throwError as observableThrowError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from '../models/user';
 
 @Injectable()
 export class HelpersService {
   constructor() {}
 
   handleResponseError(error: Response | any) {
-    let errMsg: string = "";
+    console.log(error);
+    let errMsg: string = '';
     if (error instanceof Response) {
-      const body: any = error.json() || "";
+      const body: any = error.json() || '';
       const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ""} ${err}`;
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
       if (error.error && error.error.error_description) {
         errMsg = error.error.error_description;
@@ -24,7 +25,7 @@ export class HelpersService {
   }
 
   handleError(error: any) {
-    console.log("error", error);
+    console.log('error', error);
   }
 
   parseContactFromJsonData(contactData: {
@@ -55,7 +56,7 @@ export class HelpersService {
 
   getOffsetForPagination(page: number, itemsPerPage: number): string {
     page = page - 1;
-    return "&offset=" + page * itemsPerPage;
+    return '&offset=' + page * itemsPerPage;
   }
 
   calculateTotalApiPages(totalItems: number, itemsPerPage: number) {
@@ -64,91 +65,91 @@ export class HelpersService {
 
   mapStyles = [
     {
-      featureType: "administrative",
-      elementType: "labels.text.fill",
+      featureType: 'administrative',
+      elementType: 'labels.text.fill',
       stylers: [
         {
-          color: "#444444"
-        }
-      ]
+          color: '#444444',
+        },
+      ],
     },
     {
-      featureType: "landscape",
-      elementType: "all",
+      featureType: 'landscape',
+      elementType: 'all',
       stylers: [
         {
-          color: "#f2f2f2"
-        }
-      ]
+          color: '#f2f2f2',
+        },
+      ],
     },
     {
-      featureType: "poi",
-      elementType: "all",
+      featureType: 'poi',
+      elementType: 'all',
       stylers: [
         {
-          visibility: "off"
-        }
-      ]
+          visibility: 'off',
+        },
+      ],
     },
     {
-      featureType: "road",
-      elementType: "all",
+      featureType: 'road',
+      elementType: 'all',
       stylers: [
         {
-          saturation: -100
+          saturation: -100,
         },
         {
-          lightness: 45
-        }
-      ]
+          lightness: 45,
+        },
+      ],
     },
     {
-      featureType: "road.highway",
-      elementType: "all",
+      featureType: 'road.highway',
+      elementType: 'all',
       stylers: [
         {
-          visibility: "simplified"
-        }
-      ]
+          visibility: 'simplified',
+        },
+      ],
     },
     {
-      featureType: "road.highway",
-      elementType: "geometry.fill",
+      featureType: 'road.highway',
+      elementType: 'geometry.fill',
       stylers: [
         {
-          color: "#ffffff"
-        }
-      ]
+          color: '#ffffff',
+        },
+      ],
     },
     {
-      featureType: "road.arterial",
-      elementType: "labels.icon",
+      featureType: 'road.arterial',
+      elementType: 'labels.icon',
       stylers: [
         {
-          visibility: "off"
-        }
-      ]
+          visibility: 'off',
+        },
+      ],
     },
     {
-      featureType: "transit",
-      elementType: "all",
+      featureType: 'transit',
+      elementType: 'all',
       stylers: [
         {
-          visibility: "off"
-        }
-      ]
+          visibility: 'off',
+        },
+      ],
     },
     {
-      featureType: "water",
-      elementType: "all",
+      featureType: 'water',
+      elementType: 'all',
       stylers: [
         {
-          color: "#dde6e8"
+          color: '#dde6e8',
         },
         {
-          visibility: "on"
-        }
-      ]
-    }
+          visibility: 'on',
+        },
+      ],
+    },
   ];
 }

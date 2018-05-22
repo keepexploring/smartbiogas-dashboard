@@ -1,12 +1,12 @@
-import { catchError, map } from "rxjs/operators";
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { catchError, map } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { EndpointService } from "./endpoint.service";
-import { HelpersService } from "./helpers.service";
-import { Job } from "../models/job";
-import { User } from "../models/user";
+import { EndpointService } from './endpoint.service';
+import { HelpersService } from './helpers.service';
+import { Job } from '../models/job';
+import { User } from '../models/user';
 
 @Injectable()
 export class JobsService {
@@ -16,23 +16,18 @@ export class JobsService {
   constructor(
     private http: HttpClient,
     private helpers: HelpersService,
-    private endpoints: EndpointService
+    private endpoints: EndpointService,
   ) {}
 
-  getJobs(
-    page: number = 0,
-    userId?: number,
-    plantId?: number
-  ): Observable<Job[]> {
+  getJobs(page: number = 0, userId?: number, plantId?: number): Observable<Job[]> {
     let endpoint = this.getEndpoint(page, userId, plantId);
-    console.log(endpoint);
     return this.http.get(endpoint).pipe(
       map(response => {
-        this.totalItems = response["meta"] ? response["meta"].total_count : 0;
-        this.itemsPerPage = response["meta"] ? response["meta"].limit : 0;
+        this.totalItems = response['meta'] ? response['meta'].total_count : 0;
+        this.itemsPerPage = response['meta'] ? response['meta'].limit : 0;
         return this.mapDataToModel(response);
       }),
-      catchError(this.helpers.handleResponseError)
+      catchError(this.helpers.handleResponseError),
     );
   }
 

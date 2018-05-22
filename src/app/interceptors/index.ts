@@ -10,14 +10,14 @@ export const httpInterceptorProviders = [
     useClass: TokenInterceptor,
     multi: true,
   },
-  // {
-  //   provide: HTTP_INTERCEPTORS,
-  //   useClass: UnauthorisedInterceptor,
-  //   multi: true,
-  // },
   {
     provide: HTTP_INTERCEPTORS,
     useClass: CachingInterceptor,
+    multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: UnauthorisedInterceptor,
     multi: true,
   },
 ];

@@ -9,43 +9,19 @@ import {
 import { Observable, of } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, mergeMap } from 'rxjs/operators';
+import { TokenService } from '../services/token.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService, private tokenService: TokenService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('TokenInterceptor');
-
     request = request.clone({
       setHeaders: {
-        Authorization: `Bearer ${this.auth.getToken()}`,
+        Authorization: `Bearer ${this.tokenService.getCurrentToken()}`,
       },
     });
-
-    // TODO:
-    //  The interceptor is not catching the http error.
-    //  Only happens on refresh
-    //  It should exit, log out and redirect to login if the token is not valid, i.e. the response is a 401
-
-    return next.handle(request).pipe(
-      tap((event: HttpEvent<any>) => {
-        console.log('TAPPED', event);
-      }),
-      map((event: HttpEvent<any>) => {
-        console.log('result', event);
-        return event;
-      }),
-      catchError((event: HttpEvent<any>) => {
-        console.log('ERRRRRRRRR', event, event.status);
-
-        if (event.status === 401) {
-          this.auth.logOut();
-        }
-
-        return of(event);
-      }),
-    );
+    return next.handle(request);
   }
 }

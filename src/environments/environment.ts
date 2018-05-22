@@ -6,6 +6,8 @@
 export const environment = {
   production: false,
   // baseUrl: 'http://127.0.0.1:9000/',
-  baseUrl: "https://api.smartbiogas.org/",
-  googleMapsApiKey: "AIzaSyBv5hn1XUw0YSSJlML9RJpOPEMRtGwmHME"
+  baseUrl: 'https://api.smartbiogas.org/',
+  googleMapsApiKey: 'AIzaSyBv5hn1XUw0YSSJlML9RJpOPEMRtGwmHME',
+  apClientId: '123456',
+  apClientSecret: '123456',
 };

@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { map, catchError, retry } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map, catchError, retry } from 'rxjs/operators';
 
-import { EndpointService } from "./endpoint.service";
-import { HelpersService } from "./helpers.service";
-import { Technician } from "../models/technician";
+import { EndpointService } from './endpoint.service';
+import { HelpersService } from './helpers.service';
+import { Technician } from '../models/technician';
 
 @Injectable()
 export class TechniciansService {
@@ -15,20 +15,18 @@ export class TechniciansService {
   constructor(
     private http: HttpClient,
     private helpers: HelpersService,
-    private endpoints: EndpointService
+    private endpoints: EndpointService,
   ) {}
 
   getTechnicians(page: number = 0): Observable<Technician[]> {
     let offset = this.helpers.getOffsetForPagination(page, this.itemsPerPage);
-    return this.http.get(this.endpoints.technicians.index + offset, { observe: "response" })
-    .pipe(
+    return this.http.get(this.endpoints.technicians.index + offset, { observe: 'response' }).pipe(
       map(response => {
-        this.totalItems = response["meta"] ? response["meta"].total_count : 0;
-        this.itemsPerPage = response["meta"] ? response["meta"].limit : 0;
-        console.log(response);
+        this.totalItems = response['meta'] ? response['meta'].total_count : 0;
+        this.itemsPerPage = response['meta'] ? response['meta'].limit : 0;
         return this.mapDataToModel(response);
       }),
-      catchError(this.helpers.handleResponseError)
+      catchError(this.helpers.handleResponseError),
     );
   }
 

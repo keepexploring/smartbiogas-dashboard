@@ -14,15 +14,14 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
 
   constructor(private auth: AuthService) {
-    auth.check();
+    auth.check().subscribe();
     this.isAuthenticated = auth.authenticated;
-    this.authenticationSubscription = auth.authChanged.subscribe(value => {
-      this.isAuthenticated = value;
+    this.authenticationSubscription = auth.authChanged.subscribe(authenticated => {
+      this.isAuthenticated = authenticated;
     });
   }
 
   ngOnInit() {
-    console.log('App INIT');
     this.auth.validateToken().subscribe(response => {
       this.isLoading = false;
     });

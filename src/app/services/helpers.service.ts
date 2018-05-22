@@ -1,16 +1,21 @@
-import { throwError as observableThrowError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { User } from '../models/user';
+import { TokenService } from './token.service';
 
 @Injectable()
 export class HelpersService {
-  constructor() {}
+  constructor(private tokenService: TokenService) {}
 
   handleResponseError(error: Response | any) {
-    console.log(error);
     let errMsg: string = '';
     if (error instanceof Response) {
+      if (error.status === 401) {
+        return this.tokenService.handleUnauthorisedError(error);
+      }
       const body: any = error.json() || '';
       const err = body.error || JSON.stringify(body);
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
@@ -21,7 +26,7 @@ export class HelpersService {
         errMsg = error.message ? error.message : error.toString();
       }
     }
-    return observableThrowError(errMsg);
+    return throwError(errMsg);
   }
 
   handleError(error: any) {

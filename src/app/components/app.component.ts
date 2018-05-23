@@ -22,9 +22,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.auth.validateToken().subscribe(response => {
-      this.isLoading = false;
-    });
+    // this.auth.validateToken().subscribe(response => {
+    this.isLoading = false;
+    // });
   }
 
   ngOnDestroy() {

@@ -46,6 +46,7 @@ import { httpInterceptorProviders } from './interceptors';
 import { environment } from '../environments/environment';
 import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.component';
 import { NavTopComponent } from './components/nav-top/nav-top.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { NavTopComponent } from './components/nav-top/nav-top.component';
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsApiKey,
     }),
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     httpInterceptorProviders,

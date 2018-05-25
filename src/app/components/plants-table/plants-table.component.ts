@@ -6,7 +6,7 @@ import { HelpersService } from '../../services/helpers.service';
 @Component({
   selector: 'app-plants-table',
   templateUrl: './plants-table.component.html',
-  styleUrls: ['./plants-table.component.sass']
+  styleUrls: ['./plants-table.component.sass'],
 })
 export class PlantsTableComponent implements OnInit {
   @Input() selectable: boolean = true;
@@ -21,7 +21,7 @@ export class PlantsTableComponent implements OnInit {
   itemsPerPage: number = 0;
   totalPages: number;
 
-  constructor(private service: PlantsService, private helpers: HelpersService) { }
+  constructor(private service: PlantsService, private helpers: HelpersService) {}
 
   ngOnInit() {
     this.getPlants();
@@ -39,15 +39,18 @@ export class PlantsTableComponent implements OnInit {
   }
 
   getPlants() {
-    this.service.getPlants(this.page).subscribe((response) => {
-      this.plants = response;
-      this.loading = false;
-      this.totalItems = this.service.totalItems;
-      this.itemsPerPage = this.service.itemsPerPage;
-      this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage)
-    }, (error) => {
-      this.helpers.handleError(error);
-      this.loading = false;
-    });
+    this.service.getPlants(this.page).subscribe(
+      response => {
+        this.plants = response;
+        this.loading = false;
+        this.totalItems = this.service.totalItems;
+        this.itemsPerPage = this.service.itemsPerPage;
+        this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage);
+      },
+      error => {
+        this.helpers.handleError(error);
+        this.loading = false;
+      },
+    );
   }
 }

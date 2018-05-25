@@ -40,20 +40,27 @@ export class AuthService {
     );
   }
 
-  validateToken(): Observable<boolean> {
+  validateToken(): void {
+    console.log('validate token called');
+
     const token = this.tokenService.getCurrentToken();
     if (!token) {
       this.logOut();
-      return of(false);
     }
-    return this.tokenService.validate().pipe(
-      tap(au => this.updateAuthenticationState),
-      tap(au => this.check()),
-      catchError(err => {
-        this.logOut();
-        return of(err);
-      }),
-    );
+
+    this.tokenService
+      .validate()
+      .pipe(
+        tap(au => this.updateAuthenticationState),
+        tap(au => this.check()),
+        catchError(err => {
+          this.logOut();
+          return of(err);
+        }),
+      )
+      .subscribe(isValid => {
+        this.updateAuthenticationState(isValid);
+      });
   }
 
   login(username: string, password: string): Observable<Token> {

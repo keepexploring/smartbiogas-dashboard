@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AgmCoreModule } from '@agm/core';
@@ -47,8 +48,13 @@ import { environment } from '../environments/environment';
 import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.component';
 import { NavTopComponent } from './components/nav-top/nav-top.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+
+import { MessagesComponent } from './components/messages/messages.component';
+import { MessageComponent } from './components/message/message.component';
+
 
 @NgModule({
   declarations: [
@@ -73,11 +79,17 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     PlantsMapComponent,
     NavSidebarComponent,
     NavTopComponent,
+
     ForgotPasswordComponent,
     ResetPasswordComponent,
+
+    MessagesComponent,
+    MessageComponent,
+
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,

@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthService } from '../services/auth.service';
 import { Subject, Subscription } from 'rxjs';
+import { MessageService } from '../services/message.service';
+import { Message } from '../models/message';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   authenticationSubscription: Subscription;
   isLoading: boolean = true;
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private messageService: MessageService) {
     this.isAuthenticated = auth.authenticated;
   }
 
@@ -29,5 +31,10 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     //prevent memory leak when component destroyed
     this.authenticationSubscription.unsubscribe();
+  }
+
+  addMessage(message: Message) {
+    this.messageService.add(message);
+    console.log('messages');
   }
 }

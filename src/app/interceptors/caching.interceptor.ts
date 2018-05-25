@@ -1,13 +1,13 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpInterceptor,
   HttpHandler,
   HttpEvent,
-  HttpResponse
-} from "@angular/common/http";
-import { Observable, AsyncSubject } from "rxjs";
-import { tap, delay } from "rxjs/operators";
+  HttpResponse,
+} from '@angular/common/http';
+import { Observable, AsyncSubject } from 'rxjs';
+import { tap, delay } from 'rxjs/operators';
 
 @Injectable()
 export class CachingInterceptor implements HttpInterceptor {
@@ -15,11 +15,8 @@ export class CachingInterceptor implements HttpInterceptor {
 
   constructor() {}
 
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    if (request.method !== "GET") {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (request.method !== 'GET') {
       return next.handle(request);
     }
 
@@ -28,9 +25,7 @@ export class CachingInterceptor implements HttpInterceptor {
       return cachedResponse.pipe(delay(0));
     }
 
-    const subject = (this.cache[request.urlWithParams] = new AsyncSubject<
-      HttpEvent<any>
-    >());
+    const subject = (this.cache[request.urlWithParams] = new AsyncSubject<HttpEvent<any>>());
     next
       .handle(request)
       .pipe(
@@ -39,7 +34,7 @@ export class CachingInterceptor implements HttpInterceptor {
             subject.next(event);
             subject.complete();
           }
-        })
+        }),
       )
       .subscribe(); // must subscribe to actually kick off request!
     return subject;

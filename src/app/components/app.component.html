@@ -1,4 +1,3 @@
-<!-- <div *ngIf="didCheckAuth"> -->
 <app-loading *ngIf="isLoading"></app-loading>
 
 <app-nav-top [isAuthenticated]="isAuthenticated"></app-nav-top>
@@ -7,8 +6,9 @@
   <div class="row" *ngIf="!isLoading">
     <app-nav-sidebar [isAuthenticated]="isAuthenticated"></app-nav-sidebar>
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+      <app-messages></app-messages>
       <router-outlet></router-outlet>
+      <button (click)="addMessage({content: 'New Test Message', type: 'info'})">Add Message</button>
     </main>
   </div>
 </div>
-<!-- </div> -->

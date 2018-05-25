@@ -6,6 +6,9 @@ import { TechniciansComponent } from './components/technicians/technicians.compo
 import { JobsComponent } from './components/jobs/jobs.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+
 
 const routes: Routes = [
   {
@@ -17,6 +20,9 @@ const routes: Routes = [
   { path: 'technicians', component: TechniciansComponent, canActivate: [AuthGuard] },
   { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
+
 ];
 
 @NgModule({

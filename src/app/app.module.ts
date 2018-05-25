@@ -47,6 +47,8 @@ import { environment } from '../environments/environment';
 import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.component';
 import { NavTopComponent } from './components/nav-top/nav-top.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +73,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     PlantsMapComponent,
     NavSidebarComponent,
     NavTopComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

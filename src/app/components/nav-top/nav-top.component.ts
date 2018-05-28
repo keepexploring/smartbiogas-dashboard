@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { ConnectionStatusService } from '../../services/connection-status.service';
 
 @Component({
   selector: 'app-nav-top',

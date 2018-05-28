@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, catchError, retry } from 'rxjs/operators';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { map, catchError, retry, tap, delay } from 'rxjs/operators';
 
 import { EndpointService } from './endpoint.service';
 import { HelpersService } from './helpers.service';
 import { Technician } from '../models/technician';
+import { environment } from '../../environments/environment';
+import { ApiResponseMeta } from '../models/api-response-meta';
 
 @Injectable()
 export class TechniciansService {
-  totalItems: number = 10;
-  itemsPerPage: number = 10;
+  responseMeta: BehaviorSubject<ApiResponseMeta> = new BehaviorSubject<ApiResponseMeta>(
+    new ApiResponseMeta(),
+  );
+
+  loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  techniciansList: Array<Technician> = new Array<Technician>();
+  technicians: BehaviorSubject<Array<Technician>> = new BehaviorSubject<Array<Technician>>([]);
 
   constructor(
     private http: HttpClient,
@@ -18,16 +25,65 @@ export class TechniciansService {
     private endpoints: EndpointService,
   ) {}
 
-  getTechnicians(page: number = 0): Observable<Technician[]> {
-    let offset = this.helpers.getOffsetForPagination(page, this.itemsPerPage);
-    return this.http.get(this.endpoints.technicians.index + offset, { observe: 'response' }).pipe(
-      map(response => {
-        this.totalItems = response.body['meta'] ? response.body['meta'].total_count : 0;
-        this.itemsPerPage = response.body['meta'] ? response.body['meta'].limit : 0;
-        return this.mapDataToModel(response);
-      }),
-      catchError(this.helpers.handleResponseError),
+  get(page: number = 0): void {
+    this.loading.next(true);
+    let offset = this.helpers.getOffsetForPagination(
+      page,
+      this.responseMeta.getValue().itemsPerPage,
     );
+    this.http
+      .get(this.endpoints.technicians.index + offset, { observe: 'response' })
+      .pipe(
+        map((response: HttpResponse<any>) => {
+          this.responseMeta.next(this.helpers.parseResponseMetadata(response));
+          this.filterOutExistingItems(response);
+        }),
+        tap(() => this.sortResultsById),
+        catchError(this.helpers.handleResponseError),
+        tap(() => this.loading.next(false)),
+      )
+      .subscribe();
+  }
+
+  sortResultsById() {
+    this.techniciansList.sort((a, b) => {
+      return a.id - b.id;
+    });
+    this.technicians.next(this.techniciansList);
+  }
+
+  sortResultsByName(orderBy: 'asc' | 'desc' = 'asc') {
+    this.techniciansList.sort((a, b) => {
+      var nameA = a.first_name.toUpperCase(); // ignore upper and lowercase
+      var nameB = b.first_name.toUpperCase(); // ignore upper and lowercase
+      if (orderBy === 'asc') {
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+      } else {
+        if (nameA > nameB) {
+          return -1;
+        }
+        if (nameA < nameB) {
+          return 1;
+        }
+      }
+    });
+    this.technicians.next(this.techniciansList);
+  }
+
+  // Only add new items to the list
+  private filterOutExistingItems(response: HttpResponse<any>): Technician[] {
+    const technicians = this.mapDataToModel(response).filter(item => {
+      return this.techniciansList.map(t => t.id).indexOf(item.id) === -1;
+    });
+
+    this.techniciansList = this.techniciansList.concat(technicians);
+    this.technicians.next(this.techniciansList);
+    return technicians;
   }
 
   private mapDataToModel(response: any): Technician[] {

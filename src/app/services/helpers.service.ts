@@ -1,10 +1,11 @@
 import { throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 import { User } from '../models/user';
 import { TokenService } from './token.service';
+import { ApiResponseMeta } from '../models/api-response-meta';
 
 @Injectable()
 export class HelpersService {
@@ -27,6 +28,19 @@ export class HelpersService {
       }
     }
     return throwError(errMsg);
+  }
+
+  parseResponseMetadata(response: HttpResponse<any>, perPage?: number): ApiResponseMeta {
+    const responseMeta = response.body.meta;
+    const totalItems = responseMeta ? responseMeta.total_count : 0;
+    let itemsPerPage: number;
+    if (perPage) {
+      itemsPerPage = perPage;
+    } else {
+      itemsPerPage = responseMeta ? responseMeta.limit : 0;
+    }
+
+    return new ApiResponseMeta(totalItems, itemsPerPage);
   }
 
   parseContactFromJsonData(contactData: {
@@ -57,10 +71,12 @@ export class HelpersService {
 
   getOffsetForPagination(page: number, itemsPerPage: number): string {
     page = page - 1;
-    return '&offset=' + page * itemsPerPage;
+    const offset = '&offset=' + page * itemsPerPage;
+    return offset;
   }
 
-  calculateTotalApiPages(totalItems: number, itemsPerPage: number) {
+  calculateTotalApiPages(totalItems: number, itemsPerPage: number): number {
+    console.log('TODO [helpers calculateTotalApiPages]: Use the one in model instead');
     return Math.ceil(totalItems / itemsPerPage);
   }
 

@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
 import { Technician } from '../../models/technician';
 import { TechniciansService } from '../../services/technicians.service';
-import { HelpersService } from '../../services/helpers.service';
+import { ApiResponseMeta } from '../../models/api-response-meta';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-technicians-table',
@@ -12,39 +14,55 @@ export class TechniciansTableComponent implements OnInit {
   @Input() selectable: boolean = true;
   @Output() selectTechnician = new EventEmitter<Technician>();
 
-  loading: boolean = true;
   technicians: Technician[];
-  selectedTechnician: Technician;
+  responseMetadata: ApiResponseMeta;
+  loading: boolean;
 
-  page: number = 1;
-  totalItems: number = 0;
-  itemsPerPage: number = 0;
+  selected: Technician;
+
+  currentPage: number = 1;
+  itemsPerPage: number = environment.defaultPaginationLimit;
   totalPages: number;
 
-  constructor(private service: TechniciansService, private helpers: HelpersService) {}
+  order: boolean = true;
+
+  constructor(private techniciansService: TechniciansService) {}
 
   ngOnInit() {
     this.getTechnicians();
+
+    this.techniciansService.technicians.subscribe(technicians => {
+      this.technicians = technicians;
+    });
+
+    this.techniciansService.responseMeta.subscribe(responseMetadata => {
+      this.responseMetadata = responseMetadata;
+      this.totalPages = Math.ceil(responseMetadata.totalItems / this.itemsPerPage);
+    });
+
+    this.techniciansService.loading.subscribe(loading => {
+      this.loading = loading;
+    });
   }
 
   select(technician: Technician) {
-    this.selectedTechnician = technician;
+    this.selected = technician;
     this.selectTechnician.emit(technician);
   }
 
-  onPageChange(number: number) {
-    this.loading = true;
-    this.page = number;
-    this.getTechnicians();
+  onPageChange(nextPage: number) {
+    this.currentPage = nextPage;
+    if (this.technicians.length < this.responseMetadata.totalItems) {
+      this.getTechnicians();
+    }
+  }
+
+  sortByName() {
+    this.techniciansService.sortResultsByName(this.order ? 'asc' : 'desc');
+    this.order = !this.order;
   }
 
   getTechnicians() {
-    this.service.getTechnicians(this.page).subscribe(response => {
-      this.technicians = response;
-      this.loading = false;
-      this.totalItems = this.service.totalItems;
-      this.itemsPerPage = this.service.itemsPerPage;
-      this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage);
-    });
+    this.techniciansService.get(this.currentPage);
   }
 }

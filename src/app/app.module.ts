@@ -6,7 +6,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NgxPaginationModule } from 'ngx-pagination';
+import { PaginationModule } from './pagination/pagination.module';
 
 import { AgmCoreModule } from '@agm/core';
 import { IconsModule } from './modules/icons.module';
@@ -79,7 +79,7 @@ import { MessageComponent } from './components/message/message.component';
     HttpClientModule,
     FormsModule,
     IconsModule,
-    NgxPaginationModule,
+    PaginationModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsApiKey,
     }),

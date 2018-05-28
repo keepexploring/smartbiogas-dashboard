@@ -28,7 +28,6 @@
     "core-js": "^2.4.1",
     "feather-icons": "^4.5.0",
     "jquery": "^3.3.1",
-    "ngx-pagination": "^3.1.0",
     "popper.js": "^1.12.9",
     "rxjs": "^6.1.0",
     "rxjs-compat": "^6.1.0",

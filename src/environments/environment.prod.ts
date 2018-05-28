@@ -4,4 +4,5 @@ export const environment = {
   googleMapsApiKey: 'AIzaSyBv5hn1XUw0YSSJlML9RJpOPEMRtGwmHME',
   apClientId: '123456',
   apClientSecret: '123456',
+  apiPageLimit: 10,
 };

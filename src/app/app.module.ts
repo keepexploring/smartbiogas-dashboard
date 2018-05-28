@@ -7,10 +7,9 @@ import { DatePipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgxPaginationModule } from 'ngx-pagination';
+
 import { AgmCoreModule } from '@agm/core';
-
 import { IconsModule } from './modules/icons.module';
-
 import { AuthService } from './services/auth.service';
 import { HelpersService } from './services/helpers.service';
 import { DashboardService } from './services/dashboard.service';
@@ -19,7 +18,6 @@ import { TechniciansService } from './services/technicians.service';
 import { JobsService } from './services/jobs.service';
 import { DataService } from './services/data.service';
 import { EndpointService } from './services/endpoint.service';
-
 import { AppComponent } from './components/app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PlantsComponent } from './components/plants/plants.component';
@@ -39,11 +37,8 @@ import { PlantDetailComponent } from './components/plant-detail/plant-detail.com
 import { PlantStatusComponent } from './components/plant-status/plant-status.component';
 import { JobDetailModalComponent } from './components/job-detail-modal/job-detail-modal.component';
 import { PlantsMapComponent } from './components/plants-map/plants-map.component';
-
 import { AuthGuard } from './guards/auth.guard';
-
 import { httpInterceptorProviders } from './interceptors';
-
 import { environment } from '../environments/environment';
 import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.component';
 import { NavTopComponent } from './components/nav-top/nav-top.component';

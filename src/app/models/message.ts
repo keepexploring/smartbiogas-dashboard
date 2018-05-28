@@ -1,4 +1,10 @@
+import { MessageType } from '../enums/message-type';
+
 export class Message {
   content: string;
-  type: 'info' | 'success' | 'danger' | 'warning';
+  type: MessageType;
+  constructor(content: string, type: MessageType) {
+    this.content = content;
+    this.type = type;
+  }
 }

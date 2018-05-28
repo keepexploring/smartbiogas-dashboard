@@ -22,8 +22,8 @@ export class TechniciansService {
     let offset = this.helpers.getOffsetForPagination(page, this.itemsPerPage);
     return this.http.get(this.endpoints.technicians.index + offset, { observe: 'response' }).pipe(
       map(response => {
-        this.totalItems = response['meta'] ? response['meta'].total_count : 0;
-        this.itemsPerPage = response['meta'] ? response['meta'].limit : 0;
+        this.totalItems = response.body['meta'] ? response.body['meta'].total_count : 0;
+        this.itemsPerPage = response.body['meta'] ? response.body['meta'].limit : 0;
         return this.mapDataToModel(response);
       }),
       catchError(this.helpers.handleResponseError),
@@ -32,7 +32,7 @@ export class TechniciansService {
 
   private mapDataToModel(response: any): Technician[] {
     let items: Technician[] = [];
-    response.objects.forEach(data => {
+    response.body.objects.forEach(data => {
       let item = new Technician();
       item.id = data.id;
       item.technician_id = data.technician_details.technician_id;

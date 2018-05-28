@@ -6,7 +6,7 @@ import { HelpersService } from '../../services/helpers.service';
 @Component({
   selector: 'app-technicians-table',
   templateUrl: './technicians-table.component.html',
-  styleUrls: ['./technicians-table.component.sass']
+  styleUrls: ['./technicians-table.component.sass'],
 })
 export class TechniciansTableComponent implements OnInit {
   @Input() selectable: boolean = true;
@@ -21,15 +21,15 @@ export class TechniciansTableComponent implements OnInit {
   itemsPerPage: number = 0;
   totalPages: number;
 
-  constructor(private service: TechniciansService, private helpers: HelpersService) { }
+  constructor(private service: TechniciansService, private helpers: HelpersService) {}
+
+  ngOnInit() {
+    this.getTechnicians();
+  }
 
   select(technician: Technician) {
     this.selectedTechnician = technician;
     this.selectTechnician.emit(technician);
-  }
-
-  ngOnInit() {
-    this.getTechnicians();
   }
 
   onPageChange(number: number) {
@@ -39,15 +39,12 @@ export class TechniciansTableComponent implements OnInit {
   }
 
   getTechnicians() {
-    this.service.getTechnicians(this.page).subscribe((response) => {
+    this.service.getTechnicians(this.page).subscribe(response => {
       this.technicians = response;
       this.loading = false;
       this.totalItems = this.service.totalItems;
       this.itemsPerPage = this.service.itemsPerPage;
-      this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage)
-    }, (error) => {
-      this.helpers.handleError(error);
-      this.loading = false;
+      this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage);
     });
   }
 }

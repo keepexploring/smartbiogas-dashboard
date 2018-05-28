@@ -2,11 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
-
 import { MessageService } from '../services/message.service';
-import { Message } from '../models/message';
 import { ConnectionStatusService } from '../services/connection-status.service';
-import { MessageType } from '../enums/message-type';
 
 @Component({
   selector: 'app-root',
@@ -20,12 +17,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isLoading: boolean = true;
   isOnline: boolean = true;
-
-  offlineMessage = new Message(
-    'You are offline, no requests will be made to the server',
-    MessageType.Danger,
-  );
-  onlineMessage = new Message('You are back online', MessageType.Success);
 
   constructor(
     private auth: AuthService,
@@ -46,11 +37,11 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log('APP isOnline', isOnline);
       if (isOnline) {
         this.auth.validateToken();
+        this.messageService.displayOnlineMessage();
       } else {
+        this.messageService.displayOnlineMessage();
         this.auth.validatedToken = false;
       }
-      const message = isOnline ? this.onlineMessage : this.offlineMessage;
-      this.messageService.add(message);
     });
   }
 

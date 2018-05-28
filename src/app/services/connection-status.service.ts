@@ -11,7 +11,7 @@ import { MessageType } from '../enums/message-type';
 export class ConnectionStatusService {
   status: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private messageService: MessageService) {
+  constructor() {
     this.status.next(true);
   }
 

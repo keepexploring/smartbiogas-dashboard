@@ -1,4 +1,12 @@
-import { Component, OnInit, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Input,
+  Output,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { Plant } from '../../models/plant';
 import { HelpersService } from '../../services/helpers.service';
 import { PlantsService } from '../../services/plants.service';
@@ -6,7 +14,7 @@ import { PlantsService } from '../../services/plants.service';
 @Component({
   selector: 'app-plants-map',
   templateUrl: './plants-map.component.html',
-  styleUrls: ['./plants-map.component.sass']
+  styleUrls: ['./plants-map.component.sass'],
 })
 export class PlantsMapComponent implements OnInit, OnChanges {
   @Output() selectPlant = new EventEmitter<Plant>();
@@ -22,7 +30,7 @@ export class PlantsMapComponent implements OnInit, OnChanges {
   itemsPerPage: number = 0;
   totalPages: number;
 
-  constructor(private service: PlantsService, private helpers: HelpersService) { }
+  constructor(private service: PlantsService, private helpers: HelpersService) {}
 
   mapStyles = this.helpers.mapStyles;
 
@@ -42,7 +50,7 @@ export class PlantsMapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(!changes.plants.firstChange) {
+    if (!changes.plants.firstChange) {
       this.processPlantLocations();
     }
   }
@@ -52,35 +60,32 @@ export class PlantsMapComponent implements OnInit, OnChanges {
     this.plants.forEach(p => {
       p.getCoordinates();
       let path = '/assets/images/map-marker-';
-      if(p.current_status) {
+      if (p.current_status) {
         switch (p.current_status.toLowerCase()) {
           case 'fault':
             p.mapMarkerIcon = path + 'red.svg';
             break;
           case 'active':
-            p.mapMarkerIcon =  path + 'green.svg';
+            p.mapMarkerIcon = path + 'green.svg';
             break;
           default:
-            p.mapMarkerIcon =  path + 'gray.svg';
+            p.mapMarkerIcon = path + 'gray.svg';
             break;
         }
       } else {
-        p.mapMarkerIcon =  path + 'gray.svg';
+        p.mapMarkerIcon = path + 'gray.svg';
       }
     });
   }
 
   getPlants() {
-    this.service.getPlants(this.page).subscribe((response) => {
+    this.service.getPlants(this.page).subscribe(response => {
       this.plants = response;
       this.loading = false;
       this.totalItems = this.service.totalItems;
       this.itemsPerPage = this.service.itemsPerPage;
-      this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage)
+      this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage);
       this.processPlantLocations();
-    }, (error) => {
-      this.helpers.handleError(error);
-      this.loading = false;
     });
   }
 }

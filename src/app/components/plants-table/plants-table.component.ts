@@ -39,18 +39,12 @@ export class PlantsTableComponent implements OnInit {
   }
 
   getPlants() {
-    this.service.getPlants(this.page).subscribe(
-      response => {
-        this.plants = response;
-        this.loading = false;
-        this.totalItems = this.service.totalItems;
-        this.itemsPerPage = this.service.itemsPerPage;
-        this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage);
-      },
-      error => {
-        this.helpers.handleError(error);
-        this.loading = false;
-      },
-    );
+    this.service.getPlants(this.page).subscribe(response => {
+      this.plants = response;
+      this.loading = false;
+      this.totalItems = this.service.totalItems;
+      this.itemsPerPage = this.service.itemsPerPage;
+      this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage);
+    });
   }
 }

@@ -29,10 +29,6 @@ export class HelpersService {
     return throwError(errMsg);
   }
 
-  handleError(error: any) {
-    console.log('error', error);
-  }
-
   parseContactFromJsonData(contactData: {
     user_id;
     company_name;

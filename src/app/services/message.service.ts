@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Message } from '../models/message';
+import { MessageType } from '../enums/message-type';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -30,5 +31,17 @@ export class MessageService {
     }
     this.messages.splice(index, 1);
     this.messageSubject.next(this.messages);
+  }
+
+  displayOnlineMessage() {
+    this.clear();
+    this.add(new Message('You are back online', MessageType.Success));
+  }
+
+  displayOfflineMessage() {
+    this.clear();
+    this.add(
+      new Message('You are offline, no requests will be made to the server', MessageType.Danger),
+    );
   }
 }

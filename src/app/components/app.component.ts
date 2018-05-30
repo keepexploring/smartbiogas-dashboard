@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { MessageService } from '../services/message.service';
 import { ConnectionStatusService } from '../services/connection-status.service';
+import { NavigationHistoryService } from '../services/navigation-history.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean = false;
   authenticationSubscription: Subscription;
   connectionSubscription: Subscription;
+  navigationHistorySubscription: Subscription;
 
   isLoading: boolean = true;
   isOnline: boolean = true;
@@ -22,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private messageService: MessageService,
     private connectionStatusService: ConnectionStatusService,
+    private navigationHistoryService: NavigationHistoryService,
   ) {}
 
   ngOnInit() {
@@ -29,6 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.connectionStatusService.check();
     this.subscribeToAuthStatus();
     this.subscribeToConnectionStatus();
+    this.subscribeToNavigationHistory();
   }
 
   subscribeToConnectionStatus(): void {
@@ -51,9 +55,14 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
+  subscribeToNavigationHistory() {
+    this.navigationHistorySubscription = this.navigationHistoryService.get().subscribe();
+  }
+
   ngOnDestroy() {
     //prevent memory leak when component destroyed
     this.connectionSubscription.unsubscribe();
     this.authenticationSubscription.unsubscribe();
+    this.navigationHistorySubscription.unsubscribe();
   }
 }

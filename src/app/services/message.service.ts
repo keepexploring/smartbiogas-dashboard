@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Message } from '../models/message';
 import { MessageType } from '../enums/message-type';
 import { Subject } from 'rxjs';
+import { TechnicianStatusComponent } from '../components/technician-status/technician-status.component';
 
 @Injectable({
   providedIn: 'root',
@@ -43,5 +44,10 @@ export class MessageService {
     this.add(
       new Message('You are offline, no requests will be made to the server', MessageType.Danger),
     );
+  }
+
+  notFound() {
+    this.clear();
+    this.add(new Message('Not Found', MessageType.Danger));
   }
 }

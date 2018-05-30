@@ -1,14 +1,7 @@
 <app-view-header title="Technicians"></app-view-header>
 
 <div class="row d-flex">
-  <div class="main-ui-container col-sm-5 d-flex">
-    <div class="table-responsive list-table">
-      <app-technicians-table (selectTechnician)="selectTechnician($event)"></app-technicians-table>
-    </div>
-  </div>
-  <div class="main-ui-container col-sm-7 d-flex" *ngIf="selectedTechnician">
-    <div class="table-responsive list-table">
-      <app-technician-detail [technician]="selectedTechnician"></app-technician-detail>
-    </div>
+  <div class="table-responsive list-table">
+    <app-technicians-table (selectTechnician)="selectTechnician($event)"></app-technicians-table>
   </div>
 </div>

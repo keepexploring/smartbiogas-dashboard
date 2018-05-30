@@ -2,7 +2,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { CachingInterceptor } from './caching.interceptor';
 import { TokenInterceptor } from './token.interceptor';
-import { UnauthorisedInterceptor } from './unauthorised.interceptor';
+import { HttpErrorInterceptor } from './http-error.interceptor';
 
 export const httpInterceptorProviders = [
   {
@@ -17,7 +17,7 @@ export const httpInterceptorProviders = [
   },
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: UnauthorisedInterceptor,
+    useClass: HttpErrorInterceptor,
     multi: true,
   },
 ];

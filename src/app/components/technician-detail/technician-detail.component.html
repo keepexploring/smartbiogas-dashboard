@@ -1,62 +1,64 @@
-<ul class="list-group list-group-flush">
-  <li class="list-group-item border-top border-right border-left">
-    <div class="row">
-      <div class="col-sm-3">
-        <img [src]="technician.user_photo ? technician.user_photo : '/assets/images/missing-user-photo.svg'" [alt]="technician.getFullName()"
-          class="user-photo">
+<app-loading *ngIf="loading"></app-loading>
+<div *ngIf="technician && !loading" class="technician-details">
+  <ul class="list-group list-group-flush list-unstyled">
+    <li class="list-group-item border-top border-right border-left">
+      <div class="row">
+        <div class="col-sm-3">
+          <img [src]="technician.user_photo ? technician.user_photo : '/assets/images/missing-user-photo.svg'" [alt]="technician.full_name"
+            (error)="checkImage($event)" class="user-photo">
+        </div>
+        <div class="col-sm-9 d-flex flex-column justify-content-sm-center">
+          <h1 class="h5">{{ technician.full_name }}</h1>
+          <h2 class="h6 text-muted">{{ technician.country ? technician.country : 'Unknown Country' }}</h2>
+          <app-technician-status [size]="'small'" [status]="technician.status"></app-technician-status>
+        </div>
       </div>
-      <div class="col-sm-9 d-flex flex-column justify-content-sm-center">
-        <h1 class="h5">{{ technician.getFullName() }}</h1>
-        <h2 class="h6 text-muted">{{ technician.country ? technician.country : 'Unknown Country' }}</h2>
-        <app-technician-status [size]="'small'" [status]="technician.status"></app-technician-status>
-      </div>
-    </div>
-  </li>
+    </li>
 
-  <li class="list-group-item p-0">
-    <table class="table table-bordered mb-0">
-      <tbody>
-        <tr *ngIf="technician.id">
-          <th class="vertical-th">ID</th>
-          <td>{{ technician.id }}</td>
-        </tr>
-        <tr *ngIf="technician.getFullName">
-          <th class="vertical-th">Name</th>
-          <td>{{ technician.getFullName() }}</td>
-        </tr>
-        <tr *ngIf="technician.phone_number">
-          <th class="vertical-th">Phone Number</th>
-          <td>{{ technician.phone_number }}</td>
-        </tr>
-        <tr *ngIf="technician.getAddress">
-          <th class="vertical-th">Address</th>
-          <td>{{ technician.getAddress() }}</td>
-        </tr>
-        <tr *ngIf="technician.location">
-          <th class="vertical-th">Operating Location</th>
-          <td>{{ technician.location }}</td>
-        </tr>
-        <tr *ngIf="technician.acredit_to_install">
-          <th class="vertical-th">Accreditted Skills</th>
-          <td>{{ technician.acredit_to_install }}</td>
-        </tr>
-        <tr *ngIf="technician.acredit_to_install">
-          <th class="vertical-th">Languages Spoken</th>
-          <td>{{ technician.acredit_to_install }}</td>
-        </tr>
-        <tr *ngIf="technician.datetime_created">
-          <th class="vertical-th">Joining Date</th>
-          <td>{{ technician.datetime_created | date }}</td>
-        </tr>
-        <tr *ngIf="jobs">
-          <th class="vertical-th">Jobs</th>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li class="p-0">
-    <app-jobs-table [enableModal]="true" [technicianId]="technician.id"></app-jobs-table>
-  </li>
-</ul>
-
+    <li class="list-group-item p-0">
+      <table class="table table-bordered mb-0">
+        <tbody>
+          <tr *ngIf="technician.id">
+            <th class="vertical-th">ID</th>
+            <td>{{ technician.id }}</td>
+          </tr>
+          <tr *ngIf="technician.full_name">
+            <th class="vertical-th">Name</th>
+            <td>{{ technician.full_name }}</td>
+          </tr>
+          <tr *ngIf="technician.phone_number">
+            <th class="vertical-th">Phone Number</th>
+            <td>{{ technician.phone_number }}</td>
+          </tr>
+          <tr *ngIf="technician.getAddress">
+            <th class="vertical-th">Address</th>
+            <td>{{ technician.getAddress() }}</td>
+          </tr>
+          <tr *ngIf="technician.location">
+            <th class="vertical-th">Operating Location</th>
+            <td>{{ technician.location }}</td>
+          </tr>
+          <tr *ngIf="technician.acredit_to_install">
+            <th class="vertical-th">Accreditted Skills</th>
+            <td>{{ technician.acredit_to_install }}</td>
+          </tr>
+          <tr *ngIf="technician.acredit_to_install">
+            <th class="vertical-th">Languages Spoken</th>
+            <td>{{ technician.acredit_to_install }}</td>
+          </tr>
+          <tr *ngIf="technician.datetime_created">
+            <th class="vertical-th">Joining Date</th>
+            <td>{{ technician.datetime_created | date }}</td>
+          </tr>
+          <tr *ngIf="jobs">
+            <th class="vertical-th">Jobs</th>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li class="p-0">
+      <app-jobs-table [enableModal]="true" [technicianId]="technician.id"></app-jobs-table>
+    </li>
+  </ul>
+</div>

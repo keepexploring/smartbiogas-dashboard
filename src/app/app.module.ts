@@ -45,6 +45,7 @@ import { NavTopComponent } from './components/nav-top/nav-top.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { MessagesComponent } from './components/messages/messages.component';
 import { MessageComponent } from './components/message/message.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { MessageComponent } from './components/message/message.component';
     NavTopComponent,
     MessagesComponent,
     MessageComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

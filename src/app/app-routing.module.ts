@@ -6,6 +6,8 @@ import { TechniciansComponent } from './components/technicians/technicians.compo
 import { JobsComponent } from './components/jobs/jobs.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { TechnicianDetailComponent } from './components/technician-detail/technician-detail.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -14,9 +16,15 @@ const routes: Routes = [
   },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'plants', component: PlantsComponent, canActivate: [AuthGuard] },
-  { path: 'technicians', component: TechniciansComponent, canActivate: [AuthGuard] },
+  {
+    path: 'technicians',
+    component: TechniciansComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'technicians/:id', component: TechnicianDetailComponent, canActivate: [AuthGuard] },
   { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

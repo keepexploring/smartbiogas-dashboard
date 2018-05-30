@@ -39,11 +39,15 @@ export class Technician extends User {
 
   static listFromResponse(response: HttpResponse<any>): Technician[] {
     return response.body.objects.map(technician => {
-      return Technician.fromResponse(technician);
+      return Technician.fromData(technician);
     });
   }
 
-  static fromResponse(data: any): Technician {
+  static fromResponse(response: any): Technician {
+    return Technician.fromData(response.body);
+  }
+
+  static fromData(data: any): Technician {
     let item = new this();
     item.id = data.id;
     item.technician_id = data.technician_details.technician_id;

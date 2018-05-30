@@ -4,6 +4,7 @@ import { Technician } from '../../models/technician';
 import { TechniciansService } from '../../services/technicians.service';
 import { ApiResponseMeta } from '../../models/api-response-meta';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-technicians-table',
@@ -25,7 +26,7 @@ export class TechniciansTableComponent implements OnInit {
   totalPages: number;
   order: boolean = true;
 
-  constructor(private techniciansService: TechniciansService) {}
+  constructor(private techniciansService: TechniciansService, private router: Router) {}
 
   ngOnInit() {
     this.getTechnicians();
@@ -47,6 +48,7 @@ export class TechniciansTableComponent implements OnInit {
   select(technician: Technician) {
     this.selected = technician;
     this.selectTechnician.emit(technician);
+    this.router.navigate(['technicians', technician.id]);
   }
 
   onPageChange(nextPage: number) {
@@ -60,6 +62,7 @@ export class TechniciansTableComponent implements OnInit {
   }
 
   getTechnicians() {
+    console.log('getting page', this.currentPage);
     this.techniciansService.get(this.currentPage);
   }
 }

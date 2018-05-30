@@ -1,6 +1,7 @@
 <table *ngIf="technicians" [class.table-hover]="selectable" class="table table-bordered mb-0">
   <thead class="bg-light">
     <tr>
+      <th scope="col">Id</th>
       <th scope="col" (click)="sortByName()">Name</th>
       <th class="d-xs-none" scope="col">Phone</th>
       <th class="d-xs-none" scope="col">Country</th>
@@ -8,8 +9,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let technician of technicians | paginate: { currentPage: currentPage, itemsPerPage: itemsPerPage }" (click)="select(technician)"
-      [class.bg-light]="selectable && selected == technician">
+    <tr *ngFor="let technician of technicians | paginate: { currentPage: currentPage, itemsPerPage: itemsPerPage }" routerLink="/technicians/{{technician.id}}">
+      <td class="small">{{ technician.id }}</td>
       <th scope="row">
         {{ technician.first_name ? technician.getFullName() : 'Unknown' }}
         <br>

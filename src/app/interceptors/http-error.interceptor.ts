@@ -15,22 +15,31 @@ import { Router } from '@angular/router';
 import { MessageService } from '../services/message.service';
 import { Message } from '../models/message';
 import { MessageType } from '../enums/message-type';
+import { NavigationHistoryService } from '../services/navigation-history.service';
 
 @Injectable()
-export class UnauthorisedInterceptor implements HttpInterceptor {
-  constructor(private auth: AuthService, private messageService: MessageService) {}
+export class HttpErrorInterceptor implements HttpInterceptor {
+  constructor(
+    private auth: AuthService,
+    private messageService: MessageService,
+    private router: Router,
+  ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status == 401) {
+        if (error.status === 401) {
           this.messageService.add(new Message('Please log in again', MessageType.Info));
           this.auth.logOut();
-          return empty();
-        } else {
-          throwError(error);
-          return empty();
         }
+
+        if (error.status === 404) {
+          this.messageService.add(new Message('NOT FOUND', MessageType.Danger));
+          this.router.navigate(['404']);
+        }
+
+        throwError(error);
+        return empty();
       }),
     );
   }

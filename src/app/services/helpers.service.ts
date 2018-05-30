@@ -27,19 +27,34 @@ export class HelpersService {
     }
 
     const updatedList = existing.map(itemInList => {
-      const itemReceived = itemsToUpdate.find(i => i.id === itemInList.id);
-      if (itemReceived) {
-        const receivedStr = JSON.stringify(itemReceived, Object.keys(itemReceived).sort());
-        const existingStr = JSON.stringify(itemInList, Object.keys(itemInList).sort());
-        if (receivedStr !== existingStr) {
-          itemInList = itemReceived;
-        }
-      }
-      return itemInList;
+      const i = itemsToUpdate.findIndex(i => i.id === itemInList.id);
+      return i === -1
+        ? itemInList
+        : this.areItemsEqual(itemsToUpdate[i], itemInList)
+          ? itemInList
+          : itemsToUpdate[i];
     });
 
     return updatedList;
   };
+
+  addOrUpdateItem = (received: any, existing: any[]) => {
+    const index = existing.findIndex(item => item.id === received.id);
+    if (index < 0) {
+      existing.push(received);
+    } else {
+      existing[index] = received;
+    }
+  };
+
+  areItemsEqual(received: any, existing: any) {
+    const receivedStr = JSON.stringify(received, Object.keys(received).sort());
+    const existingStr = JSON.stringify(existing, Object.keys(existing).sort());
+    if (receivedStr === existingStr) {
+      return true;
+    }
+    return false;
+  }
 
   handleResponseError(error: Response | any) {
     let errMsg: string = '';

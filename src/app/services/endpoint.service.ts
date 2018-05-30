@@ -9,8 +9,9 @@ export class EndpointService {
   token = this.baseUrl + 'o/token/';
   validateToken = this.fullApiEndpoint('validate/validate_code/');
 
-  technicians: { index } = {
+  technicians: { index; single } = {
     index: this.fullApiEndpoint(`users/?format=json&limit=${environment.apiPageLimit}`),
+    single: this.fullApiEndpoint(`users/`),
   };
 
   dashboard: { index } = {

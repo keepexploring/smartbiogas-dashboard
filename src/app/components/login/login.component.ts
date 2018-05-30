@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { DataService } from '../../services/data.service';
 import { Router } from '@angular/router';
+import { NavigationHistoryService } from '../../services/navigation-history.service';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +17,15 @@ export class LoginComponent implements OnInit {
   hasError = false;
   errorMessage: string;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private navigationHistory: NavigationHistoryService,
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.navigationHistory.clear();
+  }
 
   clearErrors() {
     if (this.hasError || this.errorMessage != '') {

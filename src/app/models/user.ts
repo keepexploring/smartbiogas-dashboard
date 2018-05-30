@@ -10,7 +10,19 @@ export class User {
   status: boolean;
 
   getFullName(): string {
-    return this.first_name + ' ' + this.last_name;
+    let name = '';
+    if (this.first_name) {
+      name = this.first_name;
+    }
+    if (this.last_name) {
+      name += ' ' + this.last_name;
+    }
+
+    if (name.length === 0) {
+      return 'Unknown Unknown';
+    }
+
+    return name;
   }
 
   getStatus(): string {

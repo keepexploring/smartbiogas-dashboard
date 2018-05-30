@@ -10,6 +10,7 @@ import {
 import { Plant } from '../../models/plant';
 import { HelpersService } from '../../services/helpers.service';
 import { PlantsService } from '../../services/plants.service';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-plants-map',
@@ -32,7 +33,7 @@ export class PlantsMapComponent implements OnInit, OnChanges {
 
   constructor(private service: PlantsService, private helpers: HelpersService) {}
 
-  mapStyles = this.helpers.mapStyles;
+  mapStyles = environment.mapStyles;
 
   select(plant: Plant) {
     this.selectedPlant = plant;

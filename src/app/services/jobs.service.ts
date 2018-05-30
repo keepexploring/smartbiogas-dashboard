@@ -32,7 +32,7 @@ export class JobsService {
   }
 
   private getEndpoint(page: number = 0, userId?: number, plantId?: number) {
-    let offset = this.helpers.getOffsetForPagination(page, this.itemsPerPage);
+    let offset = this.endpoints.getOffset(page, this.itemsPerPage);
     if (userId) {
       return this.endpoints.jobs.user + userId + offset;
     } else if (plantId) {

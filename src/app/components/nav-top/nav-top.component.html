@@ -3,6 +3,7 @@
     <img src="/assets/images/logo.png">
   </a>
   <input class="d-none form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+  <div class="w-100 text-white pl-4">{{title}}</div>
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
       <a class="nav-link nav-logout-link" *ngIf="isAuthenticated" (click)="logOut()">Log Out

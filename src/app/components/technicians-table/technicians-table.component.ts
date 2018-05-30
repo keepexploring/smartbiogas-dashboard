@@ -23,7 +23,6 @@ export class TechniciansTableComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = environment.defaultPaginationLimit;
   totalPages: number;
-
   order: boolean = true;
 
   constructor(private techniciansService: TechniciansService) {}
@@ -31,11 +30,11 @@ export class TechniciansTableComponent implements OnInit {
   ngOnInit() {
     this.getTechnicians();
 
-    this.techniciansService.technicians.subscribe(technicians => {
+    this.techniciansService.items.subscribe(technicians => {
       this.technicians = technicians;
     });
 
-    this.techniciansService.responseMeta.subscribe(responseMetadata => {
+    this.techniciansService.responseMetadata.subscribe(responseMetadata => {
       this.responseMetadata = responseMetadata;
       this.totalPages = Math.ceil(responseMetadata.totalItems / this.itemsPerPage);
     });
@@ -52,9 +51,7 @@ export class TechniciansTableComponent implements OnInit {
 
   onPageChange(nextPage: number) {
     this.currentPage = nextPage;
-    if (this.technicians.length < this.responseMetadata.totalItems) {
-      this.getTechnicians();
-    }
+    this.getTechnicians();
   }
 
   sortByName() {

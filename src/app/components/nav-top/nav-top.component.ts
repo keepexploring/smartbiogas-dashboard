@@ -10,6 +10,7 @@ import { ConnectionStatusService } from '../../services/connection-status.servic
 })
 export class NavTopComponent implements OnInit, OnChanges {
   @Input() isAuthenticated: boolean;
+  title: string = 'Test title';
 
   constructor(private auth: AuthService) {}
 

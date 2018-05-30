@@ -20,7 +20,7 @@ export class PlantsService {
   ) {}
 
   getPlants(page: number): Observable<Plant[]> {
-    let offset = this.helpers.getOffsetForPagination(page, this.itemsPerPage);
+    let offset = this.endpoints.getOffset(page, this.itemsPerPage);
     return this.http.get(this.endpoints.plants.index + offset).pipe(
       map(response => {
         this.totalItems = response['meta'] ? response['meta'].total_count : 0;

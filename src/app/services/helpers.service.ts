@@ -7,9 +7,39 @@ import { User } from '../models/user';
 import { TokenService } from './token.service';
 import { ApiResponseMeta } from '../models/api-response-meta';
 
+import { environment } from '../../environments/environment';
+
 @Injectable()
 export class HelpersService {
   constructor(private tokenService: TokenService) {}
+
+  handleUpdatesAndAdditions = (received: any[], existing: any[]): any[] => {
+    const added = existing.concat(received.filter(item => this.existsInList(item, existing)));
+    return this.updateExistingItems(received, added);
+  };
+
+  updateExistingItems = (received: any[], existing: any[]): any[] => {
+    let itemsToUpdate: any[] = [];
+    itemsToUpdate = received.filter(item => !this.existsInList(item, existing));
+
+    if (itemsToUpdate.length === 0) {
+      return existing;
+    }
+
+    const updatedList = existing.map(itemInList => {
+      const itemReceived = itemsToUpdate.find(i => i.id === itemInList.id);
+      if (itemReceived) {
+        const receivedStr = JSON.stringify(itemReceived, Object.keys(itemReceived).sort());
+        const existingStr = JSON.stringify(itemInList, Object.keys(itemInList).sort());
+        if (receivedStr !== existingStr) {
+          itemInList = itemReceived;
+        }
+      }
+      return itemInList;
+    });
+
+    return updatedList;
+  };
 
   handleResponseError(error: Response | any) {
     let errMsg: string = '';
@@ -28,19 +58,6 @@ export class HelpersService {
       }
     }
     return throwError(errMsg);
-  }
-
-  parseResponseMetadata(response: HttpResponse<any>, perPage?: number): ApiResponseMeta {
-    const responseMeta = response.body.meta;
-    const totalItems = responseMeta ? responseMeta.total_count : 0;
-    let itemsPerPage: number;
-    if (perPage) {
-      itemsPerPage = perPage;
-    } else {
-      itemsPerPage = responseMeta ? responseMeta.limit : 0;
-    }
-
-    return new ApiResponseMeta(totalItems, itemsPerPage);
   }
 
   parseContactFromJsonData(contactData: {
@@ -69,104 +86,21 @@ export class HelpersService {
     return contact;
   }
 
-  getOffsetForPagination(page: number, itemsPerPage: number): string {
-    page = page - 1;
-    const offset = '&offset=' + page * itemsPerPage;
-    return offset;
-  }
-
   calculateTotalApiPages(totalItems: number, itemsPerPage: number): number {
     console.log('TODO [helpers calculateTotalApiPages]: Use the one in model instead');
     return Math.ceil(totalItems / itemsPerPage);
   }
 
-  mapStyles = [
-    {
-      featureType: 'administrative',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#444444',
-        },
-      ],
-    },
-    {
-      featureType: 'landscape',
-      elementType: 'all',
-      stylers: [
-        {
-          color: '#f2f2f2',
-        },
-      ],
-    },
-    {
-      featureType: 'poi',
-      elementType: 'all',
-      stylers: [
-        {
-          visibility: 'off',
-        },
-      ],
-    },
-    {
-      featureType: 'road',
-      elementType: 'all',
-      stylers: [
-        {
-          saturation: -100,
-        },
-        {
-          lightness: 45,
-        },
-      ],
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'all',
-      stylers: [
-        {
-          visibility: 'simplified',
-        },
-      ],
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'geometry.fill',
-      stylers: [
-        {
-          color: '#ffffff',
-        },
-      ],
-    },
-    {
-      featureType: 'road.arterial',
-      elementType: 'labels.icon',
-      stylers: [
-        {
-          visibility: 'off',
-        },
-      ],
-    },
-    {
-      featureType: 'transit',
-      elementType: 'all',
-      stylers: [
-        {
-          visibility: 'off',
-        },
-      ],
-    },
-    {
-      featureType: 'water',
-      elementType: 'all',
-      stylers: [
-        {
-          color: '#dde6e8',
-        },
-        {
-          visibility: 'on',
-        },
-      ],
-    },
-  ];
+  existsInList(item, existing: any[]): boolean {
+    return existing.find(t => t.id === item.id) === undefined;
+  }
+
+  prefetch(totalPages: number, page: number, callback: Function) {
+    if (totalPages <= environment.apiPagesToPrefetch) {
+      const newPage = page + 1;
+      if (newPage <= totalPages) {
+        callback(page + 1);
+      }
+    }
+  }
 }

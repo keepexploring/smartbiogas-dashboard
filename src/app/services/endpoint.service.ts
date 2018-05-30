@@ -29,6 +29,12 @@ export class EndpointService {
 
   constructor() {}
 
+  getOffset(page: number, itemsPerPage: number): string {
+    page = page - 1;
+    const offset = '&offset=' + page * itemsPerPage;
+    return offset;
+  }
+
   private fullApiEndpoint(path): string {
     return this.baseUrl + this.basePath + path;
   }

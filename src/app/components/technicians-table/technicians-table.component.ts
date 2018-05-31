@@ -26,6 +26,9 @@ export class TechniciansTableComponent implements OnInit {
   totalPages: number;
   order: boolean = true;
 
+  itemCount: number = 0;
+  totalCount: number = 0;
+
   constructor(private techniciansService: TechniciansService, private router: Router) {}
 
   ngOnInit() {
@@ -33,11 +36,16 @@ export class TechniciansTableComponent implements OnInit {
 
     this.techniciansService.items.subscribe(technicians => {
       this.technicians = technicians;
+      this.itemCount = technicians.length;
     });
 
     this.techniciansService.responseMetadata.subscribe(responseMetadata => {
+      console.log(responseMetadata);
       this.responseMetadata = responseMetadata;
       this.totalPages = Math.ceil(responseMetadata.totalItems / this.itemsPerPage);
+      if (responseMetadata.isRemote) {
+        this.totalCount = responseMetadata.totalItems;
+      }
     });
 
     this.techniciansService.loading.subscribe(loading => {
@@ -62,7 +70,6 @@ export class TechniciansTableComponent implements OnInit {
   }
 
   getTechnicians() {
-    console.log('getting page', this.currentPage);
     this.techniciansService.get(this.currentPage);
   }
 }

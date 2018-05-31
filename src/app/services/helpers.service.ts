@@ -13,20 +13,37 @@ import { environment } from '../../environments/environment';
 export class HelpersService {
   constructor(private tokenService: TokenService) {}
 
-  handleUpdatesAndAdditions = (received: any[], existing: any[]): any[] => {
-    const added = existing.concat(received.filter(item => this.existsInList(item, existing)));
-    return this.updateExistingItems(received, added);
+  handleUpdatesAndAdditions = (received: any, list: any[]): any[] => {
+    list = list instanceof Array ? list : [];
+    list = this.addToList(received, list);
+    list = this.updateList(received, list);
+    return list;
   };
 
-  updateExistingItems = (received: any[], existing: any[]): any[] => {
-    let itemsToUpdate: any[] = [];
-    itemsToUpdate = received.filter(item => !this.existsInList(item, existing));
+  addToList = (received: any, list: any[]) => {
+    if (!(received instanceof Array) && !this.inList(received, list)) {
+      list.push(received);
+      return list;
+    }
+    return list.concat(received.filter(item => !this.inList(item, list)));
+  };
 
-    if (itemsToUpdate.length === 0) {
-      return existing;
+  updateList = (received: any, list: any[]): any[] => {
+    if (!(received instanceof Array)) {
+      if (this.inList(received, list) && !this.areItemsEqual(received, list)) {
+        const index = list.findIndex(i => i.id === received.id);
+        list[index] = received;
+      }
+      return list;
     }
 
-    const updatedList = existing.map(itemInList => {
+    const itemsToUpdate: any[] = received.filter(item => this.inList(item, list)) || [];
+
+    if (itemsToUpdate.length === 0) {
+      return list;
+    }
+
+    return list.map(itemInList => {
       const i = itemsToUpdate.findIndex(i => i.id === itemInList.id);
       return i === -1
         ? itemInList
@@ -34,26 +51,20 @@ export class HelpersService {
           ? itemInList
           : itemsToUpdate[i];
     });
-
-    return updatedList;
   };
 
-  addOrUpdateItem = (received: any, existing: any[]) => {
-    const index = existing.findIndex(item => item.id === received.id);
-    if (index < 0) {
-      existing.push(received);
-    } else {
-      existing[index] = received;
-    }
-  };
-
-  areItemsEqual(received: any, existing: any) {
+  private areItemsEqual(received: any, existing: any) {
     const receivedStr = JSON.stringify(received, Object.keys(received).sort());
     const existingStr = JSON.stringify(existing, Object.keys(existing).sort());
     if (receivedStr === existingStr) {
       return true;
     }
     return false;
+  }
+
+  private inList(received: any, list: any[]): boolean {
+    const index = list.findIndex(t => t.id === received.id);
+    return index > -1;
   }
 
   handleResponseError(error: Response | any) {
@@ -104,10 +115,6 @@ export class HelpersService {
   calculateTotalApiPages(totalItems: number, itemsPerPage: number): number {
     console.log('TODO [helpers calculateTotalApiPages]: Use the one in model instead');
     return Math.ceil(totalItems / itemsPerPage);
-  }
-
-  existsInList(item, existing: any[]): boolean {
-    return existing.find(t => t.id === item.id) === undefined;
   }
 
   prefetch(totalPages: number, page: number, callback: Function) {

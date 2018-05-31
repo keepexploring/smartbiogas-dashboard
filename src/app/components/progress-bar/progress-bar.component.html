@@ -1,0 +1,4 @@
+<div class="progress" style="height: 2px;" *ngIf="percentage !== 100">
+  <div class="progress-bar bg-success progress-bar-animated" role="progressbar" [style.width]="percentage + '%'" [attr.aria-valuenow]="percentage"
+    [attr.aria-valuemin]="'0'" [attr.aria-valuemax]="'100'"></div>
+</div>

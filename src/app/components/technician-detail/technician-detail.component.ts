@@ -52,13 +52,9 @@ export class TechnicianDetailComponent implements OnInit, OnChanges, OnDestroy {
         this.technician = techFound;
         return;
       }
+
       this.techniciansService.fetchTechnician(id);
       return;
     });
-  }
-
-  checkImage(event: any) {
-    console.log('TODO: Move checkImage into a directive or user image into a component');
-    event.target.src = '/assets/images/missing-user-photo.svg';
   }
 }

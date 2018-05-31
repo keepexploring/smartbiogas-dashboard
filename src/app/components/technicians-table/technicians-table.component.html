@@ -1,8 +1,11 @@
-<table *ngIf="technicians" [class.table-hover]="selectable" class="table table-bordered mb-0">
+<app-view-header title="Technicians" [count]="itemCount" [total]="totalCount" [loading]="loading"></app-view-header>
+<table *ngIf="technicians" [class.table-hover]="selectable" class="table mb-0">
   <thead class="bg-light">
     <tr>
-      <th scope="col">Id</th>
+      <!-- <th scope="col">Id</th> -->
+      <th scope="col"></th>
       <th scope="col" (click)="sortByName()">Name</th>
+      <th scope="col">Status</th>
       <th class="d-xs-none" scope="col">Phone</th>
       <th class="d-xs-none" scope="col">Country</th>
       <th class="d-xs-none" scope="col">Jobs</th>
@@ -10,12 +13,18 @@
   </thead>
   <tbody>
     <tr *ngFor="let technician of technicians | paginate: { currentPage: currentPage, itemsPerPage: itemsPerPage }" routerLink="/technicians/{{technician.id}}">
-      <td class="small">{{ technician.id }}</td>
-      <th scope="row">
-        {{ technician.first_name ? technician.getFullName() : 'Unknown' }}
-        <br>
+      <td>{{ technician.id }}</td>
+      <!-- <td class="p-0">
+        <app-image [src]="technician.user_photo" [alt]="technician.fullName()" [classes]="" style="height: 44px; width: 44px;"></app-image>
+      </td> -->
+      <td scope="row">
+        <h6 class="mb-0">
+          <b>{{ technician.fullName() }}</b>
+        </h6>
+      </td>
+      <td>
         <app-technician-status [size]="'small'" [status]="technician.status"></app-technician-status>
-      </th>
+      </td>
       <td class="d-xs-none small">{{ technician.phone_number }}</td>
       <td class="d-xs-none">{{ technician.country ? technician.country : 'Unknown' }}</td>
       <td class="d-xs-none">{{ technician.number_jobs_active }}</td>

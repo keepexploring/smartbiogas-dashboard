@@ -1,0 +1,2 @@
+<app-loading *ngIf="loading" [hideText]="true"></app-loading>
+<img [src]="src" [alt]="alt" (error)="onError($event)" (load)="onLoad($event)" [class]="classes" [hidden]="loading" />

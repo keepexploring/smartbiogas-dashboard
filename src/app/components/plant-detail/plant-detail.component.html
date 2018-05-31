@@ -1,6 +1,6 @@
 <ul class="list-group list-group-flush">
   <li class="list-group-item p-0">
-      <table class="table table-bordered mb-0">
+    <table class="table table-bordered mb-0">
       <tbody>
         <tr *ngIf="plant.id">
           <th class="vertical-th">ID</th>
@@ -9,7 +9,7 @@
         <tr *ngIf="plant.current_status">
           <th class="vertical-th">Status</th>
           <td>
-              <app-plant-status [size]="'small'" [status]="plant.current_status"></app-plant-status>
+            <app-plant-status [size]="'small'" [status]="plant.current_status"></app-plant-status>
           </td>
         </tr>
         <tr *ngIf="plant.sensor_status">
@@ -21,13 +21,13 @@
         <tr>
           <th class="vertical-th">Owner</th>
           <td>
-            {{ plant.getOwner() ? plant.getOwner().getFullName() : '' }}
+            {{ plant.owner ? plant.owner.fullName(): 'Unknown' }}
           </td>
         </tr>
         <tr>
           <th class="vertical-th">Phone Number</th>
           <td>
-            {{ plant.getOwner() ? plant.getOwner().phone_number : '' }}
+            {{ plant.owner ? plant.owner.phone_number : 'Unknown' }}
           </td>
         </tr>
         <tr *ngIf="plant.what3words">

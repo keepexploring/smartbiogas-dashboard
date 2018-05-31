@@ -1,31 +1,27 @@
+import { EndpointService } from '../services/endpoint.service';
+import { Subject } from 'rxjs';
+
 export class User {
   id: number;
-  company_name: string;
-  contact_type: string;
   first_name: string;
   last_name: string;
-  full_name: string = this.getFullName();
   phone_number: string;
-  role: string;
   status: boolean;
+  company_name: string;
+  contact_type: string;
+  email: string;
+  resource_uri: string;
 
-  getFullName(): string {
-    let name = '';
-    if (this.first_name) {
-      name = this.first_name;
-    }
-    if (this.last_name) {
-      name += ' ' + this.last_name;
-    }
+  role: string;
 
-    if (name.length === 0) {
-      return 'Unknown Unknown';
-    }
-
-    return name;
+  constructor(private user?: Partial<User>) {
+    Object.assign(this, user);
+    this.resource_uri = this.resource_uri ? EndpointService.baseUri + this.resource_uri : '';
   }
 
-  getStatus(): string {
-    return this.status ? 'Active' : 'Inactive';
-  }
+  fullName = (): string => {
+    const first: string = this.first_name ? this.first_name : 'Unknown';
+    const last: string = this.last_name ? this.last_name : 'Unknown';
+    return `${first} ${last}`;
+  };
 }

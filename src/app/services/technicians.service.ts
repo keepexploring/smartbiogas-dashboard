@@ -48,11 +48,19 @@ export class TechniciansService {
         tap((response: HttpResponse<any>) =>
           this.responseMetadata.next(ApiResponseMeta.fromResponse(response)),
         ),
-        tap(
-          () => this.helpers.prefetch(this.responseMetadata.getValue().totalPages, page, this.get),
-          // console.log('TODO: Activate prefetch'),
-        ),
-        map(Technician.listFromResponse),
+        tap(() => {
+          let pagesToPrefetch: number = 5;
+
+          if (
+            this.responseMetadata.getValue().isRemote &&
+            this.responseMetadata.getValue().totalPages > 1
+          ) {
+            this.helpers.prefetch(this.responseMetadata.getValue().totalPages, page, this.get);
+          } else {
+            this.helpers.prefetch(pagesToPrefetch, page, this.get);
+          }
+        }),
+        map(Technician.fromResponse),
         map((received, existing) => {
           return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
         }),
@@ -70,9 +78,14 @@ export class TechniciansService {
     return this.http
       .get(this.endpoints.technicians.single + id + '/', { observe: 'response' })
       .pipe(
+        tap(() => {
+          if (this.items.getValue().length === 0) {
+            this.helpers.prefetch(1, 0, this.get);
+          }
+        }),
         map(Technician.fromResponse),
         map((received, existing) => {
-          return this.helpers.handleUpdatesAndAdditions([received], this.items.getValue());
+          return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
         }),
         tap(items => this.items.next(items)),
         catchError(this.handleNotFound),

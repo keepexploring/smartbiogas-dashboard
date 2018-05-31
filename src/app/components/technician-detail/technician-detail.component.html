@@ -4,11 +4,10 @@
     <li class="list-group-item border-top border-right border-left">
       <div class="row">
         <div class="col-sm-3">
-          <img [src]="technician.user_photo ? technician.user_photo : '/assets/images/missing-user-photo.svg'" [alt]="technician.full_name"
-            (error)="checkImage($event)" class="user-photo">
+          <app-image [src]="technician.user_photo" [alt]="technician.fullName()" [classes]="user-photo"></app-image>
         </div>
         <div class="col-sm-9 d-flex flex-column justify-content-sm-center">
-          <h1 class="h5">{{ technician.full_name }}</h1>
+          <h1 class="h5">{{ technician.fullName() }}</h1>
           <h2 class="h6 text-muted">{{ technician.country ? technician.country : 'Unknown Country' }}</h2>
           <app-technician-status [size]="'small'" [status]="technician.status"></app-technician-status>
         </div>
@@ -22,9 +21,9 @@
             <th class="vertical-th">ID</th>
             <td>{{ technician.id }}</td>
           </tr>
-          <tr *ngIf="technician.full_name">
+          <tr *ngIf="technician.fullName()">
             <th class="vertical-th">Name</th>
-            <td>{{ technician.full_name }}</td>
+            <td>{{ technician.fullName() }}</td>
           </tr>
           <tr *ngIf="technician.phone_number">
             <th class="vertical-th">Phone Number</th>
@@ -42,9 +41,9 @@
             <th class="vertical-th">Accreditted Skills</th>
             <td>{{ technician.acredit_to_install }}</td>
           </tr>
-          <tr *ngIf="technician.acredit_to_install">
+          <tr *ngIf="technician.languages_spoken">
             <th class="vertical-th">Languages Spoken</th>
-            <td>{{ technician.acredit_to_install }}</td>
+            <td>{{ technician.languages_spoken }}</td>
           </tr>
           <tr *ngIf="technician.datetime_created">
             <th class="vertical-th">Joining Date</th>

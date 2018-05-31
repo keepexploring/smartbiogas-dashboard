@@ -3,10 +3,12 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class EndpointService {
-  private baseUrl = environment.baseUrl;
-  private basePath = 'api/v1/';
+  private static baseUrl = environment.baseUrl;
+  private static basePath = 'api/v1/';
 
-  token = this.baseUrl + 'o/token/';
+  public static baseUri = EndpointService.baseUrl + EndpointService.basePath;
+
+  token = EndpointService.baseUrl + 'o/token/';
   validateToken = this.fullApiEndpoint('validate/validate_code/');
 
   technicians: { index; single } = {
@@ -28,8 +30,6 @@ export class EndpointService {
     plant: this.fullApiEndpoint(`jobs/?limit=${environment.apiPageLimit}&plant__id=`),
   };
 
-  constructor() {}
-
   getOffset(page: number, itemsPerPage: number): string {
     page = page - 1;
     const offset = '&offset=' + page * itemsPerPage;
@@ -37,6 +37,6 @@ export class EndpointService {
   }
 
   private fullApiEndpoint(path): string {
-    return this.baseUrl + this.basePath + path;
+    return EndpointService.baseUri + path;
   }
 }

@@ -46,6 +46,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { MessagesComponent } from './components/messages/messages.component';
 import { MessageComponent } from './components/message/message.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ImageComponent } from './components/image/image.component';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     MessagesComponent,
     MessageComponent,
     NotFoundComponent,
+    ImageComponent,
+    ProgressBarComponent,
   ],
   imports: [
     BrowserModule,

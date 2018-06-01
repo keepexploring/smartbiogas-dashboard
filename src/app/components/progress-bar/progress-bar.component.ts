@@ -12,7 +12,7 @@ export class ProgressBarComponent implements OnInit, OnChanges {
 
   percentage: number;
   updated: moment.Moment;
-  ago: string;
+  status: string = 'Loading';
 
   constructor() {}
 
@@ -36,7 +36,9 @@ export class ProgressBarComponent implements OnInit, OnChanges {
   getDate() {
     if (this.percentage === 100) {
       this.updated = moment();
-      this.ago = this.updated.fromNow();
+      this.status = 'Updated' + this.updated.fromNow();
+    } else {
+      this.status = 'Loading';
     }
   }
 }

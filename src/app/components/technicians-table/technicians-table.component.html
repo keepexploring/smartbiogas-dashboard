@@ -1,5 +1,4 @@
-<app-view-header title="Technicians" [count]="itemCount" [total]="totalCount" [loading]="loading" [loadingMeta]="loadingMeta"
-  (refresh)="handleRefresh()" (fetch)="handleFetch()"></app-view-header>
+<app-technicians-header [title]="'Technicians'"></app-technicians-header>
 
 
 <div class="list-table-header d-flex justify-content-between">
@@ -20,7 +19,7 @@
   <thead class="sticky-top">
     <tr>
       <th class="d-none d-sm-table-cell" scope="col">ID</th>
-      <th class="d-none d-sm-table-cell" scope="col" (click)="sortByName()">Name</th>
+      <th class="d-none d-sm-table-cell" scope="col">Name</th>
       <th class="d-none d-sm-table-cell" scope="col">Status</th>
       <th class="d-none d-sm-table-cell" scope="col">Country</th>
       <th class="d-none d-sm-table-cell" scope="col">Phone</th>

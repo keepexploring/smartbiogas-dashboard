@@ -4,9 +4,9 @@
       [style.width]="percentage + '%'" [attr.aria-valuenow]="percentage" [attr.aria-valuemin]="'0'" [attr.aria-valuemax]="'100'"></div>
   </div>
   <div class="text-muted small progress-update-percentage" *ngIf="percentage != 100">
-    {{percentage}}%
+    {{percentage + '%' || 0 + '%' || status}}
   </div>
   <div class="text-muted small progress-update-date" *ngIf="percentage == 100">
-    <small>Updated {{ago}}</small>
+    <small>{{status}}</small>
   </div>
 </div>

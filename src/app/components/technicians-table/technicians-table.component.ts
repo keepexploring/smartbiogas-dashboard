@@ -35,7 +35,7 @@ export class TechniciansTableComponent implements OnInit {
   constructor(private techniciansService: TechniciansService, private router: Router) {}
 
   ngOnInit() {
-    this.getTechnicians();
+    this.techniciansService.get(this.currentPage);
 
     this.techniciansService.items.subscribe(technicians => {
       this.technicians = technicians;
@@ -56,36 +56,11 @@ export class TechniciansTableComponent implements OnInit {
     });
   }
 
-  select(technician: Technician) {
-    this.selected = technician;
-    this.selectTechnician.emit(technician);
-    this.router.navigate(['technicians', technician.id]);
-  }
-
   onPageChange(nextPage: number) {
     this.currentPage = nextPage;
-    this.getTechnicians();
-  }
-
-  sortByName() {
-    this.techniciansService.sortResultsByName(this.order ? 'asc' : 'desc');
-    this.order = !this.order;
-  }
-
-  getTechnicians() {
-    this.techniciansService.get(this.currentPage);
   }
 
   setDensity(density) {
     this.density = density;
-  }
-
-  handleRefresh() {
-    console.log('handleRefresh');
-    this.techniciansService.refresh();
-  }
-  handleFetch() {
-    console.log('handleFetch');
-    this.techniciansService.fetch();
   }
 }

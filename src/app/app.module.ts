@@ -48,6 +48,7 @@ import { MessageComponent } from './components/message/message.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ImageComponent } from './components/image/image.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
+import { TechniciansHeaderComponent } from './components/technicians-header/technicians-header.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
     NotFoundComponent,
     ImageComponent,
     ProgressBarComponent,
+    TechniciansHeaderComponent,
   ],
   imports: [
     BrowserModule,

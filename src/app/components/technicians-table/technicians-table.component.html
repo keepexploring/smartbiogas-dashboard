@@ -1,8 +1,11 @@
 <app-technicians-header [title]="'Technicians'"></app-technicians-header>
 
-
 <div class="list-table-header d-flex justify-content-between">
-  <div></div>
+  <div>
+    <button class="btn btn-sm btn-link text-muted" routerLink="/technicians/create">Add
+      <i-plus-square></i-plus-square>
+    </button>
+  </div>
   <div>
     <button class="btn-icon pre-header-button" [class.active]="density=='default'" (click)="setDensity('default')" data-toggle="tooltip"
       data-placement="top" title="Default">

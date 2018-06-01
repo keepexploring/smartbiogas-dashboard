@@ -15,6 +15,7 @@ import {
   IconRefreshCw,
   IconChevronsRight,
   IconDownloadCloud,
+  IconPlusSquare,
 } from 'angular-feather';
 
 const icons = [
@@ -33,6 +34,7 @@ const icons = [
   IconRefreshCw,
   IconChevronsRight,
   IconDownloadCloud,
+  IconPlusSquare,
 ];
 
 @NgModule({

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
@@ -49,6 +49,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ImageComponent } from './components/image/image.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 import { TechniciansHeaderComponent } from './components/technicians-header/technicians-header.component';
+import { TechnicianFormComponent } from './components/technician-form/technician-form.component';
 
 @NgModule({
   declarations: [
@@ -79,10 +80,12 @@ import { TechniciansHeaderComponent } from './components/technicians-header/tech
     ImageComponent,
     ProgressBarComponent,
     TechniciansHeaderComponent,
+    TechnicianFormComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,

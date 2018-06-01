@@ -1,0 +1,47 @@
+<app-technicians-header [title]="'Add Technician'"></app-technicians-header>
+
+<div class="card">
+  <div class="card-body">
+
+    <form [formGroup]="technicianForm">
+
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" formControlName="firstName">
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" formControlName="lastName">
+      </div>
+
+
+
+
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+
+    </form>
+
+    <b>Form value:</b>
+    <pre>{{ technicianForm.value | json }}</pre>
+    <b>Value:</b>
+    <pre>{{technicianForm.get('firstName').value}}</pre>
+    <b>Status:</b>
+    <pre>{{technicianForm.get('firstName').status}}</pre>
+    <b>Pristine:</b>
+    <pre>{{technicianForm.get('firstName').pristine}}</pre>
+    <b>Dirty:</b>
+    <pre>{{technicianForm.get('firstName').dirty}}</pre>
+    <b>Untouched:</b>
+    <pre>{{technicianForm.get('firstName').untouched}}</pre>
+    <b>Touched:</b>
+    <pre>{{technicianForm.get('firstName').touched}}</pre>
+
+    <br>Form status:
+    <pre>{{ technicianForm.status | json }}</pre>
+
+  </div>
+</div>

@@ -8,6 +8,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { TechnicianDetailComponent } from './components/technician-detail/technician-detail.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { TechnicianFormComponent } from './components/technician-form/technician-form.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,9 @@ const routes: Routes = [
     component: TechniciansComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'technicians/create', component: TechnicianFormComponent, canActivate: [AuthGuard] },
   { path: 'technicians/:id', component: TechnicianDetailComponent, canActivate: [AuthGuard] },
+  { path: 'technicians/:id/edit', component: TechnicianFormComponent, canActivate: [AuthGuard] },
   { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },

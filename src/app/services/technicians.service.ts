@@ -11,14 +11,21 @@ import { identifierModuleUrl } from '@angular/compiler';
 import { MessageService } from './message.service';
 import { Message } from '../models/message';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
+import { MessageType } from '../enums/message-type';
 
 @Injectable()
 export class TechniciansService {
   responseMetadata: BehaviorSubject<ApiResponseMeta> = new BehaviorSubject<ApiResponseMeta>(
     new ApiResponseMeta(),
   );
-  loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loadingSingle: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   items: BehaviorSubject<Array<Technician>> = new BehaviorSubject<Array<Technician>>([]);
+
+  limit: number = environment.apiPagesToPrefetch;
+
+  private fetching: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -32,33 +39,17 @@ export class TechniciansService {
     const count = this.items.getValue().length;
     const total = this.responseMetadata.getValue().totalItems;
 
-    if (count >= total) {
-      return;
-    }
+    this.loading.next(true);
 
     const endpoint =
       this.endpoints.technicians.index +
       this.endpoints.getOffset(page, this.responseMetadata.getValue().itemsPerPage);
 
-    this.loading.next(true);
-
     this.http
       .get(endpoint, { observe: 'response' })
       .pipe(
-        tap((response: HttpResponse<any>) =>
-          this.responseMetadata.next(ApiResponseMeta.fromResponse(response)),
-        ),
-        tap(() => {
-          let pagesToPrefetch: number = 5;
-
-          if (
-            this.responseMetadata.getValue().isRemote &&
-            this.responseMetadata.getValue().totalPages > 1
-          ) {
-            this.helpers.prefetch(this.responseMetadata.getValue().totalPages, page, this.get);
-          } else {
-            this.helpers.prefetch(pagesToPrefetch, page, this.get);
-          }
+        tap((response: HttpResponse<any>) => {
+          return this.responseMetadata.next(ApiResponseMeta.fromResponse(response));
         }),
         map(Technician.fromResponse),
         map((received, existing) => {
@@ -66,21 +57,29 @@ export class TechniciansService {
         }),
         tap(items => this.items.next(items)),
         catchError(this.helpers.handleResponseError),
-        tap(() => this.loading.next(false)),
       )
-      .subscribe();
+      .subscribe(
+        success => {
+          this.prefetch(page);
+        },
+        null,
+        () => this.loading.next(false),
+      );
   };
 
   fetchTechnician(id: number) {
     if (isNaN(id)) {
       this.handleNotFound('Not a valid ID');
     }
-    return this.http
+    this.loadingSingle.next(true);
+    this.http
       .get(this.endpoints.technicians.single + id + '/', { observe: 'response' })
       .pipe(
-        tap(() => {
-          if (this.items.getValue().length === 0) {
-            this.helpers.prefetch(1, 0, this.get);
+        tap((response: HttpResponse<any>) => {
+          console.log('SINGLE', response);
+          if (this.items.getValue().length < 2) {
+            console.log('PREFETCH FROM SINGLE');
+            this.prefetch(0);
           }
         }),
         map(Technician.fromResponse),
@@ -89,13 +88,55 @@ export class TechniciansService {
         }),
         tap(items => this.items.next(items)),
         catchError(this.handleNotFound),
-        tap(() => this.loading.next(false)),
       )
-      .subscribe(null, this.handleNotFound);
+      .subscribe(null, this.handleNotFound, () => {
+        this.loadingSingle.next(false);
+        this.loading.next(false);
+      });
+  }
+
+  private prefetch(page: number) {
+    if (this.fetching) {
+      return;
+    }
+
+    const meta: ApiResponseMeta = this.responseMetadata.getValue();
+    const nextPage: number = page + 1;
+    let limit: number = this.limit;
+
+    if (page >= this.limit) {
+      this.fetching = true;
+      this.loading.next(false);
+      return; // No more pages to prefetch
+    }
+
+    this.get(nextPage);
+    return; // already fetching
+  }
+
+  refresh() {
+    console.log('service refresh');
+    const meta = this.responseMetadata.getValue();
+    this.limit = meta.pageFetched;
+    this.fetching = false;
+
+    meta.totalItems = 0;
+    meta.pageFetched = 0;
+    this.responseMetadata.next(meta);
+
+    this.prefetch(0);
+  }
+
+  fetch() {
+    const meta = this.responseMetadata.getValue();
+    if (meta.totalPages > meta.pageFetched) {
+      this.limit = meta.pageFetched + environment.apiPagesToPrefetch;
+      this.fetching = false;
+      this.prefetch(meta.pageFetched);
+    }
   }
 
   handleNotFound(err: any) {
-    console.log(err);
     this.messageService.notFound();
     this.router.navigate(['/technicians']);
     this.loading.next(false);

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-progress-bar',
@@ -10,6 +11,8 @@ export class ProgressBarComponent implements OnInit, OnChanges {
   @Input() total: number;
 
   percentage: number;
+  updated: moment.Moment;
+  ago: string;
 
   constructor() {}
 
@@ -26,6 +29,14 @@ export class ProgressBarComponent implements OnInit, OnChanges {
 
   private calculatePercentage(current: number, total: number): void {
     this.percentage = this.current / this.total;
-    this.percentage = this.percentage * 100;
+    this.percentage = Math.round(this.percentage * 100);
+    this.getDate();
+  }
+
+  getDate() {
+    if (this.percentage === 100) {
+      this.updated = moment();
+      this.ago = this.updated.fromNow();
+    }
   }
 }

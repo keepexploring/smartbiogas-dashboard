@@ -28,8 +28,8 @@ export class TechnicianDetailComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.getTechnician();
-    this.techniciansService.loading.subscribe(loading => {
-      this.loading = loading;
+    this.techniciansService.loadingSingle.subscribe(loadingSingle => {
+      this.loading = loadingSingle;
     });
   }
 

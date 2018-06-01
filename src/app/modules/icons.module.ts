@@ -1,5 +1,21 @@
 import { NgModule } from '@angular/core';
-import { IconLayers, IconCompass, IconUsers, IconTruck, IconLogIn, IconLogOut, IconList, IconMap, IconArrowRight, IconArrowLeft } from 'angular-feather';
+import {
+  IconLayers,
+  IconCompass,
+  IconUsers,
+  IconTruck,
+  IconLogIn,
+  IconLogOut,
+  IconList,
+  IconMap,
+  IconArrowRight,
+  IconArrowLeft,
+  IconAlignJustify,
+  IconMenu,
+  IconRefreshCw,
+  IconChevronsRight,
+  IconDownloadCloud,
+} from 'angular-feather';
 
 const icons = [
   IconLayers,
@@ -11,11 +27,15 @@ const icons = [
   IconList,
   IconMap,
   IconArrowRight,
-  IconArrowLeft
+  IconArrowLeft,
+  IconAlignJustify,
+  IconMenu,
+  IconRefreshCw,
+  IconChevronsRight,
+  IconDownloadCloud,
 ];
 
 @NgModule({
-  exports: icons
+  exports: icons,
 })
-
-export class IconsModule { }
+export class IconsModule {}

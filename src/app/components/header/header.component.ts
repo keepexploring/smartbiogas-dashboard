@@ -1,14 +1,26 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'app-view-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.sass'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges {
+  @Output() refresh: EventEmitter<any> = new EventEmitter<any>();
+  @Output() fetch: EventEmitter<any> = new EventEmitter<any>();
+
   @Input() title: string;
 
   @Input() loading: boolean;
+  @Input() loadingMeta: boolean;
 
   @Input() count: number;
   @Input() total: number;
@@ -20,5 +32,28 @@ export class HeaderComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('HeaderComponent INIT: loading', this.loading);
+    console.log('HeaderComponent INIT: loadingMeta', this.loadingMeta);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.loading) {
+      console.log('Loading', changes.loading.currentValue);
+      this.loading = changes.loading.currentValue;
+    }
+    if (changes.loadingMeta) {
+      console.log('LoadingMeta', changes.loadingMeta.currentValue);
+      this.loadingMeta = changes.loadingMeta.currentValue;
+    }
+  }
+
+  requestRefresh() {
+    console.log('refresh');
+    this.refresh.emit();
+  }
+  requestFetch() {
+    console.log('fetch');
+    this.fetch.emit();
+  }
 }

@@ -1,4 +1,4 @@
-import { throwError } from 'rxjs';
+import { throwError, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
@@ -115,14 +115,5 @@ export class HelpersService {
   calculateTotalApiPages(totalItems: number, itemsPerPage: number): number {
     console.log('TODO [helpers calculateTotalApiPages]: Use the one in model instead');
     return Math.ceil(totalItems / itemsPerPage);
-  }
-
-  prefetch(totalPages: number, page: number, callback: Function) {
-    if (totalPages <= environment.apiPagesToPrefetch) {
-      const newPage = page + 1;
-      if (newPage <= totalPages) {
-        callback(page + 1);
-      }
-    }
   }
 }

@@ -18,6 +18,7 @@ export class TechniciansTableComponent implements OnInit {
   technicians: Technician[];
   responseMetadata: ApiResponseMeta;
   loading: boolean;
+  loadingMeta: boolean = true;
 
   selected: Technician;
 
@@ -28,6 +29,8 @@ export class TechniciansTableComponent implements OnInit {
 
   itemCount: number = 0;
   totalCount: number = 0;
+
+  density: 'default' | 'condensed' = 'default';
 
   constructor(private techniciansService: TechniciansService, private router: Router) {}
 
@@ -40,11 +43,11 @@ export class TechniciansTableComponent implements OnInit {
     });
 
     this.techniciansService.responseMetadata.subscribe(responseMetadata => {
-      console.log(responseMetadata);
       this.responseMetadata = responseMetadata;
       this.totalPages = Math.ceil(responseMetadata.totalItems / this.itemsPerPage);
       if (responseMetadata.isRemote) {
         this.totalCount = responseMetadata.totalItems;
+        this.loadingMeta = false;
       }
     });
 
@@ -71,5 +74,18 @@ export class TechniciansTableComponent implements OnInit {
 
   getTechnicians() {
     this.techniciansService.get(this.currentPage);
+  }
+
+  setDensity(density) {
+    this.density = density;
+  }
+
+  handleRefresh() {
+    console.log('handleRefresh');
+    this.techniciansService.refresh();
+  }
+  handleFetch() {
+    console.log('handleFetch');
+    this.techniciansService.fetch();
   }
 }

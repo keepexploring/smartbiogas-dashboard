@@ -1,14 +1,21 @@
-<nav id="main-nav" class="navbar navbar-dark sticky-top flex-md-nowrap p-0">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/">
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-sm sticky-top p-0">
+
+  <a class="navbar-brand" routerLink="/">
     <img src="/assets/images/logo.png">
   </a>
-  <input class="d-none form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-  <div class="w-100 text-white pl-4">{{title}}</div>
-  <ul class="navbar-nav px-3">
-    <li class="nav-item text-nowrap">
-      <a class="nav-link nav-logout-link" *ngIf="isAuthenticated" (click)="logOut()">Log Out
-        <i-log-out></i-log-out>
-      </a>
-    </li>
-  </ul>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav px-3 mr-0 ml-auto">
+      <li class="nav-item text-nowrap">
+        <button class="nav-link nav-logout-link" *ngIf="isAuthenticated" (click)="logOut()">Log Out
+          <i-log-out></i-log-out>
+        </button>
+      </li>
+    </ul>
+  </div>
 </nav>

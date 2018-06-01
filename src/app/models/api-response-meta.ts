@@ -2,25 +2,33 @@ import { environment } from '../../environments/environment';
 import { HttpResponse } from '@angular/common/http';
 
 export class ApiResponseMeta {
-  totalItems: number;
-  itemsPerPage: number;
-  totalPages: number;
   isRemote: boolean;
+  itemsPerPage: number;
+  offset: number;
+  pageFetched: number;
+  totalItems: number;
+  totalPages: number;
 
   constructor(
-    totalItems: number = environment.apiPageLimit,
-    itemsPerPage: number = environment.apiPageLimit,
     isRemote: boolean = false,
+    itemsPerPage: number = environment.apiPageLimit,
+    offset: number = 0,
+    pageFetched: number = 0,
+    totalItems: number = environment.apiPageLimit,
   ) {
-    this.totalItems = totalItems;
-    this.itemsPerPage = itemsPerPage;
-    this.totalPages = Math.ceil(totalItems / itemsPerPage);
     this.isRemote = isRemote;
+    this.itemsPerPage = itemsPerPage;
+    this.offset = offset;
+    this.pageFetched = pageFetched;
+    this.totalItems = totalItems;
+    this.totalPages = Math.ceil(totalItems / itemsPerPage);
   }
 
   static fromResponse(response: HttpResponse<any>) {
     const totalItems = response.body.meta ? response.body.meta.total_count : 0;
-    const itemsPerPage = response.body.meta ? response.body.meta.limit : 0;
-    return new this(totalItems, itemsPerPage, true);
+    const limit: number = response.body.meta ? response.body.meta.limit : 0;
+    const offset: number = response.body.meta ? response.body.meta.offset : 0;
+    const page = Math.round(offset / limit) + 1;
+    return new this(true, limit, offset, page, totalItems);
   }
 }

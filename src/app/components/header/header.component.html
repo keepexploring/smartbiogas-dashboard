@@ -1,14 +1,37 @@
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
   <div>
     <h1 class="h2">{{title}}</h1>
-    <app-progress-bar [current]="count" [total]="total"></app-progress-bar>
-    <p>
-      <b>{{count || 0}}</b>
-      <small class="text-muted"> out of </small>
-      <app-loading *ngIf="loading" [hideText]="true"></app-loading>
-      <span *ngIf="!loading">{{total}}</span>
-    </p>
   </div>
+
+  <div>
+
+
+    <div class="text-center small">
+
+      <button class="btn btn-sm btn-link m-auto text-muted small" (click)="requestRefresh()" data-toggle="tooltip" data-placement="top"
+        title="Refresh" [disabled]="loading">
+        <i-refresh-cw></i-refresh-cw>
+      </button>
+
+      <button class="btn btn-sm btn-link m-auto text-muted small" (click)="requestFetch()" data-toggle="tooltip" data-placement="top"
+        title="Fetch more" [hidden]="count >= total" [disabled]="loading">
+        <i-download-cloud></i-download-cloud>
+      </button>
+
+      <div>
+        <b>{{count || 0}}</b>
+        <small class="text-muted"> out of </small>
+        <span>
+          <app-loading *ngIf="loadingMeta" [hideText]="true"></app-loading>
+          <span>{{total}}</span>
+        </span>
+      </div>
+
+    </div>
+
+    <app-progress-bar [current]="count" [total]="total"></app-progress-bar>
+  </div>
+
 
   <div *ngIf="link1 || link2" class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">

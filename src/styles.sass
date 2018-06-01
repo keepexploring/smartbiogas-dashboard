@@ -4,6 +4,16 @@
 
 body
 	height: 100vh
+	background: #fbfbfb
+
+.overflow-wrap
+  overflow-wrap: break-word
+
+.word-break
+  word-break: break-all
+
+.hyphens
+  hyphens: auto
 
 #main-wrapper
 	height: 100%
@@ -29,24 +39,19 @@ app-plants-map
 .table .vertical-th
 	width: 140px
 
-#main-nav
-	background: #315025
-	.navbar-brand
-		padding: 0
-		img
-			height: 33px
-			margin: auto
-			margin-left: 15px
-			margin-top: 3px
-			margin-bottom: 3px
-
-.nav-logout-link
-	cursor: pointer
+.btn-icon
+	height: auto
+	width: auto
 
 button i-map,
 button i-list,
 button i-layers,
 button i-compass,
+button i-menu,
+button i-align-justify,
+button i-refresh-cw,
+button i-chevrons-right,
+button i-download-cloud,
 .feather
 	width: 16px !important
 	height: 16px !important
@@ -75,53 +80,6 @@ button i-compass,
 	.display-1
 		font-weight: 300
 
-.sidebar
-	position: fixed
-	top: 0
-	bottom: 0
-	left: 0
-	z-index: 100
-
-	padding: 0
-	box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1)
-
-.sidebar-sticky
-	position: -webkit-sticky
-	position: sticky
-	top: 48px
-
-	height: calc(100vh - 48px)
-	padding-top: .5rem
-	overflow-x: hidden
-	overflow-y: auto
-
-.sidebar .nav-link
-	font-weight: 500
-	color: #333
-	.feather
-		margin-right: 4px
-		color: #999
-	&.active
-		color: $green
-	&:hover .feather, &.active .feather
-		color: inherit
-
-.sidebar-heading
-	font-size: .75rem
-	text-transform: uppercase
-
-.navbar-brand
-	padding-top: .75rem
-	padding-bottom: .75rem
-	font-size: 1rem
-	background-color: rgba(0, 0, 0, 0.25)
-	box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25)
-
-.navbar .form-control
-	padding: .75rem 1rem
-	border-width: 0
-	border-radius: 0
-
 .form-control-dark
 	color: #fff
 	background-color: rgba(255, 255, 255, 0.1)
@@ -139,24 +97,6 @@ button i-compass,
 .user-photo
 	max-width: 150px
 	height: auto
-
-.table-hover tbody tr
-	cursor: pointer
-
-.list-table
-	// max-height: $default-column-height
-	overflow-y: auto
-
-.thead-green
-	@extend .thead-dark
-	th
-		background-color: $dark-green !important
-		border-color: $dark-green !important
-
-=generateStatus($color)
-	background-color: $color
-	border: 1px solid $color
-
 
 .status
 	font-size: $font-size-base
@@ -236,10 +176,6 @@ app-loading
 	width: 16px
 	margin: 5px
 
-.table-pagination
-	text-align: center
-	padding-top: 15px
-	padding-bottom: 15px
 
 pagination-controls
 	display: block
@@ -248,3 +184,40 @@ pagination-controls
 
 .ngx-pagination
 	padding-left: 0
+
+.list-table,
+.list-table-header
+	background: #fff
+
+.list-table-header
+	padding: 3px
+
+.pre-header-button
+	+button-variant(#fff, #fff, #fff, #fff, #fff, #fff)
+	+button-size(3px, 3px, 16px, 1, $border-radius)
+
+	cursor: pointer
+	color: #bbbbbb
+
+	&:hover,
+	&:focus
+		color: #929292
+		box-shadow: none
+		outline: none
+
+	&:active
+		border: 1px solid #fff
+
+	&.active
+		color: $primary
+
+.table-hover tbody tr
+	cursor: pointer
+
+.table-pagination
+	text-align: center
+	padding-top: 15px
+	padding-bottom: 15px
+
+
+

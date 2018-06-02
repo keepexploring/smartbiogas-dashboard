@@ -1,18 +1,35 @@
 <app-technicians-header [title]="'Add Technician'"></app-technicians-header>
 
+<pre>
+  status: {{form.status}}
+  errors: {{form.errors}}
+</pre>
+
 <div class="card">
   <div class="card-body">
 
-    <form [formGroup]="technicianForm">
+    <form [formGroup]="form">
 
-      <div class="form-group">
+      <div class="form-group" [class.was-validated]="firstName.dirty">
         <label for="firstName">First Name</label>
-        <input type="text" class="form-control" formControlName="firstName">
+        <input type="text" class="form-control" formControlName="firstName" required minlength="4">
+
+        <div class="errors" *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+          <pre>{{firstName.errors | json}}</pre>
+          <small class="form-text text-danger">Required</small>
+          <small class="form-text text-danger">Min Length</small>
+        </div>
+
       </div>
 
       <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input type="text" class="form-control" formControlName="lastName">
+        <label for="last_name">Last Name</label>
+        <input type="text" class="form-control" formControlName="last_name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" formControlName="email" required>
       </div>
 
 
@@ -20,28 +37,28 @@
 
 
       <div class="form-group">
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Create</button>
       </div>
 
     </form>
 
     <b>Form value:</b>
-    <pre>{{ technicianForm.value | json }}</pre>
+    <pre>{{ form.value | json }}</pre>
     <b>Value:</b>
-    <pre>{{technicianForm.get('firstName').value}}</pre>
+    <pre>{{form.get('firstName').value}}</pre>
     <b>Status:</b>
-    <pre>{{technicianForm.get('firstName').status}}</pre>
+    <pre>{{form.get('firstName').status}}</pre>
     <b>Pristine:</b>
-    <pre>{{technicianForm.get('firstName').pristine}}</pre>
+    <pre>{{form.get('firstName').pristine}}</pre>
     <b>Dirty:</b>
-    <pre>{{technicianForm.get('firstName').dirty}}</pre>
+    <pre>{{form.get('firstName').dirty}}</pre>
     <b>Untouched:</b>
-    <pre>{{technicianForm.get('firstName').untouched}}</pre>
+    <pre>{{form.get('firstName').untouched}}</pre>
     <b>Touched:</b>
-    <pre>{{technicianForm.get('firstName').touched}}</pre>
+    <pre>{{form.get('firstName').touched}}</pre>
 
     <br>Form status:
-    <pre>{{ technicianForm.status | json }}</pre>
+    <pre>{{ form.status | json }}</pre>
 
   </div>
 </div>

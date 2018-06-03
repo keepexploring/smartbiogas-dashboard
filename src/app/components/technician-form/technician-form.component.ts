@@ -19,10 +19,10 @@ export class TechnicianFormComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      firstName: ['', [Validators.required, Validators.minLength(4)]],
-      last_name: ['', Validators.required],
+      firstName: this.validateMinRequired(4),
+      lastName: this.validateMinRequired(4),
       email: ['', [Validators.email, Validators.required]],
-      phone_number: [''],
+      phoneNumber: this.validateMinRequired(4),
 
       country: [''],
       // status: boolean;
@@ -56,6 +56,22 @@ export class TechnicianFormComponent implements OnInit {
   get firstName() {
     return this.form.get('firstName');
   }
+  get lastName() {
+    return this.form.get('lastName');
+  }
+  get email() {
+    return this.form.get('email');
+  }
+  get phoneNumber() {
+    return this.form.get('phoneNumber');
+  }
 
-  // {“company_name”: “Alice’s biogas company”, “region”:“Arusha”, “phone_number”:“+447968684748"}
+
+
+  private validateMinRequired(min: number) {
+    return ['', [
+      Validators.required, Validators.minLength(min)
+    ]]
+  }
+
 }

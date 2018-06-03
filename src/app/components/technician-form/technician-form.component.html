@@ -1,9 +1,6 @@
 <app-technicians-header [title]="'Add Technician'"></app-technicians-header>
 
-<pre>
-  status: {{form.status}}
-  errors: {{form.errors}}
-</pre>
+
 
 <div class="card">
   <div class="card-body">
@@ -13,31 +10,49 @@
       <div class="form-group" [class.was-validated]="firstName.dirty">
         <label for="firstName">First Name</label>
         <input type="text" class="form-control" formControlName="firstName" required minlength="4">
-
-        <div class="errors" *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
-          <pre>{{firstName.errors | json}}</pre>
-          <small class="form-text text-danger">Required</small>
-          <small class="form-text text-danger">Min Length</small>
+        <div class="form-errors" *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+            <p class="form-text text-danger small" *ngIf="firstName.errors.required">This field is required</p>
+          <p class="form-text text-danger small" *ngIf="firstName.errors.minlength">
+            First name needs at least <u>{{firstName.errors.minlength.requiredLength}}</u> characters. <b>{{ firstName.errors.minlength.requiredLength - firstName.errors.minlength.actualLength}}</b> to go</p>
         </div>
-
       </div>
 
-      <div class="form-group">
-        <label for="last_name">Last Name</label>
-        <input type="text" class="form-control" formControlName="last_name" required>
+      <div class="form-group" [class.was-validated]="lastName.dirty">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" formControlName="lastName" required minlength="4">
+        <div class="form-errors" *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+            <p class="form-text text-danger small" *ngIf="lastName.errors.required">This field is required</p>
+            <p class="form-text text-danger small" *ngIf="lastName.errors.minlength">
+              First name needs at least <u>{{lastName.errors.minlength.requiredLength}}</u> characters. <b>{{ lastName.errors.minlength.requiredLength - lastName.errors.minlength.actualLength}}</b> to go</p>
+          </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" [class.was-validated]="email.dirty">
         <label for="email">Email</label>
         <input type="email" class="form-control" formControlName="email" required>
+        <div class="form-errors" *ngIf="email.invalid && (email.dirty || email.touched)">
+            <p class="form-text text-danger small" *ngIf="email.errors.required">This field is required</p>
+            <p class="form-text text-danger small" *ngIf="email.errors.email">
+              Please enter a valid email address</p>
+          </div>
       </div>
+
+      <div class="form-group" [class.was-validated]="phoneNumber.dirty">
+          <label for="phoneNumber">Phone Number</label>
+          <input type="tel" class="form-control" formControlName="phoneNumber" required minlength="4" placeholder="International E.g. +4412341234">
+          <div class="form-errors" *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)">
+              <p class="form-text text-danger small" *ngIf="phoneNumber.errors.required">This field is required</p>
+              <p class="form-text text-danger small" *ngIf="phoneNumber.errors.minlength">
+                Needs at least <u>{{phoneNumber.errors.minlength.requiredLength}}</u> characters. <b>{{ phoneNumber.errors.minlength.requiredLength - phoneNumber.errors.minlength.actualLength}}</b> to go</p>
+            </div>
+        </div>
 
 
 
 
 
       <div class="form-group">
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Create</button>
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="!form.valid">Create</button>
       </div>
 
     </form>

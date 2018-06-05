@@ -1,1 +1,1 @@
-<div [class]="'status ' + statusStyle" [class.status-small]="size && size == 'small'">{{ statusText }}</div>
+<div class="status" [class.status-green]="statusState" [class.status-red]="!statusState" [class.status-small]="size == 'small'">{{ statusText }}</div>

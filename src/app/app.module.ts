@@ -50,6 +50,7 @@ import { ImageComponent } from './components/image/image.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 import { TechniciansHeaderComponent } from './components/technicians-header/technicians-header.component';
 import { TechnicianFormComponent } from './components/technician-form/technician-form.component';
+import { MapToKeysPipe } from './core/pipes/map-to-keys.pipe';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { TechnicianFormComponent } from './components/technician-form/technician
     ProgressBarComponent,
     TechniciansHeaderComponent,
     TechnicianFormComponent,
+    MapToKeysPipe,
   ],
   imports: [
     BrowserModule,

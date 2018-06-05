@@ -1,30 +1,43 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-technician-status',
   templateUrl: './technician-status.component.html',
-  styleUrls: ['./technician-status.component.sass']
+  styleUrls: ['./technician-status.component.sass'],
 })
-export class TechnicianStatusComponent implements OnInit {
-  @Input() status: boolean;
-  @Input() size: string;
-  statusStyle: string;
-  statusText: string;
+export class TechnicianStatusComponent implements OnInit, OnChanges {
+  @Input() status: string;
+  @Input() size: string = 'small';
 
-  constructor() { }
+  statusState: boolean = false;
+
+  statusText: string = 'Active';
+
+  constructor() {}
 
   ngOnInit() {
     this.getStatus();
   }
 
   private getStatus() {
-    if(this.status){
-      this.statusStyle = 'green';
+    const status = JSON.parse(this.status);
+    this.statusState = status;
+    if (!!status) {
       this.statusText = 'Active';
     } else {
-      this.statusStyle = 'red';
       this.statusText = 'Inactive';
     }
-    this.statusStyle = 'status-' + this.statusStyle;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.status) {
+      this.status = changes.status.currentValue;
+    }
+
+    if (changes.size) {
+      this.size = changes.size.currentValue;
+    }
+
+    this.getStatus();
   }
 }

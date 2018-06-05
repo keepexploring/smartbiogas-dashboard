@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { countryList } from '../../core/constants';
 
 @Component({
@@ -11,13 +11,21 @@ export class TechnicianFormComponent implements OnInit {
   form: FormGroup;
   countries = countryList;
 
-  constructor(private formBuilder: FormBuilder) {
-    
-  }
+  skillsList = [
+    { name: 'plumber', value: 'PLUMBER', selected: false, label: 'Plumber' },
+    { name: 'mason', value: 'MASON', selected: false, label: 'Mason' },
+    { name: 'manager', value: 'MANAGER', selected: false, label: 'Manager' },
+    { name: 'design', value: 'DESIGN', selected: false, label: 'Design' },
+    { name: 'calculations', value: 'CALCULATIONS', selected: false, label: 'Calculations' },
+    { name: 'tubular', value: 'TUBULAR', selected: false, label: 'Tubular' },
+    { name: 'fixed_dome', value: 'FIXED_DOME', selected: false, label: 'Fixed Dome' },
+  ];
+
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.createForm();
-    console.log(this.form);
+    this.form.get('firstName').valueChanges.subscribe(changes => {});
   }
 
   createForm() {
@@ -25,36 +33,46 @@ export class TechnicianFormComponent implements OnInit {
       firstName: this.validateMinRequired(4),
       lastName: this.validateMinRequired(4),
       email: ['', [Validators.email, Validators.required]],
-      phoneNumber: this.validateMinRequired(4),
-      country: ['', [Validators.required]],
+      phoneNumber: this.phoneValidator(7),
+      companyName: ['', [Validators.required]],
+      status: ['true', [Validators.required]],
+      contactTtype: [''],
+      role: [''],
 
-
-      // status: boolean;
-      company_name: [''],
-      contact_type: [''],
-      // resource_uri: [''],
-      // datetime_created: [''],
-      // datetime_modified: [''],
       district: [''],
       neighbourhood: [''],
-      other_address_details: [''],
       postcode: [''],
+
       region: [''],
-      acredit_to_install: [''],
-      acredited_to_fix: [''],
-      average_rating: [''],
       location: [''],
-      max_num_jobs_allowed: [''],
-      number_jobs_active: [''],
-      number_of_jobs_completed: [''],
-      specialist_skills: [''],
-      // what3words: [''],
-      willing_to_travel: [''],
-      user_photo: [''],
       village: [''],
       ward: [''],
-      languages_spoken: [''],
+      country: ['', [Validators.required]],
+      otherAddressDetails: [''],
+
+      averageRating: ['', [Validators.pattern('^(0|[1-9][0-9]*)$')]],
+      maxNumJobsAllowed: ['', [Validators.pattern('^(0|[1-9][0-9]*)$')]],
+
+      willingToTravel: ['', [Validators.pattern('^(0|[1-9][0-9]*)$')]],
+      userPhoto: [''],
+
+      specialistSkills: this.buildSkills(),
+
+      acreditToInstall: [''],
+      acreditedToFix: [''],
+      languagesSpoken: [''],
     });
+  }
+
+  buildSkills(): FormArray {
+    const arr = this.skillsList.map(skill => {
+      return this.formBuilder.control(skill.selected);
+    });
+    return this.formBuilder.array(arr);
+  }
+
+  get specialistSkills(): FormArray {
+    return this.form.get('specialistSkills') as FormArray;
   }
 
   get firstName() {
@@ -69,13 +87,72 @@ export class TechnicianFormComponent implements OnInit {
   get phoneNumber() {
     return this.form.get('phoneNumber');
   }
-
-
-
-  private validateMinRequired(min: number) {
-    return ['', [
-      Validators.required, Validators.minLength(min)
-    ]]
+  get country() {
+    return this.form.get('country');
+  }
+  get companyName() {
+    return this.form.get('companyName');
+  }
+  get status() {
+    return this.form.get('status');
+  }
+  get role() {
+    return this.form.get('status');
+  }
+  get district() {
+    return this.form.get('district');
+  }
+  get neighbourhood() {
+    return this.form.get('neighbourhood');
+  }
+  get postcode() {
+    return this.form.get('postcode');
+  }
+  get region() {
+    return this.form.get('region');
+  }
+  get location() {
+    return this.form.get('location');
+  }
+  get village() {
+    return this.form.get('village');
+  }
+  get ward() {
+    return this.form.get('ward');
+  }
+  get otherAddressDetails() {
+    return this.form.get('otherAddressDetails');
+  }
+  get averageRating() {
+    return this.form.get('averageRating');
+  }
+  get maxNumJobsAllowed() {
+    return this.form.get('maxNumJobsAllowed');
   }
 
+  get willingToTravel() {
+    return this.form.get('willingToTravel');
+  }
+  get userPhoto() {
+    return this.form.get('userPhoto');
+  }
+  get acreditToInstall() {
+    return this.form.get('acreditToInstall');
+  }
+  get acreditedToFix() {
+    return this.form.get('acreditedToFix');
+  }
+  get languagesSpoken() {
+    return this.form.get('languagesSpoken');
+  }
+
+  private validateMinRequired(min: number) {
+    return ['', [Validators.required, Validators.minLength(min)]];
+  }
+  private phoneValidator(min: number) {
+    return [
+      '',
+      [Validators.required, Validators.minLength(min), Validators.pattern('^[+d][0-9]{0,14}$')],
+    ];
+  }
 }

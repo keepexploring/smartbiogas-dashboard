@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { countryList } from '../../core/constants';
 
 @Component({
   selector: 'app-technician-form',
@@ -8,12 +9,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class TechnicianFormComponent implements OnInit {
   form: FormGroup;
+  countries = countryList;
 
   constructor(private formBuilder: FormBuilder) {
-    this.createForm();
+    
   }
 
   ngOnInit() {
+    this.createForm();
     console.log(this.form);
   }
 
@@ -23,8 +26,9 @@ export class TechnicianFormComponent implements OnInit {
       lastName: this.validateMinRequired(4),
       email: ['', [Validators.email, Validators.required]],
       phoneNumber: this.validateMinRequired(4),
+      country: ['', [Validators.required]],
 
-      country: [''],
+
       // status: boolean;
       company_name: [''],
       contact_type: [''],

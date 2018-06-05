@@ -29,13 +29,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = false;
-    this.connectionStatusService.check();
     this.subscribeToAuthStatus();
     this.subscribeToConnectionStatus();
     this.subscribeToNavigationHistory();
   }
 
   subscribeToConnectionStatus(): void {
+    this.connectionStatusService.check();
     this.connectionSubscription = this.connectionStatusService.status.subscribe(isOnline => {
       this.isOnline = isOnline;
       console.log('APP isOnline', isOnline);
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.auth.validateToken();
         this.messageService.displayOnlineMessage();
       } else {
-        this.messageService.displayOnlineMessage();
+        this.messageService.displayOfflineMessage();
         this.auth.validatedToken = false;
       }
     });

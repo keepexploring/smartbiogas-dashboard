@@ -7,10 +7,11 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
+
 import { Plant } from '../../models/plant';
 import { HelpersService } from '../../services/helpers.service';
 import { PlantsService } from '../../services/plants.service';
-import { environment } from '../../../environments/environment.prod';
+import { mapStyles } from '../../core/constants';
 
 @Component({
   selector: 'app-plants-map',
@@ -33,7 +34,7 @@ export class PlantsMapComponent implements OnInit, OnChanges {
 
   constructor(private service: PlantsService, private helpers: HelpersService) {}
 
-  mapStyles = environment.mapStyles;
+  mapStyles = mapStyles;
 
   select(plant: Plant) {
     this.selectedPlant = plant;

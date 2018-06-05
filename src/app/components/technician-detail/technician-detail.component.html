@@ -2,30 +2,25 @@
 <div *ngIf="technician && !loading" class="technician-details">
   <app-technicians-header [title]="technician.fullName()"></app-technicians-header>
 
-  <ul class="list-group list-group-flush list-unstyled">
-    <li class="list-group-item border-top border-right border-left">
-      <div class="row">
-        <div class="col-sm-3">
-          <app-image [src]="technician.user_photo" [alt]="technician.fullName()" [classes]="user-photo"></app-image>
-        </div>
-        <div class="col-sm-9 d-flex flex-column justify-content-sm-center">
-          <h1 class="h5">{{ technician.fullName() }}</h1>
-          <h2 class="h6 text-muted">{{ technician.country ? technician.country : 'Unknown Country' }}</h2>
-          <app-technician-status [size]="'small'" [status]="technician.status"></app-technician-status>
-        </div>
-      </div>
-    </li>
 
+  <div class="media">
+      <app-image [src]="technician.user_photo" [alt]="technician.fullName()" [classes]="'img-rounded align-self-center mr-3'" style="height: 150px; width: 150px;"></app-image>
+
+      <div class="media-body">
+        <h1 class="mt-0">{{ technician.fullName() }}</h1>
+        <h2 class="h6 text-muted">{{ technician.country ? technician.country : 'Unknown Country' }}</h2>
+        <app-technician-status [size]="'small'" [status]="technician.status"></app-technician-status>
+      </div>
+  </div>
+
+
+  <ul class="list-group list-group-flush list-unstyled">
     <li class="list-group-item p-0">
       <table class="table table-bordered mb-0">
         <tbody>
           <tr *ngIf="technician.id">
             <th class="vertical-th">ID</th>
             <td>{{ technician.id }}</td>
-          </tr>
-          <tr *ngIf="technician.fullName()">
-            <th class="vertical-th">Name</th>
-            <td>{{ technician.fullName() }}</td>
           </tr>
           <tr *ngIf="technician.phone_number">
             <th class="vertical-th">Phone Number</th>
@@ -58,8 +53,10 @@
         </tbody>
       </table>
     </li>
-    <li class="p-0">
-      <app-jobs-table [enableModal]="true" [technicianId]="technician.id"></app-jobs-table>
-    </li>
   </ul>
+
+<div>
+  <h2>Jobs</h2>
+  <app-jobs-table [enableModal]="true" [technicianId]="technician.id"></app-jobs-table>
+</div>
 </div>

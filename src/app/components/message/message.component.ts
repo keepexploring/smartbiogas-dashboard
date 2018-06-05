@@ -20,7 +20,7 @@ export class MessageComponent implements OnInit, OnDestroy {
   private timerSubscription: Subscription;
 
   ngOnInit() {
-    this.timer = timer(2000, 500);
+    this.timer = timer(1000, 1000);
     this.timerSubscription = this.timer.subscribe(t => {
       this.ticker(t);
     });

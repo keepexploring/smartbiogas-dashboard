@@ -61,9 +61,7 @@ export class TechniciansService {
       .subscribe(
         success => {
           this.prefetch(page);
-        },
-        null,
-        () => this.loading.next(false),
+        }
       );
   };
 
@@ -99,6 +97,8 @@ export class TechniciansService {
     if (this.fetching) {
       return;
     }
+
+    this.loading.next(true);
 
     const meta: ApiResponseMeta = this.responseMetadata.getValue();
     const nextPage: number = page + 1;

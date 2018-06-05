@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class LoadingComponent implements OnInit {
   @Input() hideText: boolean = false;
+  @Input() text: string = 'Loading';
 
   constructor() {}
 

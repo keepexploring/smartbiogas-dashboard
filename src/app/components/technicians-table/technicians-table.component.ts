@@ -52,6 +52,7 @@ export class TechniciansTableComponent implements OnInit {
     });
 
     this.techniciansService.loading.subscribe(loading => {
+      console.log(loading);
       this.loading = loading;
     });
   }

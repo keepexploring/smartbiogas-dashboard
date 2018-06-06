@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Technician } from '../../models/technician';
 import { CountryInformationService } from '../../services/country-information.service';
+import { TechniciansService } from '../../services/technicians.service';
 
 @Component({
   selector: 'app-technician-form',
@@ -19,6 +20,7 @@ export class TechnicianFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private countryService: CountryInformationService,
+    private techniciansService: TechniciansService,
   ) {}
 
   ngOnInit() {
@@ -29,6 +31,61 @@ export class TechnicianFormComponent implements OnInit {
         return country.name;
       });
     });
+  }
+
+  onSubmit() {
+    console.log(this.form);
+    // if (this.form.valid) {
+    const technician = new Technician({
+      first_name: this.firstName.value,
+      last_name: this.lastName.value,
+      phone_number: this.phoneNumberPrefix.value + this.phoneNumber.value,
+      email: this.email.value,
+      status: this.status.value,
+      role: this.role.value,
+      country: this.country.value,
+      region: this.region.value,
+      district: this.district.value,
+      ward: this.ward.value,
+      village: this.village.value,
+      postcode: this.postcode.value,
+      what3words: this.what3words.value,
+      other_address_details: this.otherAddressDetails.value,
+      max_num_jobs_allowed: this.maxNumJobsAllowed.value,
+      willing_to_travel: this.willingToTravel.value,
+      specialist_skills: this.specialistSkills.value.map((isSelected, index) =>
+        this.getSkillName(isSelected, index),
+      ),
+      acredit_to_install: this.acreditToInstall.value.map((isSelected, index) =>
+        this.getAccreditedSkillsName(isSelected, index),
+      ),
+      acredited_to_fix: this.acreditedToFix.value.map((isSelected, index) =>
+        this.getAccreditedSkillsName(isSelected, index),
+      ),
+      languages_spoken: this.languagesSpoken.value.split(),
+      user_photo: this.userPhoto.value,
+    });
+
+    console.log(technician);
+
+    // this.techniciansService.create(technician);
+    // }
+  }
+
+  getSkillName(isSelected, index) {
+    console.log(isSelected);
+    if (isSelected) {
+      return this.skillsList[index].name;
+    }
+    return null;
+  }
+
+  getAccreditedSkillsName(isSelected, index) {
+    console.log(isSelected);
+    if (isSelected) {
+      return this.accreditedSkills[index].name;
+    }
+    return null;
   }
 
   createForm() {

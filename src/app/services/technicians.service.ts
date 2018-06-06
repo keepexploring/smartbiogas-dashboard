@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
 import { map, catchError, retry, tap, delay, mergeMap } from 'rxjs/operators';
 
@@ -44,13 +44,10 @@ export class TechniciansService {
       this.endpoints.technicians.index +
       this.endpoints.getOffset(page, this.responseMetadata.getValue().itemsPerPage);
 
-    console.log(endpoint);
-
     this.http
       .get(endpoint, { observe: 'response' })
       .pipe(
         tap((response: HttpResponse<any>) => {
-          console.log(response);
           if (response.body.objects.length === 0) {
             this.cancelFetch();
           }
@@ -139,6 +136,23 @@ export class TechniciansService {
     this.fetching = true;
     this.loading.next(false);
   }
+
+  create(technician: Technician): Technician {
+    this.http
+      .post(this.endpoints.technicians.create, JSON.stringify(technician), this.httpOptions)
+      .subscribe(response => {
+        console.log(response);
+      });
+
+    return technician;
+  }
+
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }),
+  };
 
   private handleNotFound(err: any) {
     this.messageService.notFound();

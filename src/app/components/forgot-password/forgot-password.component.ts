@@ -22,7 +22,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   ngOnInit() {
     this.forgotPasswordForm = this.formBuilder.group({
-      email: ['', this.emailValidators],
+      email: [''],
       phoneNumber: [''],
     });
 
@@ -35,21 +35,30 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   private clearFeilds() {
-    this.email.valueChanges.subscribe(changes =>
-      this.focusOnFeild(this.email, this.phoneNumber, this.emailValidators),
-    );
-    this.phoneNumber.valueChanges.subscribe(changes =>
-      this.focusOnFeild(this.phoneNumber, this.email, this.phoneValidators),
-    );
+    // this.email.valueChanges.subscribe(changes =>
+    //   this.focusOnFeild(this.email, this.phoneNumber, this.emailValidators),
+    // );
+    // this.phoneNumber.valueChanges.subscribe(changes =>
+    //   this.focusOnFeild(this.phoneNumber, this.email, this.phoneValidators),
+    // );
+  }
+
+  focusOnEmail() {
+    console.log('email');
+    this.focusOnFeild(this.email, this.phoneNumber, this.emailValidators);
+  }
+
+  focusOnPhone() {
+    console.log('phone');
+    this.focusOnFeild(this.phoneNumber, this.email, this.phoneValidators);
   }
 
   focusOnFeild(toFocus: AbstractControl, toClear: AbstractControl, validators: any[]) {
+    console.log('focusOnField', validators);
+    toFocus.setValidators(validators);
+    toClear.clearValidators();
     if (toClear.value !== '') {
       toClear.setValue('');
-      toFocus.setValidators(validators);
-      toClear.setValidators(null);
-      toFocus.updateValueAndValidity();
-      toClear.updateValueAndValidity();
     }
   }
 

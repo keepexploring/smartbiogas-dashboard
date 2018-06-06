@@ -6,8 +6,9 @@
   <div>
     <div class="text-center small">
 
+      <app-loading *ngIf="loading" [hideText]="true"></app-loading>
       <button class="btn btn-sm btn-link m-auto text-muted small" (click)="requestRefresh()" data-toggle="tooltip" data-placement="top"
-        title="Refresh" [disabled]="loading">
+        title="Refresh" [hidden]="loading">
         <i-refresh-cw></i-refresh-cw>
       </button>
 

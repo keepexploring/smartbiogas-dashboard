@@ -32,28 +32,21 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   constructor() {}
 
-  ngOnInit() {
-    console.log('HeaderComponent INIT: loading', this.loading);
-    console.log('HeaderComponent INIT: loadingMeta', this.loadingMeta);
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.loading) {
-      console.log('Loading', changes.loading.currentValue);
       this.loading = changes.loading.currentValue;
     }
     if (changes.loadingMeta) {
-      console.log('LoadingMeta', changes.loadingMeta.currentValue);
       this.loadingMeta = changes.loadingMeta.currentValue;
     }
   }
 
   requestRefresh() {
-    console.log('refresh');
     this.refresh.emit();
   }
   requestFetch() {
-    console.log('fetch');
     this.fetch.emit();
   }
 }

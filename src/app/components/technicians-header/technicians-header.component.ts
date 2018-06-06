@@ -24,6 +24,9 @@ export class TechniciansHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions = [
       this.techniciansService.items.subscribe(technicians => {
         this.count = technicians.length;
+        if (technicians.length == 0) {
+          this.techniciansService.get(1);
+        }
       }),
       this.techniciansService.loading.subscribe(loading => {
         this.loading = loading;

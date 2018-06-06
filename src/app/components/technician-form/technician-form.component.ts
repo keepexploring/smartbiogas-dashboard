@@ -12,13 +12,48 @@ export class TechnicianFormComponent implements OnInit {
   countries = countryList;
 
   skillsList = [
-    { name: 'plumber', value: 'PLUMBER', selected: false, label: 'Plumber' },
-    { name: 'mason', value: 'MASON', selected: false, label: 'Mason' },
-    { name: 'manager', value: 'MANAGER', selected: false, label: 'Manager' },
-    { name: 'design', value: 'DESIGN', selected: false, label: 'Design' },
-    { name: 'calculations', value: 'CALCULATIONS', selected: false, label: 'Calculations' },
-    { name: 'tubular', value: 'TUBULAR', selected: false, label: 'Tubular' },
-    { name: 'fixed_dome', value: 'FIXED_DOME', selected: false, label: 'Fixed Dome' },
+    {
+      name: 'plumber',
+      value: 'PLUMBER',
+      selected: false,
+      label: 'Plumber',
+    },
+    {
+      name: 'mason',
+      value: 'MASON',
+      selected: false,
+      label: 'Mason',
+    },
+    {
+      name: 'manager',
+      value: 'MANAGER',
+      selected: false,
+      label: 'Manager',
+    },
+    {
+      name: 'design',
+      value: 'DESIGN',
+      selected: false,
+      label: 'Design',
+    },
+    {
+      name: 'calculations',
+      value: 'CALCULATIONS',
+      selected: false,
+      label: 'Calculations',
+    },
+    {
+      name: 'tubular',
+      value: 'TUBULAR',
+      selected: false,
+      label: 'Tubular',
+    },
+    {
+      name: 'fixed_dome',
+      value: 'FIXED_DOME',
+      selected: false,
+      label: 'Fixed Dome',
+    },
   ];
 
   constructor(private formBuilder: FormBuilder) {}
@@ -36,30 +71,29 @@ export class TechnicianFormComponent implements OnInit {
       phoneNumber: this.phoneValidator(7),
       companyName: ['', [Validators.required]],
       status: ['true', [Validators.required]],
-      contactTtype: [''],
-      role: [''],
+      role: ['1', [Validators.required]],
 
       district: [''],
       neighbourhood: [''],
       postcode: [''],
-
       region: [''],
-      location: [''],
       village: [''],
       ward: [''],
       country: ['', [Validators.required]],
       otherAddressDetails: [''],
 
-      averageRating: ['', [Validators.pattern('^(0|[1-9][0-9]*)$')]],
-      maxNumJobsAllowed: ['', [Validators.pattern('^(0|[1-9][0-9]*)$')]],
+      maxNumJobsAllowed: ['1', [Validators.min(1), Validators.pattern('^(0|[1-9][0-9]*)$')]],
+      willingToTravel: ['10', [Validators.min(1), Validators.pattern('^(0|[1-9][0-9]*)$')]],
 
-      willingToTravel: ['', [Validators.pattern('^(0|[1-9][0-9]*)$')]],
+      // TODO: Joel to check
+      // Min and Max sizes
+      // Valid formats
       userPhoto: [''],
 
       specialistSkills: this.buildSkills(),
+      acreditToInstall: this.buildSkills(),
+      acreditedToFix: this.buildSkills(),
 
-      acreditToInstall: [''],
-      acreditedToFix: [''],
       languagesSpoken: [''],
     });
   }
@@ -145,7 +179,6 @@ export class TechnicianFormComponent implements OnInit {
   get languagesSpoken() {
     return this.form.get('languagesSpoken');
   }
-
   private validateMinRequired(min: number) {
     return ['', [Validators.required, Validators.minLength(min)]];
   }

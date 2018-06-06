@@ -46,7 +46,7 @@ export class Technician extends User {
   }
 
   private static parse(data: any): Technician {
-    return new this({
+    const item = new this({
       country: data.country,
       datetime_created: data.datetime_created,
       datetime_modified: data.datetime_modified,
@@ -62,27 +62,28 @@ export class Technician extends User {
       region: data.region,
       resource_uri: data.resource_uri,
       role: data.role,
-      // user: data.user,
       user_photo: data.user_photo,
       village: data.village,
       ward: data.ward,
-
-      acredit_to_install: data.technician_details.acredit_to_install,
-      acredited_to_fix: data.technician_details.acredited_to_fix,
-      average_rating: data.technician_details.average_rating,
-      languages_spoken: data.technician_details.languages_spoken,
-      location: data.technician_details.location,
-      max_num_jobs_allowed: data.technician_details.max_num_jobs_allowed,
-      number_jobs_active: data.technician_details.number_jobs_active,
-      number_of_jobs_completed: data.technician_details.number_of_jobs_completed,
-      // Dupe
-      // resource_uri: data.technician_details.resource_uri,
-      specialist_skills: data.technician_details.specialist_skills,
-      status: data.technician_details.status,
-      technician_id: data.technician_details.technician_id,
-      what3words: data.technician_details.what3words,
-      willing_to_travel: data.technician_details.willing_to_travel,
     });
+
+    if (data.technician_details) {
+      item.acredit_to_install = data.technician_details.acredit_to_install;
+      item.acredited_to_fix = data.technician_details.acredited_to_fix;
+      item.average_rating = data.technician_details.average_rating;
+      item.languages_spoken = data.technician_details.languages_spoken;
+      item.location = data.technician_details.location;
+      item.max_num_jobs_allowed = data.technician_details.max_num_jobs_allowed;
+      item.number_jobs_active = data.technician_details.number_jobs_active;
+      item.number_of_jobs_completed = data.technician_details.number_of_jobs_completed;
+      item.specialist_skills = data.technician_details.specialist_skills;
+      item.status = data.technician_details.status;
+      item.technician_id = data.technician_details.technician_id;
+      item.what3words = data.technician_details.what3words;
+      item.willing_to_travel = data.technician_details.willing_to_travel;
+    }
+
+    return item;
   }
 
   private getAddress = (): string => {
@@ -96,4 +97,45 @@ export class Technician extends User {
     address += this.country ? this.country + ' ' : '';
     return address;
   };
+
+  static skills = [
+    {
+      name: 'plumber',
+      label: 'Plumber',
+      selected: false,
+    },
+    {
+      name: 'mason',
+      label: 'Mason',
+      selected: false,
+    },
+    {
+      name: 'manager',
+      label: 'Manager',
+      selected: false,
+    },
+    {
+      name: 'design',
+      label: 'Design',
+      selected: false,
+    },
+    {
+      name: 'calculations',
+      label: 'Calculations',
+      selected: false,
+    },
+  ];
+
+  static accreditedSkills = [
+    {
+      name: 'tubular',
+      label: 'Tubular',
+      selected: false,
+    },
+    {
+      name: 'fixed_dome',
+      label: 'Fixed Dome',
+      selected: false,
+    },
+  ];
 }

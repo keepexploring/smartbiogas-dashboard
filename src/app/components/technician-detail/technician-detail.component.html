@@ -1,18 +1,17 @@
 <app-loading *ngIf="loading"></app-loading>
 <div *ngIf="technician && !loading" class="technician-details">
-  <app-technicians-header [title]="technician.fullName()"></app-technicians-header>
+  <app-technicians-header [title]="technician.fullName"></app-technicians-header>
 
 
   <div class="media">
-      <app-image [src]="technician.user_photo" [alt]="technician.fullName()" [classes]="'img-rounded align-self-center mr-3'" style="height: 150px; width: 150px;"></app-image>
+    <app-image [src]="technician.user_photo" [alt]="technician.fullName" [classes]="'img-rounded align-self-center mr-3'" style="height: 150px; width: 150px;"></app-image>
 
-      <div class="media-body">
-        <h1 class="mt-0">{{ technician.fullName() }}</h1>
-        <h2 class="h6 text-muted">{{ technician.country ? technician.country : 'Unknown Country' }}</h2>
-        <app-technician-status [size]="'small'" [status]="technician.status"></app-technician-status>
-      </div>
+    <div class="media-body">
+      <h1 class="mt-0">{{ technician.fullName }}</h1>
+      <h2 class="h6 text-muted">{{ technician.country ? technician.country : 'Unknown Country' }}</h2>
+      <app-technician-status [size]="'small'" [status]="technician.status"></app-technician-status>
+    </div>
   </div>
-
 
   <ul class="list-group list-group-flush list-unstyled">
     <li class="list-group-item p-0">
@@ -55,8 +54,8 @@
     </li>
   </ul>
 
-<div>
-  <h2>Jobs</h2>
-  <app-jobs-table [enableModal]="true" [technicianId]="technician.id"></app-jobs-table>
-</div>
+  <div>
+    <h2>Jobs</h2>
+    <app-jobs-table [enableModal]="true" [technicianId]="technician.id"></app-jobs-table>
+  </div>
 </div>

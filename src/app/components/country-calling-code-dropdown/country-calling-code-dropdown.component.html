@@ -1,0 +1,7 @@
+<app-loading *ngIf="loading" hideText="false"></app-loading>
+<select class="custom-select calling-code-select" *ngIf="!loading" #callingCode (change)="onChange(callingCode.value)" required>
+  <option disabled selected value>Select Code</option>
+  <ng-container *ngIf="countries">
+    <option *ngFor="let country of countries" value="{{country.callingCode}}">{{currentCallingCode === country.callingCode ? '' : country.name + ' '}}+{{country.callingCode}}</option>
+  </ng-container>
+</select>

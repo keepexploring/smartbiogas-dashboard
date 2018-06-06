@@ -22,7 +22,6 @@ export class TechniciansService {
   loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   loadingSingle: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   items: BehaviorSubject<Array<Technician>> = new BehaviorSubject<Array<Technician>>([]);
-
   limit: number = environment.apiPagesToPrefetch;
 
   private fetching: boolean = false;
@@ -45,10 +44,16 @@ export class TechniciansService {
       this.endpoints.technicians.index +
       this.endpoints.getOffset(page, this.responseMetadata.getValue().itemsPerPage);
 
+    console.log(endpoint);
+
     this.http
       .get(endpoint, { observe: 'response' })
       .pipe(
         tap((response: HttpResponse<any>) => {
+          console.log(response);
+          if (response.body.objects.length === 0) {
+            this.cancelFetch();
+          }
           return this.responseMetadata.next(ApiResponseMeta.fromResponse(response));
         }),
         map(Technician.fromResponse),
@@ -58,11 +63,9 @@ export class TechniciansService {
         tap(items => this.items.next(items)),
         catchError(this.helpers.handleResponseError),
       )
-      .subscribe(
-        success => {
-          this.prefetch(page);
-        }
-      );
+      .subscribe(success => {
+        this.prefetch(page);
+      });
   };
 
   fetchTechnician(id: number) {
@@ -74,9 +77,7 @@ export class TechniciansService {
       .get(this.endpoints.technicians.single + id + '/', { observe: 'response' })
       .pipe(
         tap((response: HttpResponse<any>) => {
-          console.log('SINGLE', response);
           if (this.items.getValue().length < 2) {
-            console.log('PREFETCH FROM SINGLE');
             this.prefetch(0);
           }
         }),
@@ -93,29 +94,7 @@ export class TechniciansService {
       });
   }
 
-  private prefetch(page: number) {
-    if (this.fetching) {
-      return;
-    }
-
-    this.loading.next(true);
-
-    const meta: ApiResponseMeta = this.responseMetadata.getValue();
-    const nextPage: number = page + 1;
-    let limit: number = this.limit;
-
-    if (page >= this.limit) {
-      this.fetching = true;
-      this.loading.next(false);
-      return; // No more pages to prefetch
-    }
-
-    this.get(nextPage);
-    return; // already fetching
-  }
-
   refresh() {
-    console.log('service refresh');
     const meta = this.responseMetadata.getValue();
     this.limit = meta.pageFetched;
     this.fetching = false;
@@ -136,40 +115,35 @@ export class TechniciansService {
     }
   }
 
-  handleNotFound(err: any) {
+  prefetch(page: number) {
+    if (this.fetching) {
+      return;
+    }
+
+    this.loading.next(true);
+
+    const meta: ApiResponseMeta = this.responseMetadata.getValue();
+    const nextPage: number = page + 1;
+    let limit: number = this.limit;
+
+    if (page >= this.limit) {
+      this.cancelFetch();
+      return; // No more pages to prefetch
+    }
+
+    this.get(nextPage);
+    return; // already fetching
+  }
+
+  cancelFetch() {
+    this.fetching = true;
+    this.loading.next(false);
+  }
+
+  private handleNotFound(err: any) {
     this.messageService.notFound();
     this.router.navigate(['/technicians']);
     this.loading.next(false);
     return of(err);
-  }
-
-  sortResultsById() {
-    const list = this.items.getValue().sort((a, b) => {
-      return a.id - b.id;
-    });
-    this.items.next(list);
-  }
-
-  sortResultsByName(orderBy: 'asc' | 'desc' = 'asc') {
-    const list = this.items.getValue().sort((a, b) => {
-      var nameA = a.first_name.toUpperCase(); // ignore upper and lowercase
-      var nameB = b.first_name.toUpperCase(); // ignore upper and lowercase
-      if (orderBy === 'asc') {
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-      } else {
-        if (nameA > nameB) {
-          return -1;
-        }
-        if (nameA < nameB) {
-          return 1;
-        }
-      }
-    });
-    this.items.next(list);
   }
 }

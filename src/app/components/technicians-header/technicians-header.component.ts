@@ -24,12 +24,12 @@ export class TechniciansHeaderComponent implements OnInit, OnDestroy {
     this.subscriptions = [
       this.techniciansService.items.subscribe(technicians => {
         this.count = technicians.length;
-        if (technicians.length == 0) {
-          this.techniciansService.get(1);
-        }
       }),
       this.techniciansService.loading.subscribe(loading => {
         this.loading = loading;
+        if (this.count === 0 && !loading) {
+          this.techniciansService.prefetch(0);
+        }
       }),
       this.techniciansService.responseMetadata.subscribe(meta => {
         if (meta.isRemote) {

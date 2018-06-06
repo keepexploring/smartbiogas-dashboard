@@ -19,9 +19,9 @@ export class User {
     this.resource_uri = this.resource_uri ? EndpointService.baseUri + this.resource_uri : '';
   }
 
-  fullName = (): string => {
+  get fullName(): string {
     const first: string = this.first_name ? this.first_name : 'Unknown';
     const last: string = this.last_name ? this.last_name : 'Unknown';
     return `${first} ${last}`;
-  };
+  }
 }

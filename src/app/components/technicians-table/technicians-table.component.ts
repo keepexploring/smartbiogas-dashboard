@@ -35,7 +35,9 @@ export class TechniciansTableComponent implements OnInit {
   constructor(private techniciansService: TechniciansService, private router: Router) {}
 
   ngOnInit() {
-    this.techniciansService.get(this.currentPage);
+    if (this.itemCount === 0 && !this.loading) {
+      this.techniciansService.get(this.currentPage);
+    }
 
     this.techniciansService.items.subscribe(technicians => {
       this.technicians = technicians;
@@ -52,7 +54,6 @@ export class TechniciansTableComponent implements OnInit {
     });
 
     this.techniciansService.loading.subscribe(loading => {
-      console.log(loading);
       this.loading = loading;
     });
   }

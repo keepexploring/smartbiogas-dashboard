@@ -5,143 +5,107 @@
 
     <form [formGroup]="form">
 
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label for="firstName">First Name</label>
+      <fieldset class="form-group">
+        <legend>User Details</legend>
 
-            <input type="text" class="form-control" formControlName="firstName" required [class.is-invalid]="firstName.invalid && (firstName.dirty || firstName.touched)"
-              [class.is-valid]="firstName.valid">
-            <div class="invalid-feedback" *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
-              <p class="form-text text-danger" *ngIf="firstName.errors.required">This field is required</p>
-              <p class="form-text text-danger" *ngIf="firstName.errors.minlength">
-                First name needs at least
-                <u>{{firstName.errors.minlength.requiredLength}}</u> characters.
-                <b>{{ firstName.errors.minlength.requiredLength - firstName.errors.minlength.actualLength}}</b> to go</p>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" formControlName="firstName" required [class.is-invalid]="firstName.invalid && (firstName.dirty || firstName.touched)"
+                [class.is-valid]="firstName.valid">
+              <div class="invalid-feedback" *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+                <p class="form-text text-danger" *ngIf="firstName.errors.required">This field is required</p>
+                <p class="form-text text-danger" *ngIf="firstName.errors.minlength">
+                  First name needs at least
+                  <u>{{firstName.errors.minlength.requiredLength}}</u> characters.
+                  <b>{{ firstName.errors.minlength.requiredLength - firstName.errors.minlength.actualLength}}</b> to go</p>
+              </div>
             </div>
           </div>
 
-        </div>
-
-        <div class="col-sm-6">
-          <div class="form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" class="form-control" formControlName="lastName" required [class.is-invalid]="lastName.invalid && (lastName.dirty || lastName.touched)"
-              [class.is-valid]="lastName.valid">
-            <div class="invalid-feedback" *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
-              <p class="form-text text-danger" *ngIf="lastName.errors.required">This field is required</p>
-              <p class="form-text text-danger" *ngIf="lastName.errors.minlength">
-                First name needs at least
-                <u>{{lastName.errors.minlength.requiredLength}}</u> characters.
-                <b>{{ lastName.errors.minlength.requiredLength - lastName.errors.minlength.actualLength}}</b> to go</p>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" formControlName="lastName" required [class.is-invalid]="lastName.invalid && (lastName.dirty || lastName.touched)"
+                [class.is-valid]="lastName.valid">
+              <div class="invalid-feedback" *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+                <p class="form-text text-danger" *ngIf="lastName.errors.required">This field is required</p>
+                <p class="form-text text-danger" *ngIf="lastName.errors.minlength">
+                  First name needs at least
+                  <u>{{lastName.errors.minlength.requiredLength}}</u> characters.
+                  <b>{{ lastName.errors.minlength.requiredLength - lastName.errors.minlength.actualLength}}</b> to go</p>
+              </div>
             </div>
+
           </div>
-
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="phoneNumber">Phone Number</label>
-        <input type="tel" class="form-control" formControlName="phoneNumber" required [class.is-invalid]="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)"
-          [class.is-valid]="phoneNumber.valid" placeholder="E.g. +441311111111">
-
-        <div class="invalid-feedback" *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)">
-          <p class="form-text text-danger" *ngIf="phoneNumber.errors.required">This field is required</p>
-          <p class="form-text text-danger" *ngIf="phoneNumber.errors.pattern">Invalid format, please enter phone number in an international format, e.g. +441311111111</p>
-          <p class="form-text text-danger" *ngIf="phoneNumber.errors.minlength">
-            Needs at least
-            <u>{{phoneNumber.errors.minlength.requiredLength}}</u> characters.
-            <b>{{ phoneNumber.errors.minlength.requiredLength - phoneNumber.errors.minlength.actualLength}}</b> to go</p>
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number</label>
+          <div class="input-group">
+            <div class="input-group-prepend was-validated">
+              <app-country-calling-code-dropdown (selected)="setPhonePrefix($event)"></app-country-calling-code-dropdown>
+            </div>
+            <input type="tel" class="form-control" formControlName="phoneNumber" required [class.is-invalid]="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)"
+              [class.is-valid]="phoneNumber.valid" placeholder="E.g. 1234567890">
+          </div>
+          <div class="small" *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)">
+            <p class="form-text text-danger" *ngIf="phoneNumber.errors.required">This field is required</p>
+            <p class="form-text text-danger" *ngIf="phoneNumber.errors.pattern">Invalid format, please enter a valid phone number, e.g. 1234567890</p>
+            <p class="form-text text-danger" *ngIf="phoneNumber.errors.minlength">
+              Needs at least
+              <u>{{phoneNumber.errors.minlength.requiredLength}}</u> characters.
+              <b>{{ phoneNumber.errors.minlength.requiredLength - phoneNumber.errors.minlength.actualLength}}</b> to go</p>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" formControlName="email" required [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
-          [class.is-valid]="email.valid">
-        <div class="invalid-feedback" *ngIf="email.invalid && (email.dirty || email.touched)">
-          <p class="form-text text-danger" *ngIf="email.errors.required">This field is required</p>
-          <p class="form-text text-danger" *ngIf="email.errors.email">
-            Please enter a valid email address</p>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" formControlName="email" required [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
+            [class.is-valid]="email.valid">
+          <div class="invalid-feedback" *ngIf="email.invalid && (email.dirty || email.touched)">
+            <p class="form-text text-danger" *ngIf="email.errors.required">This field is required</p>
+            <p class="form-text text-danger" *ngIf="email.errors.email">
+              Please enter a valid email address</p>
+          </div>
         </div>
-      </div>
 
-
-
-
-
-
-      <div class="form-group">
-        <label for="companyName">Company Name</label>
-        <input type="text" class="form-control" formControlName="companyName" required [class.is-invalid]="companyName.invalid && (companyName.dirty || companyName.touched)"
-          [class.is-valid]="companyName.valid">
-        <div class="invalid-feedback" *ngIf="companyName.invalid && (companyName.dirty || companyName.touched)">
-          <p class="form-text text-danger" *ngIf="companyName.errors.required">This field is required</p>
-          <p class="form-text text-danger" *ngIf="companyName.errors.minlength">
-            Company Name needs at least
-            <u>{{companyName.errors.minlength.requiredLength}}</u> characters.
-            <b>{{ companyName.errors.minlength.requiredLength - companyName.errors.minlength.actualLength}}</b> to go</p>
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select class="custom-select" formControlName="status" required [class.is-invalid]="status.invalid && (status.dirty || status.touched)"
+            [class.is-valid]="status.valid">
+            <option value="true" selected>Active</option>
+            <option value="false">Inactive</option>
+          </select>
+          <app-technician-status [status]="status.value" [size]="'small'"></app-technician-status>
+          <div class="invalid-feedback" *ngIf="status.invalid && (status.dirty || status.touched)">
+            <p class="form-text text-danger" *ngIf="status.errors.required">This field is required</p>
+          </div>
         </div>
-      </div>
 
-
-      <div class="form-group">
-        <label for="status">Status</label>
-
-
-
-        <select class="form-control" formControlName="status" required [class.is-invalid]="status.invalid && (status.dirty || status.touched)"
-          [class.is-valid]="status.valid">
-          <option value="true" selected>Active</option>
-          <option value="false">Inactive</option>
-        </select>
-
-        <app-technician-status [status]="status.value" [size]="'small'"></app-technician-status>
-
-        <div class="invalid-feedback" *ngIf="status.invalid && (status.dirty || status.touched)">
-          <p class="form-text text-danger" *ngIf="status.errors.required">This field is required</p>
+        <div class="form-group">
+          <label for="role">Role</label>
+          <select class="custom-select" formControlName="role" [class.is-valid]="role.dirty || role.touched">
+            <option value="1" selected>Technician</option>
+            <option value="2">Admin</option>
+          </select>
         </div>
-      </div>
 
+        <div class="form-group">
+          <label for="languagesSpoken">Languages Spoken</label>
+          <input type="text" class="form-control" formControlName="languagesSpoken" [class.is-valid]="languagesSpoken.dirty || languagesSpoken.touched">
+          <small class="form-text text-muted">Comma separated, e.g.
+            <i>Spanish, English, Italian</i>
+          </small>
+        </div>
 
-      <div class="form-group">
-        <label for="role">Role</label>
-        <select class="form-control" formControlName="role" [class.is-valid]="role.dirty || role.touched">
-          <option value="1" selected>Technician</option>
-          <option value="2">Admin</option>
-        </select>
-      </div>
+      </fieldset>
 
 
 
       <fieldset class="form-group">
         <legend>Address Details</legend>
-        <div class="form-group">
-          <label for="district">District</label>
-          <input type="text" class="form-control" formControlName="district" [class.is-valid]="district.dirty || district.touched">
-        </div>
-
-        <div class="form-group">
-          <label for="neighbourhood">Neighbourhood</label>
-          <input type="text" class="form-control" formControlName="neighbourhood" [class.is-valid]="neighbourhood.dirty || neighbourhood.touched">
-        </div>
-
-        <div class="form-group">
-          <label for="postcode">Postcode</label>
-          <input type="text" class="form-control" formControlName="postcode" [class.is-valid]="postcode.dirty || postcode.touched">
-        </div>
-
-        <div class="form-group">
-          <label for="region">Region</label>
-          <input type="text" class="form-control" formControlName="region" [class.is-valid]="region.dirty || region.touched">
-        </div>
-
-
-
-        <div class="form-group">
-          <label for="village">Village</label>
-          <input type="text" class="form-control" formControlName="village" [class.is-valid]="village.dirty || village.touched">
-        </div>
 
         <div class="form-group">
           <label for="ward">Ward</label>
@@ -149,11 +113,36 @@
         </div>
 
         <div class="form-group">
+          <label for="village">Village</label>
+          <input type="text" class="form-control" formControlName="village" [class.is-valid]="village.dirty || village.touched">
+        </div>
+
+        <div class="form-group">
+          <label for="district">District</label>
+          <input type="text" class="form-control" formControlName="district" [class.is-valid]="district.dirty || district.touched">
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="postcode">Postcode</label>
+              <input type="text" class="form-control" formControlName="postcode" [class.is-valid]="postcode.dirty || postcode.touched">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="region">Region</label>
+              <input type="text" class="form-control" formControlName="region" [class.is-valid]="region.dirty || region.touched">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="country">Country</label>
-          <select class="form-control" formControlName="country" required [class.is-invalid]="country.invalid && (country.dirty || country.touched)"
+          <select class="custom-select" formControlName="country" required [class.is-invalid]="country.invalid && (country.dirty || country.touched)"
             [class.is-valid]="country.valid">
             <option value="">Select Country</option>
-            <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+            <option *ngFor="let countryName of countries" [value]="countryName">{{countryName}}</option>
           </select>
           <div class="invalid-feedback" *ngIf="country.invalid && (country.dirty || country.touched)">
             <p class="form-text text-danger" *ngIf="country.errors.required">This field is required</p>
@@ -165,7 +154,14 @@
           <textarea type="text" class="form-control" formControlName="otherAddressDetails" [class.is-valid]="otherAddressDetails.dirty || otherAddressDetails.touched"></textarea>
         </div>
 
+        <div class="form-group">
+          <label for="what3words">What3words</label>
+          <input type="text" class="form-control" formControlName="what3words" [class.is-valid]="what3words.dirty || what3words.touched">
+        </div>
+
       </fieldset>
+
+
 
       <div class="form-group">
         <label for="maxNumJobsAllowed">Max Number of Jobs Allowed</label>
@@ -193,61 +189,34 @@
         <input type="file" class="form-control" formControlName="userPhoto">
       </div>
 
-
-      <div class="form-group">
-        <label for="specialistSkills">Specialist Skills</label>
-        <div class="form-check" *ngFor="let skill of specialistSkills.controls; let i = index">
-          <input class="form-check-input" type="checkbox" [formControl]="skill" [value]="skillsList[i].value">
-          <label class="form-check-label">{{skillsList[i].label}}</label>
-        </div>
-      </div>
-
-
-      <div class="form-group">
+      <div class="form-group" *ngIf="acreditToInstall">
         <label for="acreditToInstall">Accredited to Install</label>
         <div class="form-check" *ngFor="let skill of acreditToInstall.controls; let i = index">
-          <input class="form-check-input" type="checkbox" [formControl]="skill" [value]="skillsList[i].value">
-          <label class="form-check-label">{{skillsList[i].label}}</label>
+          <input class="form-check-input" type="checkbox" [formControl]="skill" [value]="accreditedSkills[i].name">
+          <label class="form-check-label">{{accreditedSkills[i].label}}</label>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" *ngIf="acreditedToFix">
         <label for="acreditedToFix">Accredited to Fix</label>
         <div class="form-check" *ngFor="let skill of acreditedToFix.controls; let i = index">
-          <input class="form-check-input" type="checkbox" [formControl]="skill" [value]="skillsList[i].value">
-          <label class="form-check-label">{{skillsList[i].label}}</label>
+          <input class="form-check-input" type="checkbox" [formControl]="skill" [value]="accreditedSkills[i].name">
+          <label class="form-check-label">{{accreditedSkills[i].label}}</label>
         </div>
       </div>
 
-
-      <div class="form-group">
-        <label for="languagesSpoken">Languages Spoken</label>
-        <input type="text" class="form-control" formControlName="languagesSpoken" [class.is-valid]="languagesSpoken.dirty || languagesSpoken.touched">
-        <small class="form-text text-muted">Comma separated, e.g.
-          <i>Spanish, English, Italian</i>
-        </small>
+      <div class="form-group" *ngIf="specialistSkills">
+        <label for="specialistSkills">Specialist Skills</label>
+        <div class="form-check" *ngFor="let skill of specialistSkills.controls; let i = index">
+          <input class="form-check-input" type="checkbox" [formControl]="skill" [value]="skillsList[i].name">
+          <label class="form-check-label">{{skillsList[i].label}}</label>
+        </div>
       </div>
 
       <div class="form-group">
         <button type="submit" class="btn btn-primary btn-block" [disabled]="!form.valid">Create</button>
       </div>
     </form>
-
-    <b>Form value:</b>
-    <pre>{{ form.value | json }}</pre>
-    <b>Value:</b>
-    <pre>{{form.get('firstName').value}}</pre>
-    <b>Pristine:</b>
-    <pre>{{form.get('firstName').pristine}}</pre>
-    <b>Dirty:</b>
-    <pre>{{form.get('firstName').dirty}}</pre>
-    <b>Untouched:</b>
-    <pre>{{form.get('firstName').untouched}}</pre>
-    <b>Touched:</b>
-    <pre>{{form.get('firstName').touched}}</pre>
-
-    <br>Form status:
-    <pre>{{ form.status | json }}</pre>
 
   </div>
 </div>

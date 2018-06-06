@@ -30,6 +30,8 @@ export class EndpointService {
     plant: this.fullApiEndpoint(`jobs/?limit=${environment.apiPageLimit}&plant__id=`),
   };
 
+  countryData = this.fullApiEndpoint('data/get_countries_and_mobile_shortcodes/');
+
   getOffset(page: number, itemsPerPage: number): string {
     page = page - 1;
     const offset = '&offset=' + page * itemsPerPage;

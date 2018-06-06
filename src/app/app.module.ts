@@ -51,6 +51,7 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
 import { TechniciansHeaderComponent } from './components/technicians-header/technicians-header.component';
 import { TechnicianFormComponent } from './components/technician-form/technician-form.component';
 import { MapToKeysPipe } from './core/pipes/map-to-keys.pipe';
+import { CountryCallingCodeDropdownComponent } from './components/country-calling-code-dropdown/country-calling-code-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { MapToKeysPipe } from './core/pipes/map-to-keys.pipe';
     TechniciansHeaderComponent,
     TechnicianFormComponent,
     MapToKeysPipe,
+    CountryCallingCodeDropdownComponent,
   ],
   imports: [
     BrowserModule,

@@ -44,8 +44,8 @@
         <div class="form-group">
           <label for="phoneNumber">Phone Number</label>
           <div class="input-group">
-            <div class="input-group-prepend was-validated">
-              <app-country-calling-code-dropdown (selected)="setPhonePrefix($event)"></app-country-calling-code-dropdown>
+            <div class="input-group-prepend" [class.was-validated]="phoneNumberPrefix.value !== ''">
+              <app-country-calling-code-dropdown (selected)="phoneNumberPrefix.setValue($event)"></app-country-calling-code-dropdown>
             </div>
             <input type="tel" class="form-control" formControlName="phoneNumber" required [class.is-invalid]="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)"
               [class.is-valid]="phoneNumber.valid" placeholder="E.g. 1234567890">
@@ -70,6 +70,38 @@
               Please enter a valid email address</p>
           </div>
         </div>
+
+
+        <div class="form-group" *ngIf="(email.touched && email.valid) || (phoneNumber.touched && phoneNumber.valid)">
+          <label for="username">Username</label>
+          <select class="custom-select" formControlName="username" required [class.is-invalid]="username.invalid && (username.dirty || username.touched)"
+            [class.is-valid]="username.valid">
+            <option [value]="email.value" *ngIf="email.valid">{{email.value}}</option>
+            <option [value]="phone" *ngIf="phoneNumber.valid">{{phone}}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="username.invalid && (username.dirty || username.touched)">
+            <p class="form-text text-danger" *ngIf="username.errors.required">This field is required</p>
+            <p class="form-text text-danger" *ngIf="username.errors.minlength">
+              First name needs at least
+              <u>{{username.errors.minlength.requiredLength}}</u> characters.
+              <b>{{ username.errors.minlength.requiredLength - username.errors.minlength.actualLength}}</b> to go</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" formControlName="password" required [class.is-invalid]="password.invalid && (password.dirty || password.touched)"
+            [class.is-valid]="password.valid">
+          <div class="invalid-feedback" *ngIf="password.invalid && (password.dirty || password.touched)">
+            <p class="form-text text-danger" *ngIf="password.errors.required">This field is required</p>
+            <p class="form-text text-danger" *ngIf="password.errors.minlength">
+              First name needs at least
+              <u>{{password.errors.minlength.requiredLength}}</u> characters.
+              <b>{{ password.errors.minlength.requiredLength - password.errors.minlength.actualLength}}</b> to go</p>
+          </div>
+        </div>
+
+
 
         <div class="form-group">
           <label for="status">Status</label>
@@ -214,8 +246,8 @@
       </div>
 
       <div class="form-group">
-        <!-- <button type="submit" class="btn btn-primary btn-block" [disabled]="!form.valid">Create</button> -->
         <button type="submit" class="btn btn-primary btn-block">Create</button>
+        <!-- <button type="submit" class="btn btn-primary btn-block" [disabled]="!form.valid">Create</button> -->
       </div>
     </form>
 

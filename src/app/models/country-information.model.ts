@@ -1,11 +1,12 @@
 import { HttpResponse } from '@angular/common/http';
+import { Language } from './language';
 
 export class CountryInformation {
   name: string;
   callingCodes: string[];
   alpha2: string;
   alpha3: string;
-  languages: string[];
+  languages: Language[];
   latlong: number[];
 
   get callingCode() {
@@ -23,7 +24,16 @@ export class CountryInformation {
       country.callingCodes = data.calling_code;
       country.alpha2 = data.alpha_2;
       country.alpha3 = data.alpha_3;
-      country.languages = data.languages;
+      if (data.languages) {
+        country.languages = data.languages.map(lang => {
+          const language = new Language();
+          language.code = lang.code;
+          language.name = lang.name;
+          return language;
+        });
+      } else {
+        country.languages = [];
+      }
       country.latlong = data.latlong;
       return country;
     });

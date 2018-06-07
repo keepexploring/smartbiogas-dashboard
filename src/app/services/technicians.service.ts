@@ -13,6 +13,7 @@ import { Message } from '../models/message';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { MessageType } from '../enums/message-type';
+import { AbstractControl } from '@angular/forms';
 
 @Injectable()
 export class TechniciansService {
@@ -137,14 +138,64 @@ export class TechniciansService {
     this.loading.next(false);
   }
 
-  create(technician: Technician): Technician {
-    this.http
-      .post(this.endpoints.technicians.create, JSON.stringify(technician), this.httpOptions)
-      .subscribe(response => {
-        console.log(response);
-      });
+  create(form: any): Observable<any> {
+    console.log(form);
+    const technician = this.prepareToCreate(form);
+    console.log(technician);
+    return this.http.post(this.endpoints.technicians.create, form, this.httpOptions).pipe(
+      catchError((error: any) => {
+        console.log(error);
+        return of(error);
+      }),
+    );
+  }
 
+  prepareToCreate(data: any) {
+    console.log(data);
+    const technician = new Technician();
+    technician.first_name = data.firstName;
+    technician.last_name = data.lastName;
+    technician.phone_number = data.phone;
+    technician.mobile = data.phone;
+    technician.email = data.email;
+    technician.status = data.status;
+    technician.role = data.role;
+    technician.country = data.country;
+    technician.region = data.region;
+    technician.district = data.district;
+    technician.ward = data.ward;
+    technician.village = data.village;
+    technician.postcode = data.postcode;
+    technician.what3words = data.what3words;
+    technician.other_address_details = data.otherAddressDetails;
+    technician.max_num_jobs_allowed = data.maxNumJobsAllowed;
+    technician.willing_to_travel = data.willingToTravel;
+    technician.username = data.username;
+    technician.password = data.password;
+    technician.specialist_skills = this.getValuesForCheckboxSelections(
+      data.specialistSkills,
+      Technician.skills,
+    );
+    technician.acredit_to_install = this.getValuesForCheckboxSelections(
+      data.acreditToInstall,
+      Technician.accreditedSkills,
+    );
+    technician.acredited_to_fix = this.getValuesForCheckboxSelections(
+      data.acreditedToFix,
+      Technician.accreditedSkills,
+    );
+    (technician.languages_spoken = data.languagesSpoken.value.split()),
+      (technician.user_photo = data.userPhoto.value);
     return technician;
+  }
+
+  getValuesForCheckboxSelections(field: boolean[], values: any[]): string[] {
+    return field.reduce((newValues, isSelected, index): string[] => {
+      if (isSelected) {
+        newValues.push(values[index].name);
+      }
+      return newValues;
+    }, []);
   }
 
   private httpOptions = {

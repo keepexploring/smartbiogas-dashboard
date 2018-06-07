@@ -11,13 +11,7 @@ export class User {
   contact_type: string;
   email: string;
   resource_uri: string;
-
   role: string;
-
-  constructor(private user?: Partial<User>) {
-    Object.assign(this, user);
-    this.resource_uri = this.resource_uri ? EndpointService.baseUri + this.resource_uri : '';
-  }
 
   get fullName(): string {
     const first: string = this.first_name ? this.first_name : 'Unknown';

@@ -28,6 +28,11 @@ export class Technician extends User {
 
   address: string;
 
+  // for creation
+  username: string;
+  password: string;
+  mobile: string;
+
   static fromResponse(response: HttpResponse<any>): Technician | Technician[] {
     const isSingle: boolean = !response.body.objects;
 
@@ -40,32 +45,31 @@ export class Technician extends User {
     });
   }
 
-  constructor(private tech?: Partial<Technician>) {
-    super(tech);
-    Object.assign(this, tech);
-  }
+  // constructor(tech?: Partial<Technician>) {
+  //   super(tech);
+  //   Object.assign(this, tech);
+  // }
 
   private static parse(data: any): Technician {
-    const item = new this({
-      country: data.country,
-      datetime_created: data.datetime_created,
-      datetime_modified: data.datetime_modified,
-      district: data.district,
-      email: data.email,
-      first_name: data.first_name,
-      id: data.id,
-      last_name: data.last_name,
-      neighbourhood: data.neighbourhood,
-      other_address_details: data.other_address_details,
-      phone_number: data.phone_number,
-      postcode: data.postcode,
-      region: data.region,
-      resource_uri: data.resource_uri,
-      role: data.role,
-      user_photo: data.user_photo,
-      village: data.village,
-      ward: data.ward,
-    });
+    const item = new Technician();
+    item.country = data.country;
+    item.datetime_created = data.datetime_created;
+    item.datetime_modified = data.datetime_modified;
+    item.district = data.district;
+    item.email = data.email;
+    item.first_name = data.first_name;
+    item.id = data.id;
+    item.last_name = data.last_name;
+    item.neighbourhood = data.neighbourhood;
+    item.other_address_details = data.other_address_details;
+    item.phone_number = data.phone_number;
+    item.postcode = data.postcode;
+    item.region = data.region;
+    item.resource_uri = data.resource_uri;
+    item.role = data.role;
+    item.user_photo = data.user_photo;
+    item.village = data.village;
+    item.ward = data.ward;
 
     if (data.technician_details) {
       item.acredit_to_install = data.technician_details.acredit_to_install;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
 import { Technician } from '../../models/technician';
 import { CountryInformationService } from '../../services/country-information.service';
@@ -34,58 +34,11 @@ export class TechnicianFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form);
     // if (this.form.valid) {
-    const technician = new Technician({
-      first_name: this.firstName.value,
-      last_name: this.lastName.value,
-      phone_number: this.phoneNumberPrefix.value + this.phoneNumber.value,
-      email: this.email.value,
-      status: this.status.value,
-      role: this.role.value,
-      country: this.country.value,
-      region: this.region.value,
-      district: this.district.value,
-      ward: this.ward.value,
-      village: this.village.value,
-      postcode: this.postcode.value,
-      what3words: this.what3words.value,
-      other_address_details: this.otherAddressDetails.value,
-      max_num_jobs_allowed: this.maxNumJobsAllowed.value,
-      willing_to_travel: this.willingToTravel.value,
-      specialist_skills: this.specialistSkills.value.map((isSelected, index) =>
-        this.getSkillName(isSelected, index),
-      ),
-      acredit_to_install: this.acreditToInstall.value.map((isSelected, index) =>
-        this.getAccreditedSkillsName(isSelected, index),
-      ),
-      acredited_to_fix: this.acreditedToFix.value.map((isSelected, index) =>
-        this.getAccreditedSkillsName(isSelected, index),
-      ),
-      languages_spoken: this.languagesSpoken.value.split(),
-      user_photo: this.userPhoto.value,
-    });
-
-    console.log(technician);
-
-    // this.techniciansService.create(technician);
+    this.techniciansService
+      .create(this.form.value)
+      .subscribe(success => console.log, error => console.log);
     // }
-  }
-
-  getSkillName(isSelected, index) {
-    console.log(isSelected);
-    if (isSelected) {
-      return this.skillsList[index].name;
-    }
-    return null;
-  }
-
-  getAccreditedSkillsName(isSelected, index) {
-    console.log(isSelected);
-    if (isSelected) {
-      return this.accreditedSkills[index].name;
-    }
-    return null;
   }
 
   createForm() {
@@ -98,8 +51,8 @@ export class TechnicianFormComponent implements OnInit {
       ],
       phoneNumberPrefix: [''],
       email: ['', [Validators.email, Validators.required]],
-      status: ['true', [Validators.required]],
-      role: ['1', [Validators.required]],
+      status: [true, [Validators.required]],
+      role: [1, [Validators.required]],
       country: ['', [Validators.required]],
       region: [''],
       district: [''],
@@ -108,23 +61,20 @@ export class TechnicianFormComponent implements OnInit {
       postcode: [''],
       what3words: [''],
       otherAddressDetails: [''],
-      maxNumJobsAllowed: ['1', [Validators.min(1), Validators.pattern('^(0|[1-9][0-9]*)$')]],
-      willingToTravel: ['10', [Validators.min(1), Validators.pattern('^(0|[1-9][0-9]*)$')]],
+      maxNumJobsAllowed: [1, [Validators.min(1), Validators.pattern('^(0|[1-9][0-9]*)$')]],
+      willingToTravel: [10, [Validators.min(1), Validators.pattern('^(0|[1-9][0-9]*)$')]],
       specialistSkills: this.buildSkills(),
       acreditToInstall: this.buildAccreditedSkills(),
       acreditedToFix: this.buildAccreditedSkills(),
       languagesSpoken: [''],
+      username: [''],
+      password: ['', [Validators.required, Validators.minLength(6)]],
 
       // TODO: Joel to check
       // Min and Max sizes
       // Valid formats
       userPhoto: [''],
     });
-  }
-
-  setPhonePrefix(event) {
-    console.log(event);
-    this.phoneNumberPrefix.setValue(event);
   }
 
   buildSkills(): FormArray {
@@ -150,10 +100,22 @@ export class TechnicianFormComponent implements OnInit {
     return this.formBuilder.array(languageFGs);
   }
 
+  // full phone
+  get phone() {
+    return '+' + this.phoneNumberPrefix.value + this.phoneNumber.value;
+  }
+
   get specialistSkills(): FormArray {
     return this.form.get('specialistSkills') as FormArray;
   }
 
+  get username() {
+    return this.form.get('username');
+  }
+
+  get password() {
+    return this.form.get('password');
+  }
   get firstName() {
     return this.form.get('firstName');
   }

@@ -9,64 +9,39 @@ import { FormGroup, Validators, FormBuilder, FormControl, AbstractControl } from
   styleUrls: ['./forgot-password.component.sass'],
 })
 export class ForgotPasswordComponent implements OnInit {
-  forgotPasswordForm: FormGroup;
-  private currentField: 'email' | 'phone';
-  emailValidators = [Validators.required, Validators.minLength(4), Validators.email];
-  phoneValidators = [
-    Validators.required,
-    Validators.minLength(4),
-    Validators.pattern('^[+d][0-9]{0,14}$'),
-  ];
+  emailForm: FormGroup;
+  phoneNumberForm: FormGroup;
 
   constructor(private router: Router, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.forgotPasswordForm = this.formBuilder.group({
-      email: [''],
-      phoneNumber: [''],
+    this.emailForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.minLength(4), Validators.email]],
     });
 
-    this.clearFeilds();
+    this.phoneNumberForm = this.formBuilder.group({
+      phoneNumber: [
+        '',
+        [Validators.required, Validators.minLength(4), Validators.pattern('^[+d][0-9]{0,14}$')],
+      ],
+    });
   }
 
   onSubmit() {
-    console.log();
     this.router.navigate(['/reset-password']);
   }
 
-  private clearFeilds() {
-    // this.email.valueChanges.subscribe(changes =>
-    //   this.focusOnFeild(this.email, this.phoneNumber, this.emailValidators),
-    // );
-    // this.phoneNumber.valueChanges.subscribe(changes =>
-    //   this.focusOnFeild(this.phoneNumber, this.email, this.phoneValidators),
-    // );
-  }
-
-  focusOnEmail() {
-    console.log('email');
-    this.focusOnFeild(this.email, this.phoneNumber, this.emailValidators);
-  }
-
-  focusOnPhone() {
-    console.log('phone');
-    this.focusOnFeild(this.phoneNumber, this.email, this.phoneValidators);
-  }
-
-  focusOnFeild(toFocus: AbstractControl, toClear: AbstractControl, validators: any[]) {
-    console.log('focusOnField', validators);
-    toFocus.setValidators(validators);
-    toClear.clearValidators();
+  clearFeild(toClear: AbstractControl) {
     if (toClear.value !== '') {
       toClear.setValue('');
     }
   }
 
   get email() {
-    return this.forgotPasswordForm.get('email');
+    return this.emailForm.get('email');
   }
 
   get phoneNumber() {
-    return this.forgotPasswordForm.get('phoneNumber');
+    return this.phoneNumberForm.get('phoneNumber');
   }
 }

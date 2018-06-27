@@ -12,5 +12,5 @@ export const environment = {
   apClientSecret: '123456',
   apiPageLimit: 100,
   defaultPaginationLimit: 15,
-  apiPagesToPrefetch: 20,
+  apiPagesToPrefetch: 30,
 };

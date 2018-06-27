@@ -6,10 +6,37 @@ import { FormErrorsComponent } from './components/form-errors/form-errors.compon
 import { ImageComponent } from './components/image/image.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HeaderLoadingComponent } from './components/header-loading/header-loading.component';
+import { IconsModule } from '../modules/icons.module';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
+import { CountryCallingCodeDropdownComponent } from './components/country-calling-code-dropdown/country-calling-code-dropdown.component';
+import { HeaderComponent } from './components/header/header.component';
+import { MapToKeysPipe } from './pipes/map-to-keys.pipe';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
-  imports: [CommonModule, SharedRoutingModule, ReactiveFormsModule],
-  declarations: [FormErrorsComponent, ImageComponent, LoadingComponent],
-  exports: [FormErrorsComponent, ImageComponent, LoadingComponent],
+  imports: [CommonModule, SharedRoutingModule, ReactiveFormsModule, IconsModule],
+  declarations: [
+    FormErrorsComponent,
+    ImageComponent,
+    LoadingComponent,
+    HeaderLoadingComponent,
+    ProgressBarComponent,
+    CountryCallingCodeDropdownComponent,
+    HeaderComponent,
+    MapToKeysPipe,
+    NotFoundComponent,
+  ],
+  exports: [
+    FormErrorsComponent,
+    ImageComponent,
+    LoadingComponent,
+    HeaderLoadingComponent,
+    ProgressBarComponent,
+    CountryCallingCodeDropdownComponent,
+    HeaderComponent,
+    MapToKeysPipe,
+    NotFoundComponent,
+  ],
 })
 export class SharedModule {}

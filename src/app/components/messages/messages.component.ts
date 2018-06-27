@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   trigger,
-  state,
   style,
   transition,
   animate,
@@ -10,7 +9,7 @@ import {
   stagger,
 } from '@angular/animations';
 
-import { MessageService } from '../../services/message.service';
+import { MessageService } from '../../core/services/message.service';
 import { Message } from '../../models/message';
 
 @Component({

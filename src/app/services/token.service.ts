@@ -5,8 +5,8 @@ import { Observable, of, Subject, throwError } from 'rxjs';
 import { map, tap, catchError, delay, retry } from 'rxjs/operators';
 
 import { Token } from '../models/token';
-import { HelpersService } from './helpers.service';
-import { EndpointService } from './endpoint.service';
+import { HelpersService } from '../core/services/helpers.service';
+import { EndpointService } from '../core/services/endpoint.service';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 

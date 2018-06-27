@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
-import { MessageService } from '../services/message.service';
-import { ConnectionStatusService } from '../services/connection-status.service';
-import { NavigationHistoryService } from '../services/navigation-history.service';
+import { MessageService } from '../core/services/message.service';
+import { ConnectionStatusService } from '../core/services/connection-status.service';
+import { NavigationHistoryService } from '../core/services/navigation-history.service';
 
 @Component({
   selector: 'app-root',

@@ -9,9 +9,9 @@ import {
 } from '@angular/core';
 
 import { Plant } from '../../models/plant';
-import { HelpersService } from '../../services/helpers.service';
+import { HelpersService } from '../../core/services/helpers.service';
 import { PlantsService } from '../../services/plants.service';
-import { mapStyles } from '../../core/constants';
+import { mapStyles } from '../../shared/constants';
 
 @Component({
   selector: 'app-plants-map',

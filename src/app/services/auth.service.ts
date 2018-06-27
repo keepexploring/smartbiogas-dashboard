@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of, Subject } from 'rxjs';
-import { map, tap, catchError, delay, retry } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 
-import { EndpointService } from './endpoint.service';
 import { Router } from '@angular/router';
 import { TokenService } from './token.service';
 import { Token } from '../models/token';
@@ -14,12 +12,7 @@ export class AuthService {
   validatedToken: boolean = false;
   authChanged: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private http: HttpClient,
-    private endpoints: EndpointService,
-    private router: Router,
-    private tokenService: TokenService,
-  ) {
+  constructor(private router: Router, private tokenService: TokenService) {
     this.authenticated = false;
   }
 
@@ -51,8 +44,8 @@ export class AuthService {
     this.tokenService
       .validate()
       .pipe(
-        tap(au => this.updateAuthenticationState),
-        tap(au => this.check()),
+        tap(() => this.updateAuthenticationState),
+        tap(() => this.check()),
         catchError(err => {
           this.logOut();
           return of(err);
@@ -76,10 +69,6 @@ export class AuthService {
 
   private sendToLogin(): void {
     this.router.navigate(['/login']);
-  }
-
-  private sendToDashboard(): void {
-    this.router.navigate(['/dashboard']);
   }
 
   updateAuthenticationState(updatedAuthenticationState: boolean): void {

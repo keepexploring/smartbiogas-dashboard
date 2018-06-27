@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Plant } from '../models/plant';
-import { HelpersService } from './helpers.service';
-import { EndpointService } from './endpoint.service';
+import { HelpersService } from '../core/services/helpers.service';
+import { EndpointService } from '../core/services/endpoint.service';
 import { BiogasPlantContact } from '../models/biogas-plant-contact';
 
 @Injectable()

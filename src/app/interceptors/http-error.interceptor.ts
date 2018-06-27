@@ -3,19 +3,17 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpResponse,
   HttpErrorResponse,
   HttpInterceptor,
 } from '@angular/common/http';
-import { Observable, of, throwError, empty } from 'rxjs';
+import { Observable, throwError, empty } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { MessageService } from '../services/message.service';
+import { MessageService } from '../core/services/message.service';
 import { Message } from '../models/message';
-import { MessageType } from '../enums/message-type';
-import { NavigationHistoryService } from '../services/navigation-history.service';
+import { MessageType } from '../shared/enums/message-type';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {

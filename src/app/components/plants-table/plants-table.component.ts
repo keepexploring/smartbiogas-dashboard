@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Plant } from '../../models/plant';
 import { PlantsService } from '../../services/plants.service';
-import { HelpersService } from '../../services/helpers.service';
+import { HelpersService } from '../../core/services/helpers.service';
 
 @Component({
   selector: 'app-plants-table',

@@ -1,6 +1,3 @@
-import { EndpointService } from '../services/endpoint.service';
-import { Subject } from 'rxjs';
-
 export class User {
   id: number;
   first_name: string;

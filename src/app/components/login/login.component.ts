@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../services/auth.service';
-import { DataService } from '../../services/data.service';
 import { Router } from '@angular/router';
-import { NavigationHistoryService } from '../../services/navigation-history.service';
+import { NavigationHistoryService } from '../../core/services/navigation-history.service';
 
 @Component({
   selector: 'app-login',

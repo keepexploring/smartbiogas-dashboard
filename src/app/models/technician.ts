@@ -11,14 +11,14 @@ export class Technician extends User {
   other_address_details: string;
   postcode: string;
   region: string;
-  acredit_to_install: string;
-  acredited_to_fix: string;
+  acredit_to_install: string[];
+  acredited_to_fix: string[];
   average_rating: number;
   location: string;
   max_num_jobs_allowed: number;
   number_jobs_active: number;
   number_of_jobs_completed: number;
-  specialist_skills: string;
+  specialist_skills: string[];
   what3words: string;
   willing_to_travel: number;
   user_photo: string;
@@ -101,45 +101,4 @@ export class Technician extends User {
     address += this.country ? this.country + ' ' : '';
     return address;
   };
-
-  static skills = [
-    {
-      name: 'plumber',
-      label: 'Plumber',
-      selected: false,
-    },
-    {
-      name: 'mason',
-      label: 'Mason',
-      selected: false,
-    },
-    {
-      name: 'manager',
-      label: 'Manager',
-      selected: false,
-    },
-    {
-      name: 'design',
-      label: 'Design',
-      selected: false,
-    },
-    {
-      name: 'calculations',
-      label: 'Calculations',
-      selected: false,
-    },
-  ];
-
-  static accreditedSkills = [
-    {
-      name: 'tubular',
-      label: 'Tubular',
-      selected: false,
-    },
-    {
-      name: 'fixed_dome',
-      label: 'Fixed Dome',
-      selected: false,
-    },
-  ];
 }

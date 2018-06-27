@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -25,7 +25,7 @@ import { TechniciansComponent } from './components/technicians/technicians.compo
 import { JobsComponent } from './components/jobs/jobs.component';
 import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
-import { LoadingComponent } from './components/loading/loading.component';
+
 import { TechnicianDetailComponent } from './components/technician-detail/technician-detail.component';
 import { JobsTableComponent } from './components/jobs-table/jobs-table.component';
 import { TechniciansTableComponent } from './components/technicians-table/technicians-table.component';
@@ -46,12 +46,13 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { MessagesComponent } from './components/messages/messages.component';
 import { MessageComponent } from './components/message/message.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { ImageComponent } from './components/image/image.component';
+
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 import { TechniciansHeaderComponent } from './components/technicians-header/technicians-header.component';
 import { TechnicianFormComponent } from './components/technician-form/technician-form.component';
 import { MapToKeysPipe } from './core/pipes/map-to-keys.pipe';
 import { CountryCallingCodeDropdownComponent } from './components/country-calling-code-dropdown/country-calling-code-dropdown.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,6 @@ import { CountryCallingCodeDropdownComponent } from './components/country-callin
     JobsComponent,
     LoginComponent,
     HeaderComponent,
-    LoadingComponent,
     TechnicianDetailComponent,
     JobsTableComponent,
     TechniciansTableComponent,
@@ -79,7 +79,6 @@ import { CountryCallingCodeDropdownComponent } from './components/country-callin
     MessagesComponent,
     MessageComponent,
     NotFoundComponent,
-    ImageComponent,
     ProgressBarComponent,
     TechniciansHeaderComponent,
     TechnicianFormComponent,
@@ -95,6 +94,7 @@ import { CountryCallingCodeDropdownComponent } from './components/country-callin
     FormsModule,
     IconsModule,
     PaginationModule,
+    SharedModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsApiKey,
     }),

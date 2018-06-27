@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
-import { map, catchError, retry, tap, delay, mergeMap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
 
 import { EndpointService } from './endpoint.service';
 import { HelpersService } from './helpers.service';
 import { Technician } from '../models/technician';
 import { ApiResponseMeta } from '../models/api-response-meta';
-import { identifierModuleUrl } from '@angular/compiler';
 import { MessageService } from './message.service';
-import { Message } from '../models/message';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { MessageType } from '../enums/message-type';
-import { AbstractControl } from '@angular/forms';
 
 @Injectable()
 export class TechniciansService {
@@ -36,9 +32,6 @@ export class TechniciansService {
   ) {}
 
   get = (page: number = 0): void => {
-    const count = this.items.getValue().length;
-    const total = this.responseMetadata.getValue().totalItems;
-
     this.loading.next(true);
 
     const endpoint =
@@ -52,16 +45,20 @@ export class TechniciansService {
           if (response.body.objects.length === 0) {
             this.cancelFetch();
           }
-          return this.responseMetadata.next(ApiResponseMeta.fromResponse(response));
+          const responseMeta = ApiResponseMeta.fromResponse(response);
+          if (responseMeta.isRemote && responseMeta.totalItems === this.items.getValue().length) {
+            this.loading.next(false);
+          }
+          return this.responseMetadata.next(responseMeta);
         }),
         map(Technician.fromResponse),
-        map((received, existing) => {
+        map(received => {
           return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
         }),
         tap(items => this.items.next(items)),
         catchError(this.helpers.handleResponseError),
       )
-      .subscribe(success => {
+      .subscribe(() => {
         this.prefetch(page);
       });
   };
@@ -74,13 +71,13 @@ export class TechniciansService {
     this.http
       .get(this.endpoints.technicians.single + id + '/', { observe: 'response' })
       .pipe(
-        tap((response: HttpResponse<any>) => {
+        tap(() => {
           if (this.items.getValue().length < 2) {
             this.prefetch(0);
           }
         }),
         map(Technician.fromResponse),
-        map((received, existing) => {
+        map(received => {
           return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
         }),
         tap(items => this.items.next(items)),
@@ -120,9 +117,7 @@ export class TechniciansService {
 
     this.loading.next(true);
 
-    const meta: ApiResponseMeta = this.responseMetadata.getValue();
     const nextPage: number = page + 1;
-    let limit: number = this.limit;
 
     if (page >= this.limit) {
       this.cancelFetch();
@@ -138,55 +133,57 @@ export class TechniciansService {
     this.loading.next(false);
   }
 
-  create(form: any): Observable<any> {
-    console.log(form);
+  create(form: any): Observable<Technician> {
+    let newTechnician: Technician;
     const technician = this.prepareToCreate(form);
     console.log(technician);
-    return this.http.post(this.endpoints.technicians.create, form, this.httpOptions).pipe(
-      catchError((error: any) => {
-        console.log(error);
-        return of(error);
-      }),
-    );
+    this.http
+      .post(this.endpoints.technicians.create, technician, { observe: 'response' })
+      .pipe(
+        catchError((error: any) => {
+          console.log(error);
+          return of(error);
+        }),
+      )
+      .subscribe(
+        success => {
+          console.log('returned', success);
+          const technicians = this.items.getValue();
+          technicians.push(technician);
+          this.items.next(technicians);
+          newTechnician = technician;
+        },
+        error => console.log('ERR!!', error),
+      );
+    return of(newTechnician);
   }
 
   prepareToCreate(data: any) {
     console.log(data);
-    const technician = new Technician();
-    technician.first_name = data.firstName;
-    technician.last_name = data.lastName;
-    technician.phone_number = data.phone;
-    technician.mobile = data.phone;
-    technician.email = data.email;
-    technician.status = data.status;
-    technician.role = data.role;
-    technician.country = data.country;
-    technician.region = data.region;
-    technician.district = data.district;
-    technician.ward = data.ward;
-    technician.village = data.village;
-    technician.postcode = data.postcode;
-    technician.what3words = data.what3words;
-    technician.other_address_details = data.otherAddressDetails;
-    technician.max_num_jobs_allowed = data.maxNumJobsAllowed;
-    technician.willing_to_travel = data.willingToTravel;
-    technician.username = data.username;
-    technician.password = data.password;
-    technician.specialist_skills = this.getValuesForCheckboxSelections(
-      data.specialistSkills,
-      Technician.skills,
+
+    if (data.status === true || data.status === 'true') {
+      data.status = true;
+    } else {
+      data.status = false;
+    }
+
+    data.specialist_skills = this.getValuesForCheckboxSelections(
+      data.specialist_skills,
+      this.skills,
     );
-    technician.acredit_to_install = this.getValuesForCheckboxSelections(
-      data.acreditToInstall,
-      Technician.accreditedSkills,
+    data.acredit_to_install = this.getValuesForCheckboxSelections(
+      data.acredit_to_install,
+      this.accreditedSkills,
     );
-    technician.acredited_to_fix = this.getValuesForCheckboxSelections(
-      data.acreditedToFix,
-      Technician.accreditedSkills,
+    data.acredited_to_fix = this.getValuesForCheckboxSelections(
+      data.acredited_to_fix,
+      this.accreditedSkills,
     );
-    (technician.languages_spoken = data.languagesSpoken.value.split()),
-      (technician.user_photo = data.userPhoto.value);
-    return technician;
+
+    if (Array.isArray(data.languages_spoken.value)) {
+      data.languages_spoken = data.languages_spoken.value.split(', ');
+    }
+    return data;
   }
 
   getValuesForCheckboxSelections(field: boolean[], values: any[]): string[] {
@@ -198,17 +195,51 @@ export class TechniciansService {
     }, []);
   }
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    }),
-  };
-
   private handleNotFound(err: any) {
     this.messageService.notFound();
     this.router.navigate(['/technicians']);
     this.loading.next(false);
     return of(err);
   }
+
+  skills = [
+    {
+      name: 'plumber',
+      label: 'Plumber',
+      selected: false,
+    },
+    {
+      name: 'mason',
+      label: 'Mason',
+      selected: false,
+    },
+    {
+      name: 'manager',
+      label: 'Manager',
+      selected: false,
+    },
+    {
+      name: 'design',
+      label: 'Design',
+      selected: false,
+    },
+    {
+      name: 'calculations',
+      label: 'Calculations',
+      selected: false,
+    },
+  ];
+
+  accreditedSkills = [
+    {
+      name: 'tubular',
+      label: 'Tubular',
+      selected: false,
+    },
+    {
+      name: 'fixed_dome',
+      label: 'Fixed Dome',
+      selected: false,
+    },
+  ];
 }

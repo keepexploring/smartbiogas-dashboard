@@ -1,0 +1,13 @@
+<div *ngIf="formInput && formInput.invalid && formInput.touched" class="form-text text-danger small">
+  <div>
+    <p *ngIf="formInput.hasError('required')">This field is required</p>
+    <p *ngIf="formInput.hasError('minlength')">
+      This field needs at least
+      <u>{{formInput.errors.minlength.requiredLength}}</u> characters.
+      <b>{{ formInput.errors.minlength.requiredLength - formInput.errors.minlength.actualLength}}</b> to go</p>
+    <p *ngIf="formInput.hasError('pattern')">Invalid format</p>
+    <p *ngIf="formInput.hasError('email')">
+      Please enter a valid email address</p>
+    <p *ngIf="formInput.hasError('min')">This is less than the minimum</p>
+  </div>
+</div>

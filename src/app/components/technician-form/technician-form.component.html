@@ -1,7 +1,7 @@
 <app-technicians-header [title]="'Add Technician'"></app-technicians-header>
 
 <div class="card">
-  <div class="card-body">
+  <div class="card-body" *ngIf="form">
 
     <form [formGroup]="form" (submit)="onSubmit()">
 
@@ -11,94 +11,58 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="firstName">First Name</label>
-              <input type="text" class="form-control" formControlName="firstName" required [class.is-invalid]="firstName.invalid && (firstName.dirty || firstName.touched)"
-                [class.is-valid]="firstName.valid">
-              <div class="invalid-feedback" *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
-                <p class="form-text text-danger" *ngIf="firstName.errors.required">This field is required</p>
-                <p class="form-text text-danger" *ngIf="firstName.errors.minlength">
-                  First name needs at least
-                  <u>{{firstName.errors.minlength.requiredLength}}</u> characters.
-                  <b>{{ firstName.errors.minlength.requiredLength - firstName.errors.minlength.actualLength}}</b> to go</p>
-              </div>
+              <label for="first_name">First Name</label>
+              <input type="text" class="form-control" formControlName="first_name" required [class.is-invalid]="first_name.invalid && (first_name.dirty || first_name.touched)"
+                [class.is-valid]="first_name.valid">
+              <app-form-errors [formInput]="first_name"></app-form-errors>
             </div>
           </div>
 
           <div class="col-sm-6">
             <div class="form-group">
-              <label for="lastName">Last Name</label>
-              <input type="text" class="form-control" formControlName="lastName" required [class.is-invalid]="lastName.invalid && (lastName.dirty || lastName.touched)"
-                [class.is-valid]="lastName.valid">
-              <div class="invalid-feedback" *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
-                <p class="form-text text-danger" *ngIf="lastName.errors.required">This field is required</p>
-                <p class="form-text text-danger" *ngIf="lastName.errors.minlength">
-                  First name needs at least
-                  <u>{{lastName.errors.minlength.requiredLength}}</u> characters.
-                  <b>{{ lastName.errors.minlength.requiredLength - lastName.errors.minlength.actualLength}}</b> to go</p>
-              </div>
+              <label for="last_name">Last Name</label>
+              <input type="text" class="form-control" formControlName="last_name" required [class.is-invalid]="last_name.invalid && (last_name.dirty || last_name.touched)"
+                [class.is-valid]="last_name.valid">
+              <app-form-errors [formInput]="last_name"></app-form-errors>
             </div>
-
           </div>
         </div>
 
         <div class="form-group">
-          <label for="phoneNumber">Phone Number</label>
+          <label for="mobile">Mobile Number</label>
           <div class="input-group">
             <div class="input-group-prepend" [class.was-validated]="phoneNumberPrefix.value !== ''">
               <app-country-calling-code-dropdown (selected)="phoneNumberPrefix.setValue($event)"></app-country-calling-code-dropdown>
             </div>
-            <input type="tel" class="form-control" formControlName="phoneNumber" required [class.is-invalid]="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)"
-              [class.is-valid]="phoneNumber.valid" placeholder="E.g. 1234567890">
+            <input type="tel" class="form-control" formControlName="mobile" required [class.is-invalid]="mobile.invalid && (mobile.dirty || mobile.touched)"
+              [class.is-valid]="mobile.valid" placeholder="E.g. 1234567890">
           </div>
-          <div class="small" *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)">
-            <p class="form-text text-danger" *ngIf="phoneNumber.errors.required">This field is required</p>
-            <p class="form-text text-danger" *ngIf="phoneNumber.errors.pattern">Invalid format, please enter a valid phone number, e.g. 1234567890</p>
-            <p class="form-text text-danger" *ngIf="phoneNumber.errors.minlength">
-              Needs at least
-              <u>{{phoneNumber.errors.minlength.requiredLength}}</u> characters.
-              <b>{{ phoneNumber.errors.minlength.requiredLength - phoneNumber.errors.minlength.actualLength}}</b> to go</p>
-          </div>
+          <app-form-errors [formInput]="mobile"></app-form-errors>
         </div>
 
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" class="form-control" formControlName="email" required [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
             [class.is-valid]="email.valid">
-          <div class="invalid-feedback" *ngIf="email.invalid && (email.dirty || email.touched)">
-            <p class="form-text text-danger" *ngIf="email.errors.required">This field is required</p>
-            <p class="form-text text-danger" *ngIf="email.errors.email">
-              Please enter a valid email address</p>
-          </div>
+          <app-form-errors [formInput]="email"></app-form-errors>
         </div>
 
 
-        <div class="form-group" *ngIf="(email.touched && email.valid) || (phoneNumber.touched && phoneNumber.valid)">
+        <div class="form-group">
           <label for="username">Username</label>
           <select class="custom-select" formControlName="username" required [class.is-invalid]="username.invalid && (username.dirty || username.touched)"
             [class.is-valid]="username.valid">
-            <option [value]="email.value" *ngIf="email.valid">{{email.value}}</option>
-            <option [value]="phone" *ngIf="phoneNumber.valid">{{phone}}</option>
+            <option [value]="email.value" *ngIf="email && email.valid">{{email.value}}</option>
+            <option [value]="phone" *ngIf="mobile && mobile.valid">{{phone}}</option>
           </select>
-          <div class="invalid-feedback" *ngIf="username.invalid && (username.dirty || username.touched)">
-            <p class="form-text text-danger" *ngIf="username.errors.required">This field is required</p>
-            <p class="form-text text-danger" *ngIf="username.errors.minlength">
-              First name needs at least
-              <u>{{username.errors.minlength.requiredLength}}</u> characters.
-              <b>{{ username.errors.minlength.requiredLength - username.errors.minlength.actualLength}}</b> to go</p>
-          </div>
+          <app-form-errors [formInput]="username"></app-form-errors>
         </div>
 
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" class="form-control" formControlName="password" required [class.is-invalid]="password.invalid && (password.dirty || password.touched)"
             [class.is-valid]="password.valid">
-          <div class="invalid-feedback" *ngIf="password.invalid && (password.dirty || password.touched)">
-            <p class="form-text text-danger" *ngIf="password.errors.required">This field is required</p>
-            <p class="form-text text-danger" *ngIf="password.errors.minlength">
-              First name needs at least
-              <u>{{password.errors.minlength.requiredLength}}</u> characters.
-              <b>{{ password.errors.minlength.requiredLength - password.errors.minlength.actualLength}}</b> to go</p>
-          </div>
+          <app-form-errors [formInput]="password"></app-form-errors>
         </div>
 
 
@@ -111,9 +75,7 @@
             <option value="false">Inactive</option>
           </select>
           <app-technician-status [status]="status.value" [size]="'small'"></app-technician-status>
-          <div class="invalid-feedback" *ngIf="status.invalid && (status.dirty || status.touched)">
-            <p class="form-text text-danger" *ngIf="status.errors.required">This field is required</p>
-          </div>
+          <app-form-errors [formInput]="status"></app-form-errors>
         </div>
 
         <div class="form-group">
@@ -125,8 +87,8 @@
         </div>
 
         <div class="form-group">
-          <label for="languagesSpoken">Languages Spoken</label>
-          <input type="text" class="form-control" formControlName="languagesSpoken" [class.is-valid]="languagesSpoken.dirty || languagesSpoken.touched">
+          <label for="languages_spoken">Languages Spoken</label>
+          <input type="text" class="form-control" formControlName="languages_spoken" [class.is-valid]="languages_spoken.dirty || languages_spoken.touched">
           <small class="form-text text-muted">Comma separated, e.g.
             <i>Spanish, English, Italian</i>
           </small>
@@ -165,6 +127,7 @@
             <div class="form-group">
               <label for="region">Region</label>
               <input type="text" class="form-control" formControlName="region" [class.is-valid]="region.dirty || region.touched">
+              <app-form-errors [formInput]="region"></app-form-errors>
             </div>
           </div>
         </div>
@@ -176,19 +139,18 @@
             <option value="">Select Country</option>
             <option *ngFor="let countryName of countries" [value]="countryName">{{countryName}}</option>
           </select>
-          <div class="invalid-feedback" *ngIf="country.invalid && (country.dirty || country.touched)">
-            <p class="form-text text-danger" *ngIf="country.errors.required">This field is required</p>
-          </div>
+          <app-form-errors [formInput]="country"></app-form-errors>
         </div>
 
         <div class="form-group">
-          <label for="otherAddressDetails">Other Address Details</label>
-          <textarea type="text" class="form-control" formControlName="otherAddressDetails" [class.is-valid]="otherAddressDetails.dirty || otherAddressDetails.touched"></textarea>
+          <label for="other_address_details">Other Address Details</label>
+          <textarea type="text" class="form-control" formControlName="other_address_details" [class.is-valid]="other_address_details.dirty || other_address_details.touched"></textarea>
         </div>
 
         <div class="form-group">
           <label for="what3words">What3words</label>
           <input type="text" class="form-control" formControlName="what3words" [class.is-valid]="what3words.dirty || what3words.touched">
+          <app-form-errors [formInput]="what3words"></app-form-errors>
         </div>
 
       </fieldset>
@@ -196,50 +158,40 @@
 
 
       <div class="form-group">
-        <label for="maxNumJobsAllowed">Max Number of Jobs Allowed</label>
-        <input type="number" class="form-control" formControlName="maxNumJobsAllowed" [class.is-invalid]="maxNumJobsAllowed.invalid && (maxNumJobsAllowed.dirty || maxNumJobsAllowed.touched)"
-          [class.is-valid]="maxNumJobsAllowed.valid">
-        <div class="invalid-feedback" *ngIf="maxNumJobsAllowed.invalid && (maxNumJobsAllowed.dirty || maxNumJobsAllowed.touched)">
-          <p class="form-text text-danger" *ngIf="maxNumJobsAllowed.errors.pattern">This field should only contain numbers</p>
-          <p class="form-text text-danger" *ngIf="willingToTravel.errors.min">The minimum is 1 job</p>
-        </div>
+        <label for="max_num_jobs_allowed">Max Number of Jobs Allowed</label>
+        <input type="number" class="form-control" formControlName="max_num_jobs_allowed" [class.is-invalid]="max_num_jobs_allowed.invalid && (max_num_jobs_allowed.dirty || max_num_jobs_allowed.touched)"
+          [class.is-valid]="max_num_jobs_allowed.valid">
+        <app-form-errors [formInput]="max_num_jobs_allowed"></app-form-errors>
+
       </div>
 
 
       <div class="form-group">
-        <label for="willingToTravel">Willing To Travel (in Km)</label>
-        <input type="number" class="form-control" formControlName="willingToTravel" [class.is-invalid]="willingToTravel.invalid && (willingToTravel.dirty || willingToTravel.touched)"
-          [class.is-valid]="willingToTravel.valid">
-        <div class="invalid-feedback" *ngIf="willingToTravel.invalid && (willingToTravel.dirty || willingToTravel.touched)">
-          <p class="form-text text-danger" *ngIf="willingToTravel.errors.pattern">This field should only contain numbers</p>
-          <p class="form-text text-danger" *ngIf="willingToTravel.errors.min">The minimum is 1 Km</p>
-        </div>
+        <label for="willing_to_travel">Willing To Travel (in Km)</label>
+        <input type="number" class="form-control" formControlName="willing_to_travel" [class.is-invalid]="willing_to_travel.invalid && (willing_to_travel.dirty || willing_to_travel.touched)"
+          [class.is-valid]="willing_to_travel.valid">
+        <app-form-errors [formInput]="willing_to_travel"></app-form-errors>
       </div>
 
-      <div class="form-group">
-        <label for="userPhoto">Photo</label>
-        <input type="file" class="form-control" formControlName="userPhoto">
-      </div>
-
-      <div class="form-group" *ngIf="acreditToInstall">
-        <label for="acreditToInstall">Accredited to Install</label>
-        <div class="form-check" *ngFor="let skill of acreditToInstall.controls; let i = index">
+      <div class="form-group" *ngIf="acredit_to_install">
+        <label for="acredit_to_install">Accredited to Install</label>
+        <div class="form-check" *ngFor="let skill of acredit_to_install.controls; let i = index">
           <input class="form-check-input" type="checkbox" [formControl]="skill" [value]="accreditedSkills[i].name">
           <label class="form-check-label">{{accreditedSkills[i].label}}</label>
         </div>
       </div>
 
-      <div class="form-group" *ngIf="acreditedToFix">
-        <label for="acreditedToFix">Accredited to Fix</label>
-        <div class="form-check" *ngFor="let skill of acreditedToFix.controls; let i = index">
+      <div class="form-group" *ngIf="acredited_to_fix">
+        <label for="acredited_to_fix">Accredited to Fix</label>
+        <div class="form-check" *ngFor="let skill of acredited_to_fix.controls; let i = index">
           <input class="form-check-input" type="checkbox" [formControl]="skill" [value]="accreditedSkills[i].name">
           <label class="form-check-label">{{accreditedSkills[i].label}}</label>
         </div>
       </div>
 
-      <div class="form-group" *ngIf="specialistSkills">
-        <label for="specialistSkills">Specialist Skills</label>
-        <div class="form-check" *ngFor="let skill of specialistSkills.controls; let i = index">
+      <div class="form-group" *ngIf="specialist_skills">
+        <label for="specialist_skills">Specialist Skills</label>
+        <div class="form-check" *ngFor="let skill of specialist_skills.controls; let i = index">
           <input class="form-check-input" type="checkbox" [formControl]="skill" [value]="skillsList[i].name">
           <label class="form-check-label">{{skillsList[i].label}}</label>
         </div>

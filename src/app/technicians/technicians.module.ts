@@ -9,7 +9,7 @@ import { TechniciansComponent } from './components/technicians/technicians.compo
 import { TechniciansHeaderComponent } from './components/technicians-header/technicians-header.component';
 import { TechniciansTableComponent } from './components/technicians-table/technicians-table.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IconsModule } from '../modules/icons.module';
+import { IconsModule } from '../icons/icons.module';
 import { TechniciansService } from './services/technicians.service';
 import { SharedModule } from '../shared/shared.module';
 import { PaginationModule } from '../pagination/pagination.module';

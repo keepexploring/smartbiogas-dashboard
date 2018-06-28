@@ -10,7 +10,7 @@ import { PaginationModule } from './pagination/pagination.module';
 
 import { AgmCoreModule } from '@agm/core';
 import { IconsModule } from './icons/icons.module';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './auth/services/auth.service';
 import { DashboardService } from './services/dashboard.service';
 import { PlantsService } from './services/plants.service';
 import { DataService } from './services/data.service';
@@ -24,22 +24,21 @@ import { PlantDetailComponent } from './components/plant-detail/plant-detail.com
 import { PlantStatusComponent } from './components/plant-status/plant-status.component';
 import { PlantsMapComponent } from './components/plants-map/plants-map.component';
 import { AuthGuard } from './guards/auth.guard';
-import { httpInterceptorProviders } from './interceptors';
 import { environment } from '../environments/environment';
 import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.component';
 import { NavTopComponent } from './components/nav-top/nav-top.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { MessagesComponent } from './components/messages/messages.component';
-import { MessageComponent } from './components/message/message.component';
 
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   imports: [
+    CommonModule,
     BrowserModule,
     ReactiveFormsModule,
-    CommonModule,
+    AuthModule,
     BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,
@@ -65,19 +64,9 @@ import { CoreModule } from './core/core.module';
     PlantsMapComponent,
     NavSidebarComponent,
     NavTopComponent,
-    MessagesComponent,
-    MessageComponent,
   ],
 
-  providers: [
-    httpInterceptorProviders,
-    AuthService,
-    DashboardService,
-    PlantsService,
-    DataService,
-    AuthGuard,
-    DatePipe,
-  ],
+  providers: [AuthService, DashboardService, PlantsService, DataService, AuthGuard, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

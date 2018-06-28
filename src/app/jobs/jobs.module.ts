@@ -8,7 +8,7 @@ import { JobDetailComponent } from './components/job-detail/job-detail.component
 import { JobDetailModalComponent } from './components/job-detail-modal/job-detail-modal.component';
 import { JobStatusComponent } from './components/job-status/job-status.component';
 import { JobsService } from './services/jobs.service';
-import { IconsModule } from '../modules/icons.module';
+import { IconsModule } from '../icons/icons.module';
 import { SharedModule } from '../shared/shared.module';
 import { PaginationModule } from '../pagination/pagination.module';
 

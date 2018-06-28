@@ -27,7 +27,6 @@ export class TechnicianFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private countryService: CountryInformationService,
     private techniciansService: TechniciansService,
-    private router: Router,
     private route: ActivatedRoute,
   ) {}
 
@@ -45,7 +44,9 @@ export class TechnicianFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.singleTechSubscription.unsubscribe();
+    if (this.singleTechSubscription) {
+      this.singleTechSubscription.unsubscribe();
+    }
   }
 
   getTechnician(id: number) {

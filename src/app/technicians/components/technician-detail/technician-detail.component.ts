@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, Input, SimpleChanges, OnDestroy } from '@angular/core';
 import { Technician } from '../../models/technician';
-import { JobsService } from '../../../jobs/services/jobs.service';
-import { Job } from '../../../jobs/models/job';
+// import { JobsService } from '../../../jobs/services/jobs.service';
+// import { Job } from '../../../jobs/models/job';
 import { HelpersService } from '../../../core/services/helpers.service';
 import { TechniciansService } from '../../services/technicians.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,14 +17,14 @@ export class TechnicianDetailComponent implements OnInit, OnChanges, OnDestroy {
   subscription: Subscription;
   loading: boolean = true;
   loadingJobs = true;
-  jobs: Job[];
+  // jobs: Job[];
 
   constructor(
     private route: ActivatedRoute,
-    private jobsService: JobsService,
+    // private jobsService: JobsService,
     private techniciansService: TechniciansService,
-    private helpers: HelpersService,
-  ) {}
+  ) // private helpers: HelpersService,
+  {}
 
   ngOnInit() {
     this.getTechnician();
@@ -36,7 +36,7 @@ export class TechnicianDetailComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     if (this.technician && !changes.technician.firstChange) {
       this.loadingJobs = true;
-      this.jobs = null;
+      // this.jobs = null;
     }
   }
 

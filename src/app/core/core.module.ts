@@ -6,16 +6,19 @@ import { EndpointService } from './services/endpoint.service';
 import { HelpersService } from './services/helpers.service';
 import { MessageService } from './services/message.service';
 import { NavigationHistoryService } from './services/navigation-history.service';
+import { httpInterceptorProviders } from './interceptors';
 
 @NgModule({
   imports: [CommonModule],
   providers: [
+    httpInterceptorProviders,
     ConnectionStatusService,
     CountryInformation,
     EndpointService,
     HelpersService,
     MessageService,
     NavigationHistoryService,
+    MessageService,
   ],
 })
 export class CoreModule {}

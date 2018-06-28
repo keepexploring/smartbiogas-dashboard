@@ -1,14 +1,12 @@
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, of, Subject, throwError } from 'rxjs';
-import { map, tap, catchError, delay, retry } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+import { map, catchError, retry } from 'rxjs/operators';
 
 import { Token } from '../models/token';
-import { HelpersService } from '../core/services/helpers.service';
-import { EndpointService } from '../core/services/endpoint.service';
+import { EndpointService } from '../../core/services/endpoint.service';
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -52,7 +50,7 @@ export class TokenService {
         },
       )
       .pipe(
-        map(response => {
+        map(() => {
           return true;
         }),
         retry(3),

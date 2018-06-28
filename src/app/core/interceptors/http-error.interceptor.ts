@@ -9,11 +9,11 @@ import {
 import { Observable, throwError, empty } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../auth/services/auth.service';
 import { Router } from '@angular/router';
-import { MessageService } from '../core/services/message.service';
-import { Message } from '../models/message';
-import { MessageType } from '../shared/enums/message-type';
+import { MessageService } from '../../core/services/message.service';
+import { Message } from '../../shared/models/message';
+import { MessageType } from '../../shared/enums/message-type';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {

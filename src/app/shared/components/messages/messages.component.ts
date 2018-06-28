@@ -9,7 +9,7 @@ import {
   stagger,
 } from '@angular/animations';
 
-import { MessageService } from '../../core/services/message.service';
+import { MessageService } from '../../../core/services/message.service';
 import { Message } from '../../models/message';
 
 @Component({

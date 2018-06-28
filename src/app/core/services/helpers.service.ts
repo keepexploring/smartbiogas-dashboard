@@ -2,7 +2,7 @@ import { throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { User } from '../../models/user';
-import { TokenService } from '../../services/token.service';
+import { TokenService } from '../../auth/services/token.service';
 
 @Injectable()
 export class HelpersService {

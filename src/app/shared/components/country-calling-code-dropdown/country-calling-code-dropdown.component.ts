@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CountryInformationService } from '../../../core/services/country-information.service';
-import { CountryInformation } from '../../../models/country-information.model';
+import { CountryInformation } from '../../../shared/models/country-information.model';
 
 @Component({
   selector: 'app-country-calling-code-dropdown',

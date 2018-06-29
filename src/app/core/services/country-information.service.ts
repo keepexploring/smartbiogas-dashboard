@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 
-import { CountryInformation } from '../../models/country-information.model';
+import { CountryInformation } from '../../shared/models/country-information.model';
 import { EndpointService } from './endpoint.service';
 import { HelpersService } from './helpers.service';
 

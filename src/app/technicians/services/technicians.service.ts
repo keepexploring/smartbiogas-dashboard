@@ -6,7 +6,7 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { EndpointService } from '../../core/services/endpoint.service';
 import { HelpersService } from '../../core/services/helpers.service';
 import { Technician } from '../models/technician';
-import { ApiResponseMeta } from '../../models/api-response-meta';
+import { ApiResponseMeta } from '../../shared/models/api-response-meta';
 import { MessageService } from '../../core/services/message.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';

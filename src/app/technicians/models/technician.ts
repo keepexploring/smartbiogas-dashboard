@@ -1,4 +1,4 @@
-import { User } from '../../models/user';
+import { User } from '../../shared/models/user';
 import { HttpResponse } from '@angular/common/http';
 
 export class Technician extends User {

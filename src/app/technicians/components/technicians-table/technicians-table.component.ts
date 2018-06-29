@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Technician } from '../../models/technician';
 import { TechniciansService } from '../../services/technicians.service';
-import { ApiResponseMeta } from '../../../models/api-response-meta';
+import { ApiResponseMeta } from '../../../shared/models/api-response-meta';
 import { environment } from '../../../../environments/environment';
 
 @Component({

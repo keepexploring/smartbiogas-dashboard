@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TechnicianFormComponent } from './components/technician-form/technician-form.component';
 import { TechnicianDetailComponent } from './components/technician-detail/technician-detail.component';
 import { TechniciansTableComponent } from './components/technicians-table/technicians-table.component';
-import { AuthGuard } from '../guards/auth.guard';
+import { AuthGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
   {

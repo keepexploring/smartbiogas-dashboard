@@ -2,7 +2,6 @@ import { Component, OnInit, OnChanges, Input, SimpleChanges, OnDestroy } from '@
 import { Technician } from '../../models/technician';
 // import { JobsService } from '../../../jobs/services/jobs.service';
 // import { Job } from '../../../jobs/models/job';
-import { HelpersService } from '../../../core/services/helpers.service';
 import { TechniciansService } from '../../services/technicians.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -19,12 +18,13 @@ export class TechnicianDetailComponent implements OnInit, OnChanges, OnDestroy {
   loadingJobs = true;
   // jobs: Job[];
 
+  title: string = 'Technician Details';
+
   constructor(
     private route: ActivatedRoute,
     // private jobsService: JobsService,
-    private techniciansService: TechniciansService,
-  ) // private helpers: HelpersService,
-  {}
+    private techniciansService: TechniciansService, // private helpers: HelpersService,
+  ) {}
 
   ngOnInit() {
     this.getTechnician();

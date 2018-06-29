@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { TechniciansRoutingModule } from './technicians-routing.module';
 import { TechnicianDetailComponent } from './components/technician-detail/technician-detail.component';
-import { TechnicianFormComponent } from './components/technician-form/technician-form.component';
 import { TechnicianStatusComponent } from './components/technician-status/technician-status.component';
 import { TechniciansComponent } from './components/technicians/technicians.component';
 import { TechniciansHeaderComponent } from './components/technicians-header/technicians-header.component';
@@ -13,6 +12,8 @@ import { IconsModule } from '../icons/icons.module';
 import { TechniciansService } from './services/technicians.service';
 import { SharedModule } from '../shared/shared.module';
 import { PaginationModule } from '../pagination/pagination.module';
+import { CreateTechnicianComponent } from './components/create-technician/create-technician.component';
+import { EditTechnicianComponent } from './components/edit-technician/edit-technician.component';
 
 @NgModule({
   imports: [
@@ -25,11 +26,12 @@ import { PaginationModule } from '../pagination/pagination.module';
   ],
   declarations: [
     TechnicianDetailComponent,
-    TechnicianFormComponent,
     TechnicianStatusComponent,
     TechniciansComponent,
     TechniciansHeaderComponent,
     TechniciansTableComponent,
+    CreateTechnicianComponent,
+    EditTechnicianComponent,
   ],
   providers: [TechniciansService],
 })

@@ -10,6 +10,8 @@ import { ApiResponseMeta } from '../../shared/models/api-response-meta';
 import { MessageService } from '../../core/services/message.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { MessageType } from '../../shared/enums/message-type';
+import { Message } from '../../shared/models/message';
 
 @Injectable()
 export class TechniciansService {
@@ -135,30 +137,35 @@ export class TechniciansService {
 
   create(form: any): Observable<Technician> {
     let newTechnician: Technician;
-    const technician = this.prepareToCreate(form);
-    console.log(technician);
+    const technician = this.prepareForSubmission(form);
+    console.log('', technician);
     this.http
       .post(this.endpoints.technicians.create, technician, { observe: 'response' })
       .pipe(
         catchError((error: any) => {
-          console.log(error);
+          this.messageService.add(new Message(error, MessageType.Danger));
           return of(error);
         }),
       )
       .subscribe(
-        success => {
-          console.log('returned', success);
+        (created: HttpResponse<any>) => {
           const technicians = this.items.getValue();
           technicians.push(technician);
           this.items.next(technicians);
-          newTechnician = technician;
+          this.messageService.add(
+            new Message('Successfully Created Technician', MessageType.Success),
+          );
+          this.router.navigate(['technicians', created.body.user_id]);
         },
-        error => console.log('ERR!!', error),
+        error => {
+          console.log('ERR!!', error);
+          this.messageService.add(new Message(error, MessageType.Danger));
+        },
       );
     return of(newTechnician);
   }
 
-  prepareToCreate(data: any) {
+  prepareForSubmission(data: any) {
     console.log(data);
 
     if (data.status === true || data.status === 'true') {
@@ -180,9 +187,17 @@ export class TechniciansService {
       this.accreditedSkills,
     );
 
-    if (Array.isArray(data.languages_spoken.value)) {
-      data.languages_spoken = data.languages_spoken.value.split(', ');
+    // TODO: This should be done automatically on back-end
+    if (!data.what3words) {
+      data.what3words = 'rigid.richer.trains';
     }
+
+    // TODO: Send all languages instead of only first one
+    const thisneedstochange = [];
+    const firstlang = data.languages_spoken.split(',');
+    thisneedstochange.push(firstlang[0]);
+    data.languages_spoken = thisneedstochange;
+
     return data;
   }
 

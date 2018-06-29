@@ -15,6 +15,7 @@ import { MapToKeysPipe } from './pipes/map-to-keys.pipe';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MessageComponent } from './components/message/message.component';
 import { MessagesComponent } from './components/messages/messages.component';
+import { CountryDropdownComponent } from './components/country-dropdown/country-dropdown.component';
 
 @NgModule({
   imports: [CommonModule, SharedRoutingModule, ReactiveFormsModule, IconsModule],
@@ -30,6 +31,7 @@ import { MessagesComponent } from './components/messages/messages.component';
     NotFoundComponent,
     MessageComponent,
     MessagesComponent,
+    CountryDropdownComponent,
   ],
   exports: [
     FormErrorsComponent,

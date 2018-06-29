@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { AuthService } from './auth/services/auth.service';
 import { Subscription } from 'rxjs';
 import { MessageService } from './core/services/message.service';
 import { ConnectionStatusService } from './core/services/connection-status.service';
 import { NavigationHistoryService } from './core/services/navigation-history.service';
+import { CountryInformationService } from './core/services/country-information.service';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +13,7 @@ import { NavigationHistoryService } from './core/services/navigation-history.ser
 })
 export class AppComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean = false;
-  authenticationSubscription: Subscription;
-  connectionSubscription: Subscription;
-  navigationHistorySubscription: Subscription;
-
+  subscriptions: Subscription[] = [];
   isLoading: boolean = true;
   isOnline: boolean = true;
 
@@ -25,6 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private connectionStatusService: ConnectionStatusService,
     private navigationHistoryService: NavigationHistoryService,
+    private countryInformationService: CountryInformationService,
   ) {}
 
   ngOnInit() {
@@ -32,13 +30,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeToAuthStatus();
     this.subscribeToConnectionStatus();
     this.subscribeToNavigationHistory();
+    this.subscribeToCountryInformationService();
   }
 
   subscribeToConnectionStatus(): void {
     this.connectionStatusService.check();
-    this.connectionSubscription = this.connectionStatusService.status.subscribe(isOnline => {
+    const sub = this.connectionStatusService.status.subscribe(isOnline => {
       this.isOnline = isOnline;
-      console.log('APP isOnline', isOnline);
       if (isOnline) {
         this.auth.validateToken();
         this.messageService.displayOnlineMessage();
@@ -47,21 +45,31 @@ export class AppComponent implements OnInit, OnDestroy {
         this.auth.validatedToken = false;
       }
     });
+    this.subscriptions.push(sub);
   }
 
   subscribeToAuthStatus(): void {
-    this.authenticationSubscription = this.auth.authChanged.subscribe(authenticated => {
+    const sub = this.auth.authChanged.subscribe(authenticated => {
       this.isAuthenticated = authenticated;
     });
+    this.subscriptions.push(sub);
+  }
+
+  subscribeToCountryInformationService() {
+    this.subscriptions.push(
+      this.countryInformationService.get().subscribe(() => {
+        this.subscriptions.push(this.countryInformationService.itemList.subscribe());
+      }),
+    );
   }
 
   subscribeToNavigationHistory() {
-    this.navigationHistorySubscription = this.navigationHistoryService.get().subscribe();
+    this.subscriptions.push(this.navigationHistoryService.get().subscribe());
   }
 
   ngOnDestroy() {
-    this.connectionSubscription.unsubscribe();
-    this.authenticationSubscription.unsubscribe();
-    this.navigationHistorySubscription.unsubscribe();
+    for (let index = 0; index < this.subscriptions.length; index++) {
+      this.subscriptions[index].unsubscribe();
+    }
   }
 }

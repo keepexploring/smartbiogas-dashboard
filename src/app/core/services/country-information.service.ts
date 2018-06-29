@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
-
 import { CountryInformation } from '../../shared/models/country-information.model';
 import { EndpointService } from './endpoint.service';
 import { HelpersService } from './helpers.service';
+import { Observable, of, Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CountryInformationService {
   items: CountryInformation[] = [];
+  itemList: BehaviorSubject<CountryInformation[]> = new BehaviorSubject<CountryInformation[]>([]);
+
+  countries: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
   languages: string[] = [];
 
   constructor(
@@ -25,11 +27,19 @@ export class CountryInformationService {
       map(CountryInformation.fromResponse),
       map(this.sortByName),
       tap(items => {
-        this.items = items;
+        this.parseCountryNames(items);
+        this.setCountryList(items);
       }),
       tap(this.parseLanguages),
       catchError(this.helpers.handleResponseError),
     );
+  }
+
+  getCountries(): Subject<string[]> {
+    if (!this.countries) {
+      this.get().subscribe();
+    }
+    return this.countries;
   }
 
   private parseLanguages(items: CountryInformation[]) {
@@ -42,6 +52,18 @@ export class CountryInformationService {
       }, [])
       .filter((value, index, array) => array.indexOf(value) === index)
       .sort((a, b) => (a < b ? -1 : b < a ? 1 : 0));
+  }
+
+  private parseCountryNames(items: CountryInformation[]) {
+    const countryNames = items.map(country => {
+      return country.name;
+    });
+    this.countries.next(countryNames);
+  }
+
+  private setCountryList(items: CountryInformation[]) {
+    this.items = items;
+    this.itemList.next(items);
   }
 
   private sortByName(items: CountryInformation[]): CountryInformation[] {

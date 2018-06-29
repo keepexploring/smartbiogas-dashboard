@@ -5,9 +5,10 @@ import { NavTopComponent } from './components/nav-top/nav-top.component';
 import { SharedModule } from '../shared/shared.module';
 import { CoreModule } from '../core/core.module';
 import { IconsModule } from '../icons/icons.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, CoreModule, IconsModule],
+  imports: [CommonModule, SharedModule, CoreModule, IconsModule, RouterModule],
   declarations: [NavSidebarComponent, NavTopComponent],
   exports: [NavSidebarComponent, NavTopComponent],
 })

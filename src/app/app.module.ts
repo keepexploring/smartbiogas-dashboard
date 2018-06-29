@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, AsyncPipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +17,7 @@ import { PaginationModule } from './pagination/pagination.module';
 import { PlantsModule } from './plants/plants.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { AppComponent } from './app.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { AppComponent } from './app.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    RouterModule,
     CoreModule,
     AuthModule,
     AppRoutingModule,
@@ -38,7 +40,7 @@ import { AppComponent } from './app.component';
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
   ],
   declarations: [AppComponent],
-  providers: [DatePipe],
+  providers: [DatePipe, AsyncPipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,14 +1,2 @@
-<app-view-header title="Jobs"></app-view-header>
-
-<div class="row d-flex">
-  <div class="col-sm-5 d-flex">
-    <div class="table-responsive list-table">
-      <app-jobs-table (selectJob)="selectJob($event)"></app-jobs-table>
-    </div>
-  </div>
-  <div class="col-sm-7 d-flex" *ngIf="selectedJob">
-    <div class="table-responsive list-table">
-      <app-job-detail [job]="selectedJob"></app-job-detail>
-    </div>
-  </div>
-</div>
+<app-view-header [title]="'Jobs'"></app-view-header>
+<router-outlet></router-outlet>

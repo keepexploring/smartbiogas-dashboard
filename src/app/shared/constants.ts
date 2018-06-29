@@ -1,3 +1,4 @@
+export const phoneRegex = '^[+d][0-9]{0,14}$';
 export const mapStyles = [
   {
     featureType: 'administrative',

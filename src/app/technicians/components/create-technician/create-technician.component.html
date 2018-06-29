@@ -3,6 +3,7 @@
 <div class="card">
   <div class="card-body" *ngIf="form">
 
+
     <form [formGroup]="form" (submit)="onSubmit()">
 
       <fieldset class="form-group">
@@ -30,13 +31,8 @@
 
         <div class="form-group">
           <label for="mobile">Mobile Number</label>
-          <div class="input-group">
-            <div class="input-group-prepend" [class.was-validated]="phoneNumberPrefix.value !== ''">
-              <app-country-calling-code-dropdown (selected)="phoneNumberPrefix.setValue($event)"></app-country-calling-code-dropdown>
-            </div>
-            <input type="tel" class="form-control" formControlName="mobile" required [class.is-invalid]="mobile.invalid && (mobile.dirty || mobile.touched)"
-              [class.is-valid]="mobile.valid" placeholder="E.g. 1234567890">
-          </div>
+          <input type="tel" class="form-control" formControlName="mobile" required [class.is-invalid]="mobile.invalid && (mobile.dirty || mobile.touched)"
+            [class.is-valid]="mobile.valid" placeholder="E.g. 1234567890">
           <app-form-errors [formInput]="mobile"></app-form-errors>
         </div>
 
@@ -53,7 +49,7 @@
           <select class="custom-select" formControlName="username" required [class.is-invalid]="username.invalid && (username.dirty || username.touched)"
             [class.is-valid]="username.valid">
             <option [value]="email.value" *ngIf="email && email.valid">{{email.value}}</option>
-            <option [value]="phone" *ngIf="mobile && mobile.valid">{{phone}}</option>
+            <option [value]="mobile.value" *ngIf="mobile && mobile.valid">{{mobile.value}}</option>
           </select>
           <app-form-errors [formInput]="username"></app-form-errors>
         </div>
@@ -93,6 +89,7 @@
             <i>Spanish, English, Italian</i>
           </small>
         </div>
+        <app-form-errors [formInput]="languages_spoken"></app-form-errors>
 
       </fieldset>
 
@@ -134,7 +131,8 @@
 
         <div class="form-group">
           <label for="country">Country</label>
-          <select class="custom-select" formControlName="country" required [class.is-invalid]="country.invalid && (country.dirty || country.touched)"
+          <app-loading *ngIf="!countries"></app-loading>
+          <select *ngIf="countries" class="custom-select" formControlName="country" required [class.is-invalid]="country.invalid && (country.dirty || country.touched)"
             [class.is-valid]="country.valid">
             <option value="">Select Country</option>
             <option *ngFor="let countryName of countries" [value]="countryName">{{countryName}}</option>

@@ -1,26 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { CountryInformationService } from '../../../core/services/country-information.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TechniciansService } from '../../services/technicians.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Technician } from '../../models/technician';
 import { Subscription } from 'rxjs';
+import { CountryInformationService } from '../../../core/services/country-information.service';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 
 @Component({
-  selector: 'app-technician-form',
-  templateUrl: './technician-form.component.html',
-  styleUrls: ['./technician-form.component.sass'],
+  selector: 'app-edit-technician',
+  templateUrl: './edit-technician.component.html',
+  styleUrls: ['./edit-technician.component.sass'],
 })
-export class TechnicianFormComponent implements OnInit, OnDestroy {
+export class EditTechnicianComponent implements OnInit {
   form: FormGroup;
   countries: string[];
-
   skillsList = this.techniciansService.skills;
   accreditedSkills = this.techniciansService.accreditedSkills;
-
   currentTechnician: Technician;
-
   singleTechSubscription: Subscription;
 
   constructor(
@@ -31,21 +27,9 @@ export class TechnicianFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.createForm();
-    this.countryService.get().subscribe(countries => {
-      this.countries = countries.map(country => {
-        return country.name;
-      });
-    });
     const id = +this.route.snapshot.paramMap.get('id');
     if (id) {
       this.getTechnician(id);
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.singleTechSubscription) {
-      this.singleTechSubscription.unsubscribe();
     }
   }
 
@@ -54,7 +38,7 @@ export class TechnicianFormComponent implements OnInit, OnDestroy {
       const techFound = technicians.find(t => t.id == id);
       if (techFound) {
         this.currentTechnician = techFound;
-        this.initialiseForm(this.currentTechnician);
+        // this.initialiseForm(this.currentTechnician);
         return;
       }
 
@@ -76,7 +60,7 @@ export class TechnicianFormComponent implements OnInit, OnDestroy {
     this.ward.setValue(tech.ward);
     this.village.setValue(tech.village);
     this.postcode.setValue(tech.postcode);
-    this.what3words.setValue(tech.what3words); // 'rigid.richer.trains'
+    this.what3words.setValue(tech.what3words);
     this.other_address_details.setValue(tech.other_address_details);
     this.max_num_jobs_allowed.setValue(tech.max_num_jobs_allowed);
     this.willing_to_travel.setValue(tech.willing_to_travel);
@@ -86,17 +70,22 @@ export class TechnicianFormComponent implements OnInit, OnDestroy {
     this.form.updateValueAndValidity();
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      console.log('Submitted');
-      this.techniciansService.create(this.form.value).subscribe(created => {
-        // this.router.navigate(['technicians', created.id]);
-        console.log('returned', created);
-      });
+  ngOnDestroy() {
+    if (this.singleTechSubscription) {
+      this.singleTechSubscription.unsubscribe();
     }
-    return false;
   }
 
+  onSubmit() {
+    // if (this.form.valid) {
+    console.log('Submitted');
+    //   this.techniciansService.create(this.form.value).subscribe(created => {
+    //     // this.router.navigate(['technicians', created.id]);
+    //     console.log('returned', created);
+    //   });
+    // }
+    return false;
+  }
   createForm() {
     this.form = this.formBuilder.group({
       first_name: ['', [Validators.required, Validators.minLength(2)]],
@@ -151,8 +140,6 @@ export class TechnicianFormComponent implements OnInit, OnDestroy {
     });
     return this.formBuilder.array(languageFGs);
   }
-
-  // full phone
   get phone() {
     return '+' + this.phoneNumberPrefix.value + this.mobile.value;
   }

@@ -11,6 +11,7 @@ import { JobsService } from './services/jobs.service';
 import { IconsModule } from '../icons/icons.module';
 import { SharedModule } from '../shared/shared.module';
 import { PaginationModule } from '../pagination/pagination.module';
+import { MainJobTableComponent } from './components/main-job-table/main-job-table.component';
 
 @NgModule({
   imports: [CommonModule, JobsRoutingModule, IconsModule, SharedModule, PaginationModule],
@@ -20,6 +21,7 @@ import { PaginationModule } from '../pagination/pagination.module';
     JobDetailComponent,
     JobStatusComponent,
     JobDetailModalComponent,
+    MainJobTableComponent,
   ],
   exports: [
     JobsComponent,

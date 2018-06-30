@@ -1,38 +1,62 @@
-<table *ngIf="jobs" [class.table-hover]="selectable" class="table table-bordered mb-0">
-  <thead class="bg-light">
+<app-view-header [title]="'Jobs'"></app-view-header>
+
+<div class="list-table-header d-flex justify-content-between">
+  <div>
+    <button class="btn btn-sm btn-outline-secondary" [routerLink]="['create']">Add
+      <i-plus-square></i-plus-square>
+    </button>
+  </div>
+  <div>
+    <button class="btn-icon pre-header-button" [class.active]="density=='default'" (click)="setDensity('default')" data-toggle="tooltip"
+      data-placement="top" title="Default">
+      <i-menu></i-menu>
+    </button>
+    <button class="btn-icon pre-header-button" [class.active]="density=='condensed'" (click)="setDensity('condensed')" data-toggle="tooltip"
+      data-placement="top" title="Condensed">
+      <i-align-justify></i-align-justify>
+    </button>
+  </div>
+</div>
+
+<table *ngIf="items" [class.table-hover]="selectable" class="table list-table mb-0" [class.table-hover]="selectable" [class.table-sm]="density == 'condensed'">
+  <thead class="sticky-top">
     <tr>
-      <th class="" scope="col">ID</th>
+      <th scope="col">Type</th>
       <th scope="col">Flagged</th>
-      <th class="" scope="col">Fault Description</th>
+      <th scope="col">Due</th>
+      <th scope="col">Fault Description</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let job of jobs | paginate: { itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalItems, id: 'jobsTableResults' }"
-      (click)="select(job)" [class.bg-light]="selectable && selectedJob == job" data-toggle="modal" data-target="#jobDetailModal">
+    <tr *ngFor="let job of items | paginate: { currentPage: currentPage, itemsPerPage: itemsPerPage }" [routerLink]="[job.id]">
       <td>
-        <app-job-status [status]="job.job_status" [size]="'small'"></app-job-status>
+        <h6 class="mb-0">
+          <b>{{ job.fault_class ? job.fault_class : 'Unkown' }}</b>
+          <app-job-status [status]="job.job_status" [size]="'small'"></app-job-status>
+        </h6>
       </td>
       <td class="small">
         {{ job.date_flagged ? (job.date_flagged | date) : 'Unknown' }}
       </td>
+      <td class="small">
+        {{ job.due_date ? (job.due_date | date) : 'Unknown' }}
+      </td>
       <td>
-        {{ job.fault_description ? job.fault_description.substring(0, 30) + '...' : 'N/A' }}
+        {{ job.fault_description ? job.fault_description.substring(0, 50) + '...' : 'N/A' }}
       </td>
     </tr>
   </tbody>
 </table>
 
-<div class="table-pagination border-top">
-  <div class="text-center mt-3">
-    <app-loading *ngIf="loading" text="Loading Jobs"></app-loading>
-  </div>
-  <pagination-controls *ngIf="totalItems > itemsPerPage && !loading" (pageChange)="onPageChange($event)" [maxSize]="0" [id]="'jobsTableResults'"></pagination-controls>
-  <div *ngIf="totalItems > itemsPerPage" class="small">
-    Page {{ page }} /
-    <span class="text-muted">{{ totalPages }}</span>
-  </div>
+<div class="text-center mt-3">
+  <app-loading *ngIf="loading" text="Loading Jobs"></app-loading>
 </div>
 
-<div *ngIf="selectedJob">
-  <app-job-detail-modal [job]="selectedJob" *ngIf="enableModal"></app-job-detail-modal>
+
+<div class="table-pagination border-top" *ngIf="itemCount > itemsPerPage">
+  <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0"></pagination-controls>
+  <div class="small">
+    Page {{ currentPage }} /
+    <span class="text-muted">{{ totalPages }}</span>
+  </div>
 </div>

@@ -1,4 +1,5 @@
 import { User } from '../../shared/models/user';
+import { HttpResponse } from '@angular/common/http';
 
 export class Job {
   job_id: string;
@@ -15,8 +16,6 @@ export class Job {
   due_date: string;
   fault_class: string;
   fault_description: string;
-  verification_of_engagement: boolean;
-  additional_information: string;
 
   // Parse from system_info
   id: number;
@@ -45,4 +44,112 @@ export class Job {
   constructing_tech: User[];
   contact_info: User[];
   fixers: User[];
+  static helpers: any;
+
+  static fromResponse(response: HttpResponse<any>): Job | Job[] {
+    const isSingle: boolean = !response.body.objects;
+
+    if (isSingle) {
+      return Job.parse(response.body);
+    }
+
+    return response.body.objects.map(item => {
+      return Job.parse(item);
+    });
+  }
+
+  private static parse(data: any) {
+    let item = new Job();
+    item.job_id = data.job_id;
+    item.job_status = data.job_status;
+    item.other = data.other;
+    item.overdue_for_acceptance = data.overdue_for_acceptance;
+    item.priority = data.priority;
+    item.client_feedback_additional = data.client_feedback_additional;
+    item.client_feedback_star = data.client_feedback_star;
+    item.completed = data.completed;
+    item.date_completed = data.date_completed;
+    item.date_flagged = data.date_flagged;
+    item.due_date = data.due_date;
+    item.fault_class = data.fault_class;
+    item.fault_description = data.fault_description;
+    item.id = data.system_info.id;
+    item.QP_status = data.system_info.QP_status;
+    item.country = data.system_info.country;
+    item.current_status = data.system_info.current_status;
+    item.district = data.system_info.district;
+    item.funding_souce = data.system_info.funding_souce;
+    item.funding_source_notes = data.system_info.funding_source_notes;
+    item.location = data.system_info.location;
+    item.neighbourhood = data.system_info.neighbourhood;
+    item.other_address_details = data.system_info.other_address_details;
+    item.plant_id = data.system_info.plant_id;
+    item.postcode = data.system_info.postcode;
+    item.region = data.system_info.region;
+    item.sensor_status = data.system_info.sensor_status;
+    item.supplier = data.system_info.supplier;
+    item.type_biogas = data.system_info.type_biogas;
+    item.verfied = data.system_info.verfied;
+    item.village = data.system_info.village;
+    item.volume_biogas = data.system_info.volume_biogas;
+    item.ward = data.system_info.ward;
+    item.install_date = data.system_info.install_date;
+    item.constructing_tech = this.mapConstructingTech(data);
+    item.contact_info = this.mapContactList(data);
+    item.fixers = this.mapFixersList(data);
+    return item;
+  }
+
+  private static mapConstructingTech(data) {
+    if (!data.constructing_tech) {
+      return [];
+    }
+
+    return data.constructing_tech.map(ct => {
+      return this.parseContactFromJsonData(ct);
+    });
+  }
+  private static mapContactList(data) {
+    if (!data.contact_info) {
+      return [];
+    }
+    return data.contact_info.map(contactData => {
+      let contact = this.parseContactFromJsonData(contactData);
+      contact.phone_number = contactData.mobile;
+      contact.last_name = contactData.surname;
+      return contact;
+    });
+  }
+  private static mapFixersList(data) {
+    if (data.fixers) {
+      return [];
+    }
+    return data.fixers.map(fixer => this.parseContactFromJsonData(fixer));
+  }
+
+  private static parseContactFromJsonData(contactData: {
+    user_id;
+    company_name;
+    contact_type;
+    first_name;
+    last_name;
+    phone_number;
+    role;
+    status;
+  }): User {
+    let contact = new User();
+    contact.id = contactData.user_id;
+    contact.contact_type = contactData.contact_type;
+    contact.first_name = contactData.first_name;
+    contact.last_name = contactData.last_name;
+    contact.phone_number = contactData.phone_number;
+    contact.role = contactData.role;
+    contact.status = contactData.status;
+
+    if (contactData.company_name) {
+      contact.company_name = contactData.company_name[0];
+    }
+
+    return contact;
+  }
 }

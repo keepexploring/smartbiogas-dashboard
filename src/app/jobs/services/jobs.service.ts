@@ -1,14 +1,34 @@
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { EndpointService } from '../../core/services/endpoint.service';
 import { HelpersService } from '../../core/services/helpers.service';
 import { Job } from '../models/job';
+import { ApiResponseMeta } from '../../shared/models/api-response-meta';
+import { environment } from '../../../environments/environment';
+import { MessageService } from '../../core/services/message.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class JobsService {
+  responseMetadata: BehaviorSubject<ApiResponseMeta> = new BehaviorSubject<ApiResponseMeta>(
+    new ApiResponseMeta(),
+  );
+  loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loadingSingle: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  items: BehaviorSubject<Array<Job>> = new BehaviorSubject<Array<Job>>([]);
+  limit: number = environment.apiPagesToPrefetch;
+
+  userItems: BehaviorSubject<Array<Job>> = new BehaviorSubject<Array<Job>>([]);
+  loadingUser: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  userResponseMetadata: BehaviorSubject<ApiResponseMeta> = new BehaviorSubject<ApiResponseMeta>(
+    new ApiResponseMeta(),
+  );
+
+  private fetching: boolean = false;
+
   totalItems: number = 10;
   itemsPerPage: number = 10;
 
@@ -16,18 +36,102 @@ export class JobsService {
     private http: HttpClient,
     private helpers: HelpersService,
     private endpoints: EndpointService,
+    private messageService: MessageService,
+    private router: Router,
   ) {}
 
-  getJobs(page: number = 0, userId?: number, plantId?: number): Observable<Job[]> {
-    let endpoint = this.getEndpoint(page, userId, plantId);
-    return this.http.get(endpoint).pipe(
-      map(response => {
-        this.totalItems = response['meta'] ? response['meta'].total_count : 0;
-        this.itemsPerPage = response['meta'] ? response['meta'].limit : 0;
-        return this.mapDataToModel(response);
-      }),
-      catchError(this.helpers.handleResponseError),
-    );
+  get = (page: number = 0): void => {
+    this.loading.next(true);
+
+    const endpoint =
+      this.endpoints.jobs.index +
+      this.endpoints.getOffset(page, this.responseMetadata.getValue().itemsPerPage);
+
+    this.http
+      .get(endpoint, { observe: 'response' })
+      .pipe(
+        tap((response: HttpResponse<any>) => {
+          if (response.body.objects.length === 0) {
+            this.cancelFetch();
+          }
+          const responseMeta = ApiResponseMeta.fromResponse(response);
+          if (responseMeta.isRemote && responseMeta.totalItems === this.items.getValue().length) {
+            this.loading.next(false);
+          }
+          return this.responseMetadata.next(responseMeta);
+        }),
+        map(Job.fromResponse),
+        map(received => {
+          return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
+        }),
+        tap(items => this.items.next(items)),
+        catchError(this.helpers.handleResponseError),
+      )
+      .subscribe(() => {
+        this.prefetch(page);
+      });
+  };
+
+  getUserJobs = (page: number = 1, userId: number): void => {
+    this.loadingUser.next(true);
+
+    const endpoint =
+      this.endpoints.jobs.user +
+      userId +
+      this.endpoints.getOffset(page, this.userResponseMetadata.getValue().itemsPerPage);
+
+    this.http
+      .get(endpoint, { observe: 'response' })
+      .pipe(
+        tap((response: HttpResponse<any>) => {
+          if (response.body.objects.length === 0) {
+            this.cancelFetch();
+          }
+          const responseMeta = ApiResponseMeta.fromResponse(response);
+          if (
+            responseMeta.isRemote &&
+            responseMeta.totalItems === this.userItems.getValue().length
+          ) {
+            this.loadingUser.next(false);
+          }
+          return this.userResponseMetadata.next(responseMeta);
+        }),
+        map(Job.fromResponse),
+        map(received => {
+          return this.helpers.handleUpdatesAndAdditions(received, this.userItems.getValue());
+        }),
+        tap(items => this.userItems.next(items)),
+        catchError(this.helpers.handleResponseError),
+      )
+      .subscribe(() => {
+        this.prefetch(page);
+      });
+  };
+
+  fetchJob(id: number) {
+    if (isNaN(id)) {
+      this.handleNotFound('Not a valid ID');
+    }
+    this.loadingSingle.next(true);
+    this.http
+      .get(this.endpoints.technicians.single + id + '/', { observe: 'response' })
+      .pipe(
+        tap(() => {
+          if (this.items.getValue().length < 2) {
+            this.prefetch(0);
+          }
+        }),
+        map(Job.fromResponse),
+        map(received => {
+          return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
+        }),
+        tap(items => this.items.next(items)),
+        catchError(this.handleNotFound),
+      )
+      .subscribe(null, this.handleNotFound, () => {
+        this.loadingSingle.next(false);
+        this.loading.next(false);
+      });
   }
 
   private getEndpoint(page: number = 0, userId?: number, plantId?: number) {
@@ -41,83 +145,42 @@ export class JobsService {
     }
   }
 
-  private mapDataToModel(response: any): Job[] {
-    let items: Job[] = [];
-    response.objects.forEach(data => {
-      let item = new Job();
-      item.job_id = data.job_id;
-      item.job_status = data.job_status;
-      item.other = data.other;
-      item.overdue_for_acceptance = data.overdue_for_acceptance;
-      item.priority = data.priority;
-      item.additional_information = data.additional_information;
-      item.client_feedback_additional = data.client_feedback_additional;
-      item.client_feedback_star = data.client_feedback_star;
-      item.completed = data.completed;
-      item.date_completed = data.date_completed;
-      item.date_flagged = data.date_flagged;
-      item.due_date = data.due_date;
-      item.fault_class = data.fault_class;
-      item.fault_description = data.fault_description;
-      item.verification_of_engagement = data.verification_of_engagement;
-      item.id = data.system_info.id;
-      item.QP_status = data.system_info.QP_status;
-      item.country = data.system_info.country;
-      item.current_status = data.system_info.current_status;
-      item.district = data.system_info.district;
-      item.funding_souce = data.system_info.funding_souce;
-      item.funding_source_notes = data.system_info.funding_source_notes;
-      item.location = data.system_info.location;
-      item.neighbourhood = data.system_info.neighbourhood;
-      item.other_address_details = data.system_info.other_address_details;
-      item.plant_id = data.system_info.plant_id;
-      item.postcode = data.system_info.postcode;
-      item.region = data.system_info.region;
-      item.sensor_status = data.system_info.sensor_status;
-      item.supplier = data.system_info.supplier;
-      item.type_biogas = data.system_info.type_biogas;
-      item.verfied = data.system_info.verfied;
-      item.village = data.system_info.village;
-      item.volume_biogas = data.system_info.volume_biogas;
-      item.ward = data.system_info.ward;
-      item.install_date = data.system_info.install_date;
-      item.constructing_tech = this.mapConstructingTech(data);
-      item.contact_info = this.mapContactList(data);
-      item.fixers = this.mapFixersList(data);
-      items.push(item);
-    });
-    return items;
+  private handleNotFound(err: any) {
+    this.messageService.notFound();
+    this.router.navigate(['/technicians']);
+    this.loading.next(false);
+    return of(err);
   }
 
-  private mapConstructingTech(data) {
-    let techsList = [];
-    if (data.constructing_tech) {
-      data.constructing_tech.forEach(ct => {
-        techsList.push(this.helpers.parseContactFromJsonData(ct));
-      });
+  fetch() {
+    const meta = this.responseMetadata.getValue();
+    if (meta.totalPages > meta.pageFetched) {
+      this.limit = meta.pageFetched + environment.apiPagesToPrefetch;
+      this.fetching = false;
+      this.prefetch(meta.pageFetched);
     }
-    return techsList;
   }
-  private mapContactList(data) {
-    let contactList = [];
-    if (data.contact_info) {
-      data.contact_info.forEach(contactData => {
-        let contact = this.helpers.parseContactFromJsonData(contactData);
-        contact.phone_number = contactData.mobile;
-        contact.last_name = contactData.surname;
-        contactList.push(contact);
-      });
+
+  prefetch(page: number) {
+    if (this.fetching) {
+      return;
     }
-    return contactList;
+
+    this.loading.next(true);
+
+    const nextPage: number = page + 1;
+
+    if (page >= this.limit) {
+      this.cancelFetch();
+      return; // No more pages to prefetch
+    }
+
+    this.get(nextPage);
+    return; // already fetching
   }
-  private mapFixersList(data) {
-    let fixersList = [];
-    if (data.fixers) {
-      let fixersList = [];
-      data.fixers.forEach(fixer => {
-        fixersList.push(this.helpers.parseContactFromJsonData(fixer));
-      });
-    }
-    return fixersList;
+
+  cancelFetch() {
+    this.fetching = true;
+    this.loading.next(false);
   }
 }

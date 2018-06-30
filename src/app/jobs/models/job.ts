@@ -115,34 +115,29 @@ export class Job {
     }
     return data.contact_info.map(contactData => {
       let contact = this.parseContactFromJsonData(contactData);
-      contact.phone_number = contactData.mobile;
+      contact.mobile = contactData.mobile;
       contact.last_name = contactData.surname;
       return contact;
     });
   }
   private static mapFixersList(data) {
-    if (data.fixers) {
+    if (!data.fixers) {
       return [];
     }
     return data.fixers.map(fixer => this.parseContactFromJsonData(fixer));
   }
 
-  private static parseContactFromJsonData(contactData: {
-    user_id;
-    company_name;
-    contact_type;
-    first_name;
-    last_name;
-    phone_number;
-    role;
-    status;
-  }): User {
+  private static parseContactFromJsonData(contactData: any): User {
+    // console.log(contactData);
     let contact = new User();
     contact.id = contactData.user_id;
+    if (contactData && contactData.company_name) {
+      contact.company_name = contactData.company_name[0];
+    }
     contact.contact_type = contactData.contact_type;
     contact.first_name = contactData.first_name;
     contact.last_name = contactData.last_name;
-    contact.phone_number = contactData.phone_number;
+    contact.mobile = contactData.mobile;
     contact.role = contactData.role;
     contact.status = contactData.status;
 

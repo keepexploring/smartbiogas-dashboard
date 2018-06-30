@@ -21,17 +21,19 @@
 <table *ngIf="items" [class.table-hover]="selectable" class="table list-table mb-0" [class.table-hover]="selectable" [class.table-sm]="density == 'condensed'">
   <thead class="sticky-top">
     <tr>
-      <th scope="col">Type</th>
+      <th scope="col">Details</th>
       <th scope="col">Flagged</th>
       <th scope="col">Due</th>
       <th scope="col">Fault Description</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let job of items | paginate: { currentPage: currentPage, itemsPerPage: itemsPerPage }" [routerLink]="[job.id]">
+    <tr *ngFor="let job of items | paginate: { currentPage: currentPage, itemsPerPage: itemsPerPage }" [routerLink]="['/jobs/',job.id]">
       <td>
         <h6 class="mb-0">
-          <b>{{ job.fault_class ? job.fault_class : 'Unkown' }}</b>
+          <b>
+            {{ job.fault_class ? job.fault_class : 'UNKNOWN' }}</b>
+          <br>
           <app-job-status [status]="job.job_status" [size]="'small'"></app-job-status>
         </h6>
       </td>
@@ -53,7 +55,7 @@
 </div>
 
 
-<div class="table-pagination border-top" *ngIf="itemCount > itemsPerPage">
+<div class="table-pagination border-top">
   <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0"></pagination-controls>
   <div class="small">
     Page {{ currentPage }} /

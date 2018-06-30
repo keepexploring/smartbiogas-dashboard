@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Job } from '../../models/job';
-import { JobsService } from '../../services/jobs.service';
+import { JobsService } from '../../../core/services/jobs.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 

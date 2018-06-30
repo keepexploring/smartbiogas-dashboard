@@ -6,10 +6,17 @@ import { SharedModule } from '../shared/shared.module';
 import { CoreModule } from '../core/core.module';
 import { IconsModule } from '../icons/icons.module';
 import { RouterModule } from '@angular/router';
+import { MainNavigationLinksComponent } from './components/main-navigation-links/main-navigation-links.component';
+import { NavMobileComponent } from './components/nav-mobile/nav-mobile.component';
 
 @NgModule({
   imports: [CommonModule, SharedModule, CoreModule, IconsModule, RouterModule],
-  declarations: [NavSidebarComponent, NavTopComponent],
-  exports: [NavSidebarComponent, NavTopComponent],
+  declarations: [
+    NavSidebarComponent,
+    NavTopComponent,
+    MainNavigationLinksComponent,
+    NavMobileComponent,
+  ],
+  exports: [NavSidebarComponent, NavTopComponent, NavMobileComponent],
 })
 export class NavigationModule {}

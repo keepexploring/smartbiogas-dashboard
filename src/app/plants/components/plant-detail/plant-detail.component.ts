@@ -33,7 +33,6 @@ export class PlantDetailComponent implements OnInit, OnChanges {
 
   getPlant() {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.loading = true;
     this.service.fetchPlant(id).subscribe((plant: Plant) => {
       this.plant = plant[0];
       this.loading = false;

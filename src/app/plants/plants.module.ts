@@ -16,6 +16,7 @@ import { PlantDetailComponent } from './components/plant-detail/plant-detail.com
 import { MainPlantsTableComponent } from './components/main-plants-table/main-plants-table.component';
 import { JobsModule } from '../jobs/jobs.module';
 import { PlantJobsComponent } from './components/plant-jobs/plant-jobs.component';
+import { PlantsHeaderComponent } from './components/plants-header/plants-header.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { PlantJobsComponent } from './components/plant-jobs/plant-jobs.component
     PlantDetailComponent,
     MainPlantsTableComponent,
     PlantJobsComponent,
+    PlantsHeaderComponent,
   ],
   providers: [PlantsService],
 })

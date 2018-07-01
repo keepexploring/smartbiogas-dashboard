@@ -53,14 +53,19 @@ export class PlantsService {
         tap(items => this.items.next(items)),
         catchError(err => this.helpers.handleResponseError(err)),
       )
-      .subscribe(
-        null,
-        err => this.handleNotFound(err),
-        () => {
-          this.loading.next(false);
-        },
-      );
+      .subscribe(() => {
+        this.prefetch(page);
+      });
   };
+
+  fetch() {
+    const meta = this.responseMetadata.getValue();
+    if (meta.totalPages > meta.pageFetched) {
+      this.limit = meta.pageFetched + environment.apiPagesToPrefetch;
+      this.fetching = false;
+      this.prefetch(meta.pageFetched);
+    }
+  }
 
   fetchPlant(id: number): Observable<Plant> {
     const found = this.items.getValue().find(j => j.id == id);

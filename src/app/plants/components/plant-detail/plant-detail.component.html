@@ -1,3 +1,4 @@
+<app-plants-header [title]="'Plant Details'"></app-plants-header>
 <app-loading *ngIf="loading"></app-loading>
 <div *ngIf="plant && !loading">
   <agm-map [latitude]="plant.lat" [longitude]="plant.lng" [styles]="mapStyles" [zoom]="zoom">

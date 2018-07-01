@@ -1,6 +1,5 @@
 <div class="list-table-header d-flex justify-content-between">
   <div>
-    <app-create-button baseRoute="plants"></app-create-button>
   </div>
   <div>
     <button class="btn-icon pre-header-button" [class.active]="density=='default'" (click)="setDensity('default')" data-toggle="tooltip"
@@ -36,9 +35,6 @@
   </tbody>
 </table>
 
-<div class="text-center mt-3">
-  <app-loading *ngIf="loading" text="Loading Plants"></app-loading>
-</div>
 
 <div class="table-pagination border-top" *ngIf="totalItems > itemsPerPage">
   <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0"></pagination-controls>
@@ -46,4 +42,8 @@
     Page {{ currentPage }} /
     <span class="text-muted">{{ totalPages }}</span>
   </div>
+</div>
+
+<div class="text-center mt-3">
+  <app-loading *ngIf="loading" text="Loading Plants"></app-loading>
 </div>

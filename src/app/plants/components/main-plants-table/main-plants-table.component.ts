@@ -46,9 +46,9 @@ export class MainPlantsTableComponent implements OnInit {
     });
   }
   onPageChange(number: number) {
-    this.currentPage = number;
-    if (this.plants.length < this.responseMetadata.totalItems) {
+    if (this.itemCount < this.totalCount) {
       this.service.get(this.currentPage);
     }
+    this.currentPage = number;
   }
 }

@@ -20,7 +20,7 @@ export class MainPlantsTableComponent implements OnInit {
   itemsPerPage: number = environment.defaultPaginationLimit;
   totalPages: number;
   itemCount: number = 0;
-  totalCount: number;
+  totalCount: number = 0;
 
   constructor(private service: PlantsService) {}
 
@@ -38,16 +38,19 @@ export class MainPlantsTableComponent implements OnInit {
       this.itemCount = plants.length;
     });
 
-    this.service.responseMetadata.subscribe(responseMetadata => {
-      console.log(responseMetadata);
-      this.responseMetadata = responseMetadata;
-      this.totalPages = Math.ceil(responseMetadata.totalItems / this.itemsPerPage);
-      this.totalItems = responseMetadata.totalItems;
+    this.service.responseMetadata.subscribe(meta => {
+      console.log('META CHANGED', meta);
+      this.responseMetadata = meta;
+      this.totalPages = Math.ceil(meta.totalItems / this.itemsPerPage);
+
+      if (meta.isRemote) {
+        this.totalCount = meta.totalItems;
+      }
     });
   }
   onPageChange(number: number) {
     if (this.itemCount < this.totalCount) {
-      this.service.get(this.currentPage);
+      this.service.fetch();
     }
     this.currentPage = number;
   }

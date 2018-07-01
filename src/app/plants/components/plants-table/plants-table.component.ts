@@ -19,6 +19,7 @@ export class PlantsTableComponent implements OnInit, OnChanges {
   @Input() loading: boolean = true;
   @Input() plants: Plant[];
   @Input() totalItems: number = 0;
+  @Input() itemCount: number = 0;
   @Input() itemsPerPage: number = 0;
   @Input() totalPages: number = 1;
   @Input() currentPage: number = 1;

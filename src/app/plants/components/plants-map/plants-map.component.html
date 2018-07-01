@@ -3,11 +3,14 @@
     [latitude]="plant.lat" [longitude]="plant.lng" [iconUrl]="plant.mapMarkerIcon" (markerClick)="select(plant)"></agm-marker>
 </agm-map>
 
-<div class="table-pagination border-top">
-  <app-loading *ngIf="loading"></app-loading>
-  <pagination-controls *ngIf="totalItems > itemsPerPage && !loading" (pageChange)="onPageChange($event)" [maxSize]="0" [id]="'plantsMapList'"></pagination-controls>
-  <div *ngIf="totalItems > itemsPerPage" class="small">
+<div class="table-pagination border-top" *ngIf="itemCount > itemsPerPage">
+  <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0"></pagination-controls>
+  <div class="small">
     Page {{ currentPage }} /
     <span class="text-muted">{{ totalPages }}</span>
   </div>
+</div>
+
+<div class="text-center mt-3">
+  <app-loading *ngIf="loading" text="Loading Plants"></app-loading>
 </div>

@@ -6,6 +6,6 @@
 </button>
 
 <app-plants-table *ngIf="currentViewList" [loading]="loading" [plants]="plants" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"
-  [totalPages]="totalPages" [currentPage]="currentPage" (pageChanged)="onPageChange($event)"></app-plants-table>
+  [totalPages]="totalPages" [itemCount]="itemCount" [currentPage]="currentPage" (pageChanged)="onPageChange($event)"></app-plants-table>
 <app-plants-map *ngIf="!currentViewList" [loading]="loading" [plants]="plants" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"
-  [totalPages]="totalPages" [currentPage]="currentPage" (pageChanged)="onPageChange($event)"></app-plants-map>
+  [totalPages]="totalPages" [itemCount]="itemCount" [currentPage]="currentPage" (pageChanged)="onPageChange($event)"></app-plants-map>

@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { Plant } from '../../models/plant';
 import * as constants from '../../../shared/constants';
-import { PlantsService } from '../../services/plants.service';
 
 @Component({
   selector: 'app-plants-map',
@@ -24,11 +23,12 @@ export class PlantsMapComponent implements OnInit, OnChanges {
   @Input() itemsPerPage: number = 0;
   @Input() totalPages: number;
   @Input() currentPage: number = 1;
+  @Input() itemCount: number = 0;
   initialLat: number = constants.initialLat;
   initialLng: number = constants.initialLng;
   zoom: number = constants.initialZoom;
   mapStyles = constants.mapStyles;
-  constructor(private service: PlantsService) {}
+  constructor() {}
 
   ngOnInit() {}
 
@@ -48,10 +48,12 @@ export class PlantsMapComponent implements OnInit, OnChanges {
     if (changes.totalPages) {
       this.totalPages = changes.totalPages.currentValue;
     }
+    if (changes.itemCount) {
+      this.itemCount = changes.itemCount.currentValue;
+    }
   }
 
   onPageChange(number: number) {
-    console.log('changed');
     this.currentPage = number;
     this.pageChanged.emit(number);
   }

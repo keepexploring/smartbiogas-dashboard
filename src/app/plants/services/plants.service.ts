@@ -32,7 +32,7 @@ export class PlantsService {
     private router: Router,
   ) {}
 
-  get = (page: number) => {
+  get = (page: number = 0) => {
     this.loading.next(true);
     let offset = this.endpoints.getOffset(page, this.itemsPerPage);
     this.http
@@ -47,6 +47,7 @@ export class PlantsService {
             this.loading.next(false);
           }
           this.responseMetadata.next(responseMeta);
+          console.log(responseMeta);
         }),
         map(response => Plant.fromResponse(response)),
         map(received => this.helpers.handleUpdatesAndAdditions(received, this.items.getValue())),
@@ -54,17 +55,30 @@ export class PlantsService {
         catchError(err => this.helpers.handleResponseError(err)),
       )
       .subscribe(() => {
+        console.log('++ GOT DATA ++', page);
         this.prefetch(page);
       });
   };
 
   fetch() {
     const meta = this.responseMetadata.getValue();
-    if (meta.totalPages > meta.pageFetched) {
+    if (this.items.getValue().length < meta.totalItems) {
       this.limit = meta.pageFetched + environment.apiPagesToPrefetch;
       this.fetching = false;
       this.prefetch(meta.pageFetched);
     }
+  }
+
+  refresh() {
+    const meta = this.responseMetadata.getValue();
+    this.limit = meta.pageFetched;
+    this.fetching = false;
+
+    meta.totalItems = 0;
+    meta.pageFetched = 0;
+    this.responseMetadata.next(meta);
+
+    this.prefetch(0);
   }
 
   fetchPlant(id: number): Observable<Plant> {
@@ -96,7 +110,9 @@ export class PlantsService {
       return;
     }
     this.loading.next(true);
+
     const nextPage: number = page + 1;
+
     if (page >= this.limit) {
       this.cancelFetch();
       return; // No more pages to prefetch

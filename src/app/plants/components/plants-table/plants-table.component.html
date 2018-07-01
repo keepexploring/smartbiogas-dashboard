@@ -35,8 +35,7 @@
   </tbody>
 </table>
 
-
-<div class="table-pagination border-top" *ngIf="totalItems > itemsPerPage">
+<div class="table-pagination border-top" *ngIf="itemCount > itemsPerPage">
   <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0"></pagination-controls>
   <div class="small">
     Page {{ currentPage }} /

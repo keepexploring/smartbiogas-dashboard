@@ -39,7 +39,6 @@ export class MainPlantsTableComponent implements OnInit {
     });
 
     this.service.responseMetadata.subscribe(meta => {
-      console.log('META CHANGED', meta);
       this.responseMetadata = meta;
       this.totalPages = Math.ceil(meta.totalItems / this.itemsPerPage);
 

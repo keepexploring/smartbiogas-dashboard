@@ -47,7 +47,6 @@ export class PlantsService {
             this.loading.next(false);
           }
           this.responseMetadata.next(responseMeta);
-          console.log(responseMeta);
         }),
         map(response => Plant.fromResponse(response)),
         map(received => this.helpers.handleUpdatesAndAdditions(received, this.items.getValue())),
@@ -55,7 +54,6 @@ export class PlantsService {
         catchError(err => this.helpers.handleResponseError(err)),
       )
       .subscribe(() => {
-        console.log('++ GOT DATA ++', page);
         this.prefetch(page);
       });
   };

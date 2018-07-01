@@ -1,83 +1,116 @@
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
 
 import { Plant } from '../models/plant';
 import { HelpersService } from '../../core/services/helpers.service';
 import { EndpointService } from '../../core/services/endpoint.service';
-import { BiogasPlantContact } from '../models/biogas-plant-contact';
+import { ApiResponseMeta } from '../../shared/models/api-response-meta';
+import { MessageService } from '../../core/services/message.service';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class PlantsService {
   totalItems: number = 10;
   itemsPerPage: number = 10;
+  limit: number = environment.apiPagesToPrefetch;
+  items: BehaviorSubject<Plant[]> = new BehaviorSubject<Plant[]>([]);
+  responseMetadata: BehaviorSubject<ApiResponseMeta> = new BehaviorSubject<ApiResponseMeta>(
+    new ApiResponseMeta(),
+  );
+  loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loadingSingle: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private fetching: boolean = false;
 
   constructor(
     private http: HttpClient,
     private helpers: HelpersService,
     private endpoints: EndpointService,
+    private messageService: MessageService,
+    private router: Router,
   ) {}
 
-  getPlants(page: number): Observable<Plant[]> {
+  get = (page: number) => {
+    this.loading.next(true);
     let offset = this.endpoints.getOffset(page, this.itemsPerPage);
-    return this.http.get(this.endpoints.plants.index + offset).pipe(
-      map(response => {
-        this.totalItems = response['meta'] ? response['meta'].total_count : 0;
-        this.itemsPerPage = response['meta'] ? response['meta'].limit : 0;
-        return this.mapDataToModel(response);
+    this.http
+      .get(this.endpoints.plants.index + offset, { observe: 'response' })
+      .pipe(
+        tap((response: HttpResponse<any>) => {
+          if (response.body.objects.length === 0) {
+            this.cancelFetch();
+          }
+          const responseMeta = ApiResponseMeta.fromResponse(response);
+          if (responseMeta.isRemote && responseMeta.totalItems === this.items.getValue().length) {
+            this.loading.next(false);
+          }
+          this.responseMetadata.next(responseMeta);
+        }),
+        map(response => Plant.fromResponse(response)),
+        map(received => this.helpers.handleUpdatesAndAdditions(received, this.items.getValue())),
+        tap(items => this.items.next(items)),
+        catchError(err => this.helpers.handleResponseError(err)),
+      )
+      .subscribe(
+        null,
+        err => this.handleNotFound(err),
+        () => {
+          this.loading.next(false);
+        },
+      );
+  };
+
+  fetchPlant(id: number): Observable<Plant> {
+    const found = this.items.getValue().find(j => j.id == id);
+    if (found) {
+      return of(found);
+    }
+    if (isNaN(id)) {
+      this.handleNotFound('Not a valid ID');
+    }
+
+    this.loadingSingle.next(true);
+    return this.http.get(this.endpoints.plants.single + id + '/', { observe: 'response' }).pipe(
+      tap((response: HttpResponse<any>) => {
+        if (this.items.getValue().length < 2) {
+          this.prefetch(0);
+        }
+        return response;
       }),
-      catchError(this.helpers.handleResponseError),
+      map(data => Plant.parseSingle(data.body)),
+      map(received => this.helpers.handleUpdatesAndAdditions(received, this.items.getValue())),
+      tap(items => this.items.next(items)),
+      catchError(error => this.handleNotFound(error)),
     );
   }
 
-  private mapDataToModel(response: any): Plant[] {
-    let items: Plant[] = [];
-    response.objects.forEach(data => {
-      let item = new Plant();
-      item.id = data.id;
-      item.QP_status = data.QP_status;
-      item.country = data.country;
-      item.district = data.district;
-      item.funding_souce = data.funding_souce;
-      item.funding_source_notes = data.funding_source_notes;
-      item.location = data.location;
-      item.neighbourhood = data.neighbourhood;
-      item.other_address_details = data.other_address_details;
-      item.postcode = data.postcode;
-      item.region = data.region;
-      item.resource_uri = data.resource_uri;
-      item.supplier = data.supplier;
-      item.type_biogas = data.type_biogas;
-      item.verfied = data.verfied;
-      item.village = data.village;
-      item.volume_biogas = data.volume_biogas;
-      item.current_status = data.current_status;
-      item.sensor_status = data.sensor_status;
-      item.what3words = data.what3words;
-      item.contact = this.mapContacts(data);
-      items.push(item);
-    });
-    return items;
+  prefetch(page: number) {
+    if (this.fetching) {
+      return;
+    }
+    this.loading.next(true);
+    const nextPage: number = page + 1;
+    if (page >= this.limit) {
+      this.cancelFetch();
+      return; // No more pages to prefetch
+    }
+
+    this.get(nextPage);
+    return; // already fetching
   }
 
-  private mapContacts(data) {
-    let contactList: BiogasPlantContact[] = [];
-    if (data.contact) {
-      data.contact.forEach(ct => {
-        let contact = new BiogasPlantContact();
-        contact.associated_company_id = ct.associated_company_id;
-        contact.contact_type = ct.contact_type;
-        contact.email = ct.email;
-        contact.first_name = ct.first_name;
-        contact.id = ct.id;
-        contact.phone_number = ct.mobile;
-        contact.last_name = ct.surname;
-        contact.uid = ct.uid;
-        contact.role = ct.role;
-        contactList.push(contact);
-      });
-    }
-    return contactList;
+  private handleNotFound(err: any) {
+    console.log('ERR!', err);
+    this.messageService.notFound();
+    this.router.navigate(['/plants']);
+    this.loading.next(false);
+    return of(err);
+  }
+
+  cancelFetch() {
+    this.fetching = true;
+    this.loading.next(false);
   }
 }

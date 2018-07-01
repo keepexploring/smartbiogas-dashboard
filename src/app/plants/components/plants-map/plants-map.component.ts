@@ -1,9 +1,15 @@
-import { Component, OnInit, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
-
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  OnChanges,
+  SimpleChanges,
+  Input,
+} from '@angular/core';
 import { Plant } from '../../models/plant';
-import { HelpersService } from '../../../core/services/helpers.service';
+import * as constants from '../../../shared/constants';
 import { PlantsService } from '../../services/plants.service';
-import { mapStyles } from '../../../shared/constants';
 
 @Component({
   selector: 'app-plants-map',
@@ -11,75 +17,42 @@ import { mapStyles } from '../../../shared/constants';
   styleUrls: ['./plants-map.component.sass'],
 })
 export class PlantsMapComponent implements OnInit, OnChanges {
-  @Output() selectPlant = new EventEmitter<Plant>();
-  initialLat: number = -3.3981431;
-  initialLng: number = 36.6421933;
-  zoom: number = 7;
-  selectedPlant: Plant;
-  plants: Plant[];
-  loading: boolean = true;
+  @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
+  @Input() plants: Plant[];
+  @Input() loading: boolean = true;
+  @Input() totalItems: number = 0;
+  @Input() itemsPerPage: number = 0;
+  @Input() totalPages: number;
+  @Input() currentPage: number = 1;
+  initialLat: number = constants.initialLat;
+  initialLng: number = constants.initialLng;
+  zoom: number = constants.initialZoom;
+  mapStyles = constants.mapStyles;
+  constructor(private service: PlantsService) {}
 
-  page: number = 1;
-  totalItems: number = 0;
-  itemsPerPage: number = 0;
-  totalPages: number;
-
-  constructor(private service: PlantsService, private helpers: HelpersService) {}
-
-  mapStyles = mapStyles;
-
-  select(plant: Plant) {
-    this.selectedPlant = plant;
-    this.selectPlant.emit(plant);
-  }
-
-  onPageChange(number: number) {
-    this.page = number;
-    this.getPlants();
-    this.loading = true;
-  }
-
-  ngOnInit() {
-    this.getPlants();
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes.plants.firstChange) {
-      this.processPlantLocations();
+    if (changes.loading) {
+      this.loading = changes.loading.currentValue;
+    }
+    if (changes.plants) {
+      this.plants = changes.plants.currentValue;
+    }
+    if (changes.totalItems) {
+      this.totalItems = changes.totalItems.currentValue;
+    }
+    if (changes.itemsPerPage) {
+      this.itemsPerPage = changes.itemsPerPage.currentValue;
+    }
+    if (changes.totalPages) {
+      this.totalPages = changes.totalPages.currentValue;
     }
   }
 
-  private processPlantLocations() {
-    this.plants = this.plants.filter(p => p.location && p.location != '');
-    this.plants.forEach(p => {
-      p.getCoordinates();
-      let path = '/assets/images/map-marker-';
-      if (p.current_status) {
-        switch (p.current_status.toLowerCase()) {
-          case 'fault':
-            p.mapMarkerIcon = path + 'red.svg';
-            break;
-          case 'active':
-            p.mapMarkerIcon = path + 'green.svg';
-            break;
-          default:
-            p.mapMarkerIcon = path + 'gray.svg';
-            break;
-        }
-      } else {
-        p.mapMarkerIcon = path + 'gray.svg';
-      }
-    });
-  }
-
-  getPlants() {
-    this.service.getPlants(this.page).subscribe(response => {
-      this.plants = response;
-      this.loading = false;
-      this.totalItems = this.service.totalItems;
-      this.itemsPerPage = this.service.itemsPerPage;
-      this.totalPages = this.helpers.calculateTotalApiPages(this.totalItems, this.itemsPerPage);
-      this.processPlantLocations();
-    });
+  onPageChange(number: number) {
+    console.log('changed');
+    this.currentPage = number;
+    this.pageChanged.emit(number);
   }
 }

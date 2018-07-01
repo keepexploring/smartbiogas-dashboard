@@ -13,6 +13,9 @@ import { environment } from '../../environments/environment';
 import { PaginationModule } from '../pagination/pagination.module';
 import { IconsModule } from '../icons/icons.module';
 import { PlantDetailComponent } from './components/plant-detail/plant-detail.component';
+import { MainPlantsTableComponent } from './components/main-plants-table/main-plants-table.component';
+import { JobsModule } from '../jobs/jobs.module';
+import { PlantJobsComponent } from './components/plant-jobs/plant-jobs.component';
 
 @NgModule({
   imports: [
@@ -21,6 +24,7 @@ import { PlantDetailComponent } from './components/plant-detail/plant-detail.com
     SharedModule,
     PaginationModule,
     IconsModule,
+    JobsModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsApiKey,
     }),
@@ -31,6 +35,8 @@ import { PlantDetailComponent } from './components/plant-detail/plant-detail.com
     PlantsTableComponent,
     PlantStatusComponent,
     PlantDetailComponent,
+    MainPlantsTableComponent,
+    PlantJobsComponent,
   ],
   providers: [PlantsService],
 })

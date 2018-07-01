@@ -1,13 +1,32 @@
-<table *ngIf="plants" [class.table-hover]="selectable" class="table table-bordered mb-0">
+<div class="list-table-header d-flex justify-content-between">
+  <div>
+    <app-create-button baseRoute="plants"></app-create-button>
+  </div>
+  <div>
+    <button class="btn-icon pre-header-button" [class.active]="density=='default'" (click)="setDensity('default')" data-toggle="tooltip"
+      data-placement="top" title="Default">
+      <i-menu></i-menu>
+    </button>
+    <button class="btn-icon pre-header-button" [class.active]="density=='condensed'" (click)="setDensity('condensed')" data-toggle="tooltip"
+      data-placement="top" title="Condensed">
+      <i-align-justify></i-align-justify>
+    </button>
+  </div>
+</div>
+
+<table *ngIf="plants" class="table table-hover list-table mb-0" [class.table-sm]="density == 'condensed'">
   <thead class="bg-light">
     <tr>
+      <th scope="col">ID</th>
       <th class="" scope="col">Status</th>
       <th scope="col">Type/Model</th>
       <th class="" scope="col">QP</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let plant of plants | paginate: { itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalItems }" (click)="select(plant)" [class.bg-light]="selectable && selectedPlant == plant">
+    <tr *ngFor="let plant of plants | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }"
+      [routerLink]="['/plants/', plant.id]">
+      <td>{{plant.id}}</td>
       <td>
         <app-plant-status [size]="'small'" [status]="plant.current_status"></app-plant-status>
       </td>
@@ -17,10 +36,14 @@
   </tbody>
 </table>
 
-<div class="table-pagination border-top">
-  <app-loading *ngIf="loading"></app-loading>
-  <pagination-controls *ngIf="totalItems > itemsPerPage && !loading" (pageChange)="onPageChange($event)" [maxSize]="0"></pagination-controls>
-  <div *ngIf="totalItems > itemsPerPage" class="small">
-    Page {{ page }} / <span class="text-muted">{{ totalPages }}</span>
+<div class="text-center mt-3">
+  <app-loading *ngIf="loading" text="Loading Plants"></app-loading>
+</div>
+
+<div class="table-pagination border-top" *ngIf="totalItems > itemsPerPage">
+  <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0"></pagination-controls>
+  <div class="small">
+    Page {{ currentPage }} /
+    <span class="text-muted">{{ totalPages }}</span>
   </div>
 </div>

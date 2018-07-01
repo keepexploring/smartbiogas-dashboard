@@ -1,69 +1,80 @@
-<ul class="list-group list-group-flush">
-  <li class="list-group-item p-0">
-    <table class="table table-bordered mb-0">
-      <tbody>
-        <tr *ngIf="plant.id">
-          <th class="vertical-th">ID</th>
-          <td>{{ plant.id }}</td>
-        </tr>
-        <tr *ngIf="plant.current_status">
-          <th class="vertical-th">Status</th>
-          <td>
-            <app-plant-status [size]="'small'" [status]="plant.current_status"></app-plant-status>
-          </td>
-        </tr>
-        <tr *ngIf="plant.sensor_status">
-          <th class="vertical-th">Sensor Status</th>
-          <td>
-            <app-plant-status [size]="'small'" [status]="plant.sensor_status"></app-plant-status>
-          </td>
-        </tr>
-        <tr>
-          <th class="vertical-th">Owner</th>
-          <td>
-            {{ plant.owner ? plant.owner.fullName: 'Unknown' }}
-          </td>
-        </tr>
-        <tr>
-          <th class="vertical-th">Phone Number</th>
-          <td>
-            {{ plant.owner ? plant.owner.phone_number : 'Unknown' }}
-          </td>
-        </tr>
-        <tr *ngIf="plant.what3words">
-          <th class="vertical-th">Location (What3Words)</th>
-          <td>
-            {{ plant.what3words }}
-          </td>
-        </tr>
-        <tr *ngIf="plant.type_biogas">
-          <th class="vertical-th">Plant Type</th>
-          <td>
-            {{ plant.type_biogas }}
-          </td>
-        </tr>
-        <tr *ngIf="plant.volume_biogas">
-          <th class="vertical-th">Plant Volume</th>
-          <td>
-            {{ plant.volume_biogas }}
-          </td>
-        </tr>
-        <tr *ngIf="plant.supplier">
-          <th class="vertical-th">Supplier of Plant</th>
-          <td>
-            {{ plant.supplier }}
-          </td>
-        </tr>
-        <tr *ngIf="plant.funding_souce">
-          <th class="vertical-th">Funding Source</th>
-          <td>
-            {{ plant.funding_souce }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li class="p-0">
-    <!-- <app-jobs-table [plantId]="plant.id" [enableModal]="true"></app-jobs-table> -->
-  </li>
-</ul>
+<app-loading *ngIf="loading"></app-loading>
+<div *ngIf="plant && !loading">
+  <agm-map [latitude]="plant.lat" [longitude]="plant.lng" [styles]="mapStyles" [zoom]="zoom">
+    <agm-marker [latitude]="plant.lat" [longitude]="plant.lng" [iconUrl]="plant.mapMarkerIcon"></agm-marker>
+  </agm-map>
+
+  <ul class="list-group list-unstyled list-group-flush">
+    <li class="list-group-item p-0">
+      <table class="table table-bordered mb-0">
+        <tbody>
+          <tr>
+            <th class="vertical-th">ID</th>
+            <td>{{ plant.id }}</td>
+          </tr>
+          <tr>
+            <th class="vertical-th">Name</th>
+            <td>{{ plant.biogas_plant_name || 'UNKNOWN' }}</td>
+          </tr>
+          <tr *ngIf="plant.current_status">
+            <th class="vertical-th">Status</th>
+            <td>
+              <app-plant-status [size]="'small'" [status]="plant.current_status"></app-plant-status>
+            </td>
+          </tr>
+          <tr *ngIf="plant.sensor_status">
+            <th class="vertical-th">Sensor Status</th>
+            <td>
+              <app-plant-status [size]="'small'" [status]="plant.sensor_status"></app-plant-status>
+            </td>
+          </tr>
+          <tr>
+            <th class="vertical-th">Owner</th>
+            <td>
+              {{ plant.owner ? plant.owner.fullName: 'Unknown' }}
+            </td>
+          </tr>
+          <tr>
+            <th class="vertical-th">Phone Number</th>
+            <td>
+              {{ plant.owner ? plant.owner.phone_number : 'Unknown' }}
+            </td>
+          </tr>
+          <tr *ngIf="plant.what3words">
+            <th class="vertical-th">Location (What3Words)</th>
+            <td>
+              {{ plant.what3words }}
+            </td>
+          </tr>
+          <tr *ngIf="plant.type_biogas">
+            <th class="vertical-th">Plant Type</th>
+            <td>
+              {{ plant.type_biogas }}
+            </td>
+          </tr>
+          <tr *ngIf="plant.volume_biogas">
+            <th class="vertical-th">Plant Volume</th>
+            <td>
+              {{ plant.volume_biogas }}
+            </td>
+          </tr>
+          <tr *ngIf="plant.supplier">
+            <th class="vertical-th">Supplier of Plant</th>
+            <td>
+              {{ plant.supplier }}
+            </td>
+          </tr>
+          <tr *ngIf="plant.funding_souce">
+            <th class="vertical-th">Funding Source</th>
+            <td>
+              {{ plant.funding_souce }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li class="p-0">
+      <app-plant-jobs [plantId]="plant.id"></app-plant-jobs>
+    </li>
+  </ul>
+</div>

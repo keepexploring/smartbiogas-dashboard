@@ -1,0 +1,13 @@
+<app-loading *ngIf="loading"></app-loading>
+
+<div *ngIf="!loading">
+  <button class="btn btn-sm btn-outline-secondary mb-3" (click)="currentViewList  = !currentViewList">
+    <i-map *ngIf="currentViewList"></i-map>
+    <i-list *ngIf="!currentViewList"></i-list> {{currentViewList ? 'View Map' : 'View List'}}
+  </button>
+
+  <app-plants-table *ngIf="currentViewList" [loading]="loading" [plants]="plants" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"
+    [totalPages]="totalPages" [currentPage]="currentPage" (pageChanged)="onPageChange($event)"></app-plants-table>
+  <app-plants-map *ngIf="!currentViewList" [loading]="loading" [plants]="plants" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage"
+    [totalPages]="totalPages" [currentPage]="currentPage" (pageChanged)="onPageChange($event)"></app-plants-map>
+</div>

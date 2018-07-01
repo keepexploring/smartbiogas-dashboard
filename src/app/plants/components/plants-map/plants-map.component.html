@@ -1,11 +1,13 @@
 <agm-map [latitude]="initialLat" [longitude]="initialLng" *ngIf="plants" [styles]="mapStyles" [zoom]="zoom">
-  <agm-marker *ngFor="let plant of plants | paginate: { itemsPerPage: itemsPerPage, currentPage: page, totalItems: totalItems, id: 'plantsMapList' }" [latitude]="plant.lat" [longitude]="plant.lng" [iconUrl]="plant.mapMarkerIcon" (markerClick)="select(plant)"></agm-marker>
+  <agm-marker *ngFor="let plant of plants | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems, id: 'plantsMapList' }"
+    [latitude]="plant.lat" [longitude]="plant.lng" [iconUrl]="plant.mapMarkerIcon" (markerClick)="select(plant)"></agm-marker>
 </agm-map>
 
 <div class="table-pagination border-top">
   <app-loading *ngIf="loading"></app-loading>
   <pagination-controls *ngIf="totalItems > itemsPerPage && !loading" (pageChange)="onPageChange($event)" [maxSize]="0" [id]="'plantsMapList'"></pagination-controls>
   <div *ngIf="totalItems > itemsPerPage" class="small">
-    Page {{ page }} / <span class="text-muted">{{ totalPages }}</span>
+    Page {{ currentPage }} /
+    <span class="text-muted">{{ totalPages }}</span>
   </div>
 </div>

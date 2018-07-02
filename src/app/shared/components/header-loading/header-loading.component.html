@@ -2,13 +2,9 @@
   <div class="text-center small">
 
     <app-loading *ngIf="loading" [hideText]="true"></app-loading>
-    <button class="btn btn-sm btn-link m-auto text-muted small" (click)="requestRefresh()" data-toggle="tooltip" data-placement="top"
-      title="Refresh" [hidden]="loading">
-      <i-refresh-cw></i-refresh-cw>
-    </button>
 
     <button class="btn btn-sm btn-link m-auto text-muted small" (click)="requestFetch()" data-toggle="tooltip" data-placement="top"
-      title="Fetch more" [hidden]="count >= total" [disabled]="loading">
+      title="Fetch more" [hidden]="count >= total || loading" [disabled]="loading">
       <i-download-cloud></i-download-cloud>
     </button>
 

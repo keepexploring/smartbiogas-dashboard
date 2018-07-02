@@ -1,6 +1,7 @@
 <app-loading *ngIf="isLoading"></app-loading>
 
 <app-nav-top [isAuthenticated]="isAuthenticated"></app-nav-top>
+<app-nav-mobile *ngIf="isAuthenticated"></app-nav-mobile>
 
 <div id="main-wrapper" class="container-fluid">
   <div class="row" *ngIf="!isLoading">

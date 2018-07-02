@@ -1,1 +1,2 @@
-<div class="status" [class.status-green]="statusState" [class.status-red]="!statusState" [class.status-small]="size == 'small'">{{ statusText }}</div>
+<div class="status" [class.status-green]="statusState == true" [class.status-red]="statusState === false" [class.status-white]="statusState == null || statusState == undefined"
+  [class.status-small]="size == 'small'">{{ statusText }}</div>

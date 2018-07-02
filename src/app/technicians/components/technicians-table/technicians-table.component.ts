@@ -24,7 +24,6 @@ export class TechniciansTableComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = environment.defaultPaginationLimit;
   totalPages: number;
-  order: boolean = true;
 
   itemCount: number = 0;
   totalCount: number = 0;
@@ -58,6 +57,9 @@ export class TechniciansTableComponent implements OnInit {
   }
 
   onPageChange(nextPage: number) {
+    if (this.itemCount < this.totalCount) {
+      this.techniciansService.fetch();
+    }
     this.currentPage = nextPage;
   }
 

@@ -1,12 +1,11 @@
+<app-view-header [title]="'Technician Details'"></app-view-header>
 <app-loading *ngIf="loading"></app-loading>
-
 <div *ngIf="technician && !loading" class="technician-details">
   <div class="card">
     <div class="card-body">
 
       <div class="media">
         <app-image [src]="technician.user_photo" [alt]="technician.fullName" [classes]="'img-rounded align-self-center mr-3'" style="height: 150px; width: 150px;"></app-image>
-
         <div class="media-body">
           <h1 class="h2 mt-0 text-capitalize">{{ technician.fullName }}</h1>
           <h2 class="h6 text-muted">{{ technician.country ? technician.country : 'Unknown Country' }}</h2>
@@ -60,11 +59,18 @@
         </li>
       </ul>
 
-      <div>
-        <hr>
-        <h4>Jobs</h4>
-        <!-- <app-jobs-table [enableModal]="true" [technicianId]="technician.id"></app-jobs-table> -->
+      <div class="text-center mt-4">
+        <app-loading *ngIf="loadingJobs" text="Loading Jobs"></app-loading>
       </div>
+      <div *ngIf="jobs">
+        <hr>
+        <app-jobs-table [items]="jobs" [loading]="loadingJobs" [totalItems]="totalItems" [totalPages]="totalPages" [itemsPerPage]="perPage"></app-jobs-table>
+      </div>
+      <div *ngIf="!jobs && !loadingJobs">
+        <small class="text-muted">No jobs found </small>
+        <app-create-button baseRoute="jobs"></app-create-button>
+      </div>
+
     </div>
   </div>
 </div>

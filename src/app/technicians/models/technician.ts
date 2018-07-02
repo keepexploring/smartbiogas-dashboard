@@ -45,11 +45,6 @@ export class Technician extends User {
     });
   }
 
-  // constructor(tech?: Partial<Technician>) {
-  //   super(tech);
-  //   Object.assign(this, tech);
-  // }
-
   private static parse(data: any): Technician {
     const item = new Technician();
     item.country = data.country;
@@ -62,7 +57,7 @@ export class Technician extends User {
     item.last_name = data.last_name;
     item.neighbourhood = data.neighbourhood;
     item.other_address_details = data.other_address_details;
-    item.phone_number = data.phone_number;
+    item.mobile = data.mobile;
     item.postcode = data.postcode;
     item.region = data.region;
     item.resource_uri = data.resource_uri;

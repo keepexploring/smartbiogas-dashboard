@@ -16,6 +16,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { MessageComponent } from './components/message/message.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { CountryDropdownComponent } from './components/country-dropdown/country-dropdown.component';
+import { CreateButtonComponent } from './components/create-button/create-button.component';
 
 @NgModule({
   imports: [CommonModule, SharedRoutingModule, ReactiveFormsModule, IconsModule],
@@ -32,6 +33,7 @@ import { CountryDropdownComponent } from './components/country-dropdown/country-
     MessageComponent,
     MessagesComponent,
     CountryDropdownComponent,
+    CreateButtonComponent,
   ],
   exports: [
     FormErrorsComponent,
@@ -45,6 +47,7 @@ import { CountryDropdownComponent } from './components/country-dropdown/country-
     NotFoundComponent,
     MessageComponent,
     MessagesComponent,
+    CreateButtonComponent,
   ],
 })
 export class SharedModule {}

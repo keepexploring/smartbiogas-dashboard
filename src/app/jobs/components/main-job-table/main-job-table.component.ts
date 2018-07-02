@@ -46,7 +46,10 @@ export class MainJobTableComponent implements OnInit {
     });
   }
 
-  onChangePage() {
-    console.log('TODO: Change page');
+  onChangePage(nextPage: number) {
+    if (this.itemCount < this.totalCount) {
+      this.service.get(this.currentPage);
+    }
+    this.currentPage = nextPage;
   }
 }

@@ -6,26 +6,26 @@ import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/cor
   styleUrls: ['./technician-status.component.sass'],
 })
 export class TechnicianStatusComponent implements OnInit, OnChanges {
-  @Input() status: string;
+  @Input() status: boolean = false;
   @Input() size: string = 'small';
-
   statusState: boolean = false;
-
   statusText: string = 'Active';
-
   constructor() {}
-
   ngOnInit() {
     this.getStatus();
   }
 
   private getStatus() {
-    const status = JSON.parse(this.status);
-    this.statusState = status;
-    if (!!status) {
-      this.statusText = 'Active';
+    if (this.status === null || this.status === undefined) {
+      this.statusText = 'Unknown';
+      this.statusState = null;
     } else {
-      this.statusText = 'Inactive';
+      this.statusState = this.status;
+      if (status) {
+        this.statusText = 'Active';
+      } else {
+        this.statusText = 'Inactive';
+      }
     }
   }
 

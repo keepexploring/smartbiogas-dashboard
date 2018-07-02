@@ -12,5 +12,6 @@ export class TechniciansComponent implements OnInit {
 
   ngOnInit() {
     this.techniciansService.get();
+    this.techniciansService.currentTitle = 'Technicians';
   }
 }

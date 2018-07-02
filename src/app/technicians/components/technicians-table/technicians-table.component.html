@@ -1,11 +1,7 @@
 <app-technicians-header [title]="'Technicians'"></app-technicians-header>
-<button class="btn btn-sm btn-outline-secondary" [routerLink]="['create']">Add
-  <i-plus-square></i-plus-square>
-</button>
 
 <div class="list-table-header d-flex justify-content-between">
   <div>
-
   </div>
   <div>
     <button class="btn-icon pre-header-button" [class.active]="density=='default'" (click)="setDensity('default')" data-toggle="tooltip"
@@ -19,7 +15,7 @@
   </div>
 </div>
 
-<table *ngIf="technicians" class="table list-table mb-0" [class.table-hover]="selectable" [class.table-sm]="density == 'condensed'">
+<table *ngIf="technicians" class="table table-hover list-table mb-0" [class.table-sm]="density == 'condensed'">
   <thead class="sticky-top">
     <tr>
       <th class="d-none d-sm-table-cell" scope="col">ID</th>
@@ -49,9 +45,6 @@
   </tbody>
 </table>
 
-<div class="text-center mt-3">
-  <app-loading *ngIf="loading" text="Loading Technicians"></app-loading>
-</div>
 
 <div class="table-pagination border-top" *ngIf="itemCount > itemsPerPage">
   <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0"></pagination-controls>
@@ -59,4 +52,8 @@
     Page {{ currentPage }} /
     <span class="text-muted">{{ totalPages }}</span>
   </div>
+</div>
+
+<div class="text-center mt-3">
+  <app-loading *ngIf="loading" text="Loading Technicians"></app-loading>
 </div>

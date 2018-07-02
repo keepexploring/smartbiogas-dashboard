@@ -1,2 +1,3 @@
+<app-jobs-header [title]="'Jobs'"></app-jobs-header>
 <app-jobs-table *ngIf="items" [items]="items" [loading]="loading" [totalItems]="totalItems" [totalPages]="totalPages" [itemsPerPage]="itemsPerPage"
   (changedPage)="onChangePage()"></app-jobs-table>

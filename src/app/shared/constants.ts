@@ -1,4 +1,8 @@
 export const phoneRegex = '^[+d][0-9]{0,14}$';
+
+export const initialLat: number = -3.3981431;
+export const initialLng: number = 36.6421933;
+export const initialZoom: number = 7;
 export const mapStyles = [
   {
     featureType: 'administrative',

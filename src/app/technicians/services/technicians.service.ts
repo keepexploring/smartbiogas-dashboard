@@ -22,8 +22,9 @@ export class TechniciansService {
   loadingSingle: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   items: BehaviorSubject<Array<Technician>> = new BehaviorSubject<Array<Technician>>([]);
   limit: number = environment.apiPagesToPrefetch;
-
   private fetching: boolean = false;
+
+  currentTitle: string;
 
   constructor(
     private http: HttpClient,
@@ -66,14 +67,19 @@ export class TechniciansService {
   };
 
   fetchTechnician(id: number) {
+    const found = this.items.getValue().find(j => j.id == id);
+    if (found) {
+      return of(found);
+    }
     if (isNaN(id)) {
       this.handleNotFound('Not a valid ID');
     }
     this.loadingSingle.next(true);
-    this.http
+    return this.http
       .get(this.endpoints.technicians.single + id + '/', { observe: 'response' })
       .pipe(
         tap(() => {
+          this.loadingSingle.next(false);
           if (this.items.getValue().length < 2) {
             this.prefetch(0);
           }
@@ -83,12 +89,12 @@ export class TechniciansService {
           return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
         }),
         tap(items => this.items.next(items)),
+        tap(() => {
+          this.loadingSingle.next(false);
+          this.loading.next(false);
+        }),
         catchError(this.handleNotFound),
-      )
-      .subscribe(null, this.handleNotFound, () => {
-        this.loadingSingle.next(false);
-        this.loading.next(false);
-      });
+      );
   }
 
   refresh() {
@@ -193,10 +199,10 @@ export class TechniciansService {
     }
 
     // TODO: Send all languages instead of only first one
-    const thisneedstochange = [];
-    const firstlang = data.languages_spoken.split(',');
-    thisneedstochange.push(firstlang[0]);
-    data.languages_spoken = thisneedstochange;
+    // const thisneedstochange = [];
+    // const firstlang = ;
+    // thisneedstochange.push(firstlang[0]);
+    data.languages_spoken = [...data.languages_spoken.split(',')];
 
     return data;
   }

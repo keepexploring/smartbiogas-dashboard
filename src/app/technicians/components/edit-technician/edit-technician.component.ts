@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { TechniciansService } from '../../services/technicians.service';
 import { Technician } from '../../models/technician';
 import { Subscription } from 'rxjs';
-import { CountryInformationService } from '../../../core/services/country-information.service';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 
 @Component({
@@ -16,12 +15,11 @@ export class EditTechnicianComponent implements OnInit {
   countries: string[];
   skillsList = this.techniciansService.skills;
   accreditedSkills = this.techniciansService.accreditedSkills;
-  currentTechnician: Technician;
+  technician: Technician;
   singleTechSubscription: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
-    private countryService: CountryInformationService,
     private techniciansService: TechniciansService,
     private route: ActivatedRoute,
   ) {}
@@ -34,23 +32,17 @@ export class EditTechnicianComponent implements OnInit {
   }
 
   getTechnician(id: number) {
-    this.singleTechSubscription = this.techniciansService.items.subscribe(technicians => {
-      const techFound = technicians.find(t => t.id == id);
-      if (techFound) {
-        this.currentTechnician = techFound;
-        // this.initialiseForm(this.currentTechnician);
-        return;
-      }
-
-      this.techniciansService.fetchTechnician(id);
-      return;
+    this.techniciansService.fetchTechnician(id).subscribe(item => {
+      this.technician = item;
+      this.createForm();
+      // this.initialiseForm(this.technician);
     });
   }
 
   initialiseForm(tech: Technician) {
     this.first_name.setValue(tech.first_name);
     this.last_name.setValue(tech.last_name);
-    this.mobile.setValue(tech.phone_number);
+    this.mobile.setValue(tech.mobile);
     this.email.setValue(tech.email);
     this.status.setValue(tech.status);
     this.role.setValue(tech.role);
@@ -65,8 +57,6 @@ export class EditTechnicianComponent implements OnInit {
     this.max_num_jobs_allowed.setValue(tech.max_num_jobs_allowed);
     this.willing_to_travel.setValue(tech.willing_to_travel);
     this.languages_spoken.setValue(tech.languages_spoken.toString());
-    this.username.setValue(tech.username);
-    this.password.setValue('');
     this.form.updateValueAndValidity();
   }
 
@@ -78,12 +68,13 @@ export class EditTechnicianComponent implements OnInit {
 
   onSubmit() {
     // if (this.form.valid) {
-    console.log('Submitted');
+    // console.log('Submitted');
     //   this.techniciansService.create(this.form.value).subscribe(created => {
     //     // this.router.navigate(['technicians', created.id]);
     //     console.log('returned', created);
     //   });
     // }
+    console.log('handle edit');
     return false;
   }
   createForm() {
@@ -113,8 +104,6 @@ export class EditTechnicianComponent implements OnInit {
       acredit_to_install: this.buildAccreditedSkills(),
       acredited_to_fix: this.buildAccreditedSkills(),
       languages_spoken: [''],
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -140,20 +129,9 @@ export class EditTechnicianComponent implements OnInit {
     });
     return this.formBuilder.array(languageFGs);
   }
-  get phone() {
-    return '+' + this.phoneNumberPrefix.value + this.mobile.value;
-  }
 
   get specialist_skills(): FormArray {
     return this.form.get('specialist_skills') as FormArray;
-  }
-
-  get username() {
-    return this.form.get('username');
-  }
-
-  get password() {
-    return this.form.get('password');
   }
   get first_name() {
     return this.form.get('first_name');
@@ -167,9 +145,7 @@ export class EditTechnicianComponent implements OnInit {
   get mobile() {
     return this.form.get('mobile');
   }
-  get phoneNumberPrefix() {
-    return this.form.get('phoneNumberPrefix');
-  }
+
   get country() {
     return this.form.get('country');
   }

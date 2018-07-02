@@ -9,7 +9,6 @@ import { TechniciansService } from '../../services/technicians.service';
 })
 export class TechniciansHeaderComponent implements OnInit, OnDestroy {
   @Input() title: string = '';
-
   loading: boolean = true;
   loadingMeta: boolean = true;
   total: number;
@@ -36,10 +35,6 @@ export class TechniciansHeaderComponent implements OnInit, OnDestroy {
         }
       }),
     ];
-  }
-
-  handleRefresh() {
-    this.techniciansService.refresh();
   }
 
   handleFetch() {

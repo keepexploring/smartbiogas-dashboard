@@ -14,6 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 import { PaginationModule } from '../pagination/pagination.module';
 import { CreateTechnicianComponent } from './components/create-technician/create-technician.component';
 import { EditTechnicianComponent } from './components/edit-technician/edit-technician.component';
+import { JobsModule } from '../jobs/jobs.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { EditTechnicianComponent } from './components/edit-technician/edit-techn
     IconsModule,
     SharedModule,
     PaginationModule,
+    JobsModule,
   ],
   declarations: [
     TechnicianDetailComponent,

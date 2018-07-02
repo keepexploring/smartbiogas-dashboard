@@ -8,6 +8,7 @@ import { MessageService } from './services/message.service';
 import { NavigationHistoryService } from './services/navigation-history.service';
 import { httpInterceptorProviders } from './interceptors';
 import { AuthGuard } from './guards/auth.guard';
+import { JobsService } from './services/jobs.service';
 
 @NgModule({
   imports: [CommonModule],
@@ -20,6 +21,7 @@ import { AuthGuard } from './guards/auth.guard';
     MessageService,
     NavigationHistoryService,
     MessageService,
+    JobsService,
     AuthGuard,
   ],
 })

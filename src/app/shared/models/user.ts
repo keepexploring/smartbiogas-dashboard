@@ -2,7 +2,7 @@ export class User {
   id: number;
   first_name: string;
   last_name: string;
-  phone_number: string;
+  mobile: string;
   status: boolean;
   company_name: string;
   contact_type: string;

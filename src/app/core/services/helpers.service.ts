@@ -1,4 +1,4 @@
-import { throwError } from 'rxjs';
+import { throwError, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { User } from '../../shared/models/user';
@@ -79,36 +79,5 @@ export class HelpersService {
       }
     }
     return throwError(errMsg);
-  }
-
-  parseContactFromJsonData(contactData: {
-    user_id;
-    company_name;
-    contact_type;
-    first_name;
-    last_name;
-    phone_number;
-    role;
-    status;
-  }): User {
-    let contact = new User();
-    contact.id = contactData.user_id;
-    contact.contact_type = contactData.contact_type;
-    contact.first_name = contactData.first_name;
-    contact.last_name = contactData.last_name;
-    contact.phone_number = contactData.phone_number;
-    contact.role = contactData.role;
-    contact.status = contactData.status;
-
-    if (contactData.company_name) {
-      contact.company_name = contactData.company_name[0];
-    }
-
-    return contact;
-  }
-
-  calculateTotalApiPages(totalItems: number, itemsPerPage: number): number {
-    console.log('TODO [helpers calculateTotalApiPages]: Use the one in model instead');
-    return Math.ceil(totalItems / itemsPerPage);
   }
 }

@@ -21,20 +21,24 @@ export class EndpointService {
     index: this.fullApiEndpoint(`dashboard/?format=json&limit=${environment.apiPageLimit}`),
   };
 
-  plants: { index } = {
+  plants: { index; single } = {
     index: this.fullApiEndpoint(`biogasplants/?format=json&limit=${environment.apiPageLimit}`),
+    single: this.fullApiEndpoint(`biogasplants/`),
   };
 
-  jobs: { index; user; plant } = {
+  jobs: { index; user; plant; single } = {
     index: this.fullApiEndpoint(`jobs/?format=json&limit=${environment.apiPageLimit}`),
     user: this.fullApiEndpoint(`jobs/?limit=${environment.apiPageLimit}&fixers__user__id=`),
     plant: this.fullApiEndpoint(`jobs/?limit=${environment.apiPageLimit}&plant__id=`),
+    single: this.fullApiEndpoint(`jobs/`),
   };
 
   countryData = this.fullApiEndpoint('data/get_countries_and_mobile_shortcodes/');
 
   getOffset(page: number, itemsPerPage: number): string {
-    page = page - 1;
+    if (page > 0) {
+      page = page - 1;
+    }
     const offset = '&offset=' + page * itemsPerPage;
     return offset;
   }

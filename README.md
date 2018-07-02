@@ -48,18 +48,19 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Notes
 
-* For maps we are using [angular-google-maps](https://github.com/SebastianM/angular-google-maps) (MIT)
+- For maps we are using [angular-google-maps](https://github.com/SebastianM/angular-google-maps) (MIT)
 
 ### General Notes
 
-* All http requests are in the `app/services` folder.
+- All http requests are in the `app/services` folder.
 
 #### Auth
 
-* Auth is based on a Bearer token call to the back-end.
-* The auth headers get added on the `TokenInterceptor`
-* There are guards that check if the user is logged in, then if the token expired or the user in unauthorised (Http code 401), the interceptor redirects to the login component
+- Auth is based on a Bearer token call to the back-end.
+- The auth headers get added on the `TokenInterceptor`
+- There are guards that check if the user is logged in, then if the token expired or the user in unauthorised (Http code 401), the interceptor redirects to the login component
 
 ## TODO / Known Issues
 
-* Angular Google Maps uses an outdated version of RxJs
+- Angular Google Maps uses an outdated version of RxJs
+- SIMPLIFY DEDUPLICATE: `(...arrs) => [ ...new Set( [].concat(...arrs) ) ];`

@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
-
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
@@ -32,6 +31,7 @@ import { RouterModule } from '@angular/router';
     AppRoutingModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     IconsModule,
     DashboardModule,
     PlantsModule,

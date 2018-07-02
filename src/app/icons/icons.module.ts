@@ -17,6 +17,8 @@ import {
   IconDownloadCloud,
   IconPlusSquare,
   IconEdit,
+  IconEye,
+  IconEyeOff,
 } from 'angular-feather';
 
 const icons = [
@@ -37,6 +39,8 @@ const icons = [
   IconDownloadCloud,
   IconPlusSquare,
   IconEdit,
+  IconEye,
+  IconEyeOff,
 ];
 
 @NgModule({

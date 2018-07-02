@@ -60,11 +60,13 @@ export class AuthService {
     return this.tokenService.get(username, password);
   }
 
-  logOut() {
+  logOut(sendToLogin: boolean = true) {
     this.tokenService.unauthorise();
     this.updateAuthenticationState(false);
     this.check();
-    this.sendToLogin();
+    if (sendToLogin) {
+      this.sendToLogin();
+    }
   }
 
   private sendToLogin(): void {

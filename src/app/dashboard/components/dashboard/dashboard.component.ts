@@ -11,12 +11,33 @@ export class DashboardComponent implements OnInit {
   loading: boolean = true;
   dashboard: Dashboard;
 
+  templateCards: {};
+  cards: {};
+
   constructor(private service: DashboardService) {}
 
   ngOnInit() {
+    this.getDashboard();
+    this.getCards();
+    this.getTemplateCards();
+  }
+
+  getDashboard() {
     this.service.getDashboard().subscribe(response => {
       this.dashboard = response;
       this.loading = false;
+    });
+  }
+
+  getCards() {
+    this.service.getCards().subscribe(response => {
+      console.log(response);
+    });
+  }
+
+  getTemplateCards() {
+    this.service.getTemplateCards().subscribe(response => {
+      console.log(response);
     });
   }
 }

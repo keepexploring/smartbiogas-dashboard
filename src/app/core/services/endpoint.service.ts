@@ -11,22 +11,26 @@ export class EndpointService {
   token = EndpointService.baseUrl + 'o/token/';
   validateToken = this.fullApiEndpoint('validate/validate_code/');
 
-  technicians: { index; single; create } = {
+  technicians = {
     index: this.fullApiEndpoint(`users/?format=json&limit=${environment.apiPageLimit}`),
     single: this.fullApiEndpoint(`users/`),
     create: this.fullApiEndpoint(`users/create_technician/`),
   };
 
-  dashboard: { index } = {
+  dashboard = {
     index: this.fullApiEndpoint(`dashboard/?format=json&limit=${environment.apiPageLimit}`),
+    cards: this.fullApiEndpoint(`data/get_cards/`),
+    templateCards: this.fullApiEndpoint(`data/get_template_cards/`),
+    addCard: this.fullApiEndpoint(`data/add_card_to_dashboard/`),
+    modifyCardOrder: this.fullApiEndpoint(`data/modify_card_order/`),
   };
 
-  plants: { index; single } = {
+  plants = {
     index: this.fullApiEndpoint(`biogasplants/?format=json&limit=${environment.apiPageLimit}`),
     single: this.fullApiEndpoint(`biogasplants/`),
   };
 
-  jobs: { index; user; plant; single } = {
+  jobs = {
     index: this.fullApiEndpoint(`jobs/?format=json&limit=${environment.apiPageLimit}`),
     user: this.fullApiEndpoint(`jobs/?limit=${environment.apiPageLimit}&fixers__user__id=`),
     plant: this.fullApiEndpoint(`jobs/?limit=${environment.apiPageLimit}&plant__id=`),

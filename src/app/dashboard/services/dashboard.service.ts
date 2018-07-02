@@ -15,6 +15,20 @@ export class DashboardService {
     private endpoints: EndpointService,
   ) {}
 
+  getCards() {
+    console.log(this.endpoints.dashboard);
+    return this.http.get(this.endpoints.dashboard.cards, {
+      observe: 'response',
+    });
+  }
+
+  getTemplateCards() {
+    console.log(this.endpoints.dashboard);
+    return this.http.get(this.endpoints.dashboard.templateCards, {
+      observe: 'response',
+    });
+  }
+
   getDashboard(): Observable<Dashboard> {
     return this.http.get(this.endpoints.dashboard.index).pipe(
       map(response => this.mapDataToModel(response)),

@@ -15,6 +15,7 @@ export class PasswordService {
   loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   private baseUrl = EndpointService.baseUri + 'pass';
+  private token: string;
 
   constructor(
     private http: HttpClient,
@@ -45,12 +46,6 @@ export class PasswordService {
         success => {
           console.log('success', success);
           this.router.navigate(['/reset-password']);
-          this.messageService.add(
-            new Message(
-              'Thank you for your request. You will receive an email with instructions.',
-              MessageType.Success,
-            ),
-          );
         },
         error => {
           console.log('ERR!!', error);
@@ -66,6 +61,10 @@ export class PasswordService {
     return this.http
       .post(this.baseUrl + '/validate_code/', { reset_code: code }, { observe: 'response' })
       .pipe(
+        map((response: HttpResponse<any>) => {
+          this.token = response.body.token;
+          return;
+        }),
         tap(() => {
           this.loading.next(false);
         }),
@@ -76,5 +75,23 @@ export class PasswordService {
       );
   }
 
-  resetPassword() {}
+  resetPassword(password: string) {
+    this.loading.next(true);
+    return this.http
+      .post(
+        this.baseUrl + '/reset_password/',
+        { password, token: this.token },
+        { observe: 'response' },
+      )
+      .pipe(
+        tap(() => {
+          this.token = null;
+          this.loading.next(false);
+        }),
+        catchError(err => {
+          console.log('ERRRR!!', err);
+          return of(err);
+        }),
+      );
+  }
 }

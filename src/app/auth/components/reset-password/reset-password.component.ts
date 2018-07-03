@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { Router } from '@angular/router';
+import { Message } from '../../../shared/models/message';
+import { HttpResponse } from '@angular/common/http';
 import { PasswordService } from '../../services/password.service';
 import { MessageService } from '../../../core/services/message.service';
+import { MessageType } from '../../../shared/enums/message-type';
 
 @Component({
   selector: 'app-reset-password',
@@ -22,6 +25,7 @@ export class ResetPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private passwordService: PasswordService,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit() {
@@ -40,10 +44,22 @@ export class ResetPasswordComponent implements OnInit {
 
   onSubmitPassword() {
     if (this.resetPasswordForm.valid) {
-      // this.passwordService.validateCode(this.code.value);
+      this.passwordService.resetPassword(this.password.value).subscribe(
+        success => {
+          this.messageService.add(
+            new Message('Password has been successfully changed', MessageType.Success),
+          );
+          this.router.navigate(['/login']);
+        },
+        error => {
+          this.messageService.add(new Message('There was an error', MessageType.Danger));
+        },
+      );
+
       console.log(this.password.value);
     }
   }
+
   onSubmitCode() {
     console.log(this.codeForm.valid);
     if (this.codeForm.valid) {

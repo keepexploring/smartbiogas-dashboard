@@ -1,32 +1,74 @@
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 
 import { HelpersService } from '../../core/services/helpers.service';
 import { EndpointService } from '../../core/services/endpoint.service';
 import { Dashboard } from '../models/dashboard';
+import { Card } from '../models/card';
+import { CardTemplate } from '../models/card-template';
+import { MessageService } from '../../core/services/message.service';
+import { Message } from '../../shared/models/message';
+import { MessageType } from '../../shared/enums/message-type';
 
 @Injectable()
 export class DashboardService {
+  cards: Card[] = [];
+  cardTemplates: CardTemplate[] = [];
+
   constructor(
     private http: HttpClient,
     private helpers: HelpersService,
     private endpoints: EndpointService,
+    private messageService: MessageService,
   ) {}
 
   getCards() {
-    console.log(this.endpoints.dashboard);
-    return this.http.get(this.endpoints.dashboard.cards, {
-      observe: 'response',
-    });
+    return this.http
+      .get(this.endpoints.dashboard.cards, {
+        observe: 'response',
+      })
+      .pipe(
+        map((response: HttpResponse<any>) => {
+          const items = Card.fromResponse(response);
+          this.cards = items;
+          console.log(items);
+          return items;
+        }),
+      );
   }
 
   getTemplateCards() {
-    console.log(this.endpoints.dashboard);
-    return this.http.get(this.endpoints.dashboard.templateCards, {
-      observe: 'response',
-    });
+    return this.http
+      .get(this.endpoints.dashboard.templateCards, {
+        observe: 'response',
+      })
+      .pipe(
+        map((response: HttpResponse<any>) => {
+          const items = CardTemplate.fromResponse(response);
+          this.cardTemplates = items;
+          console.log(items);
+          return items;
+        }),
+      );
+  }
+
+  addCardToDashboard(position: number, template_id: number): Observable<any> {
+    return this.http
+      .post(this.endpoints.dashboard.addCard, { position, template_id }, { observe: 'response' })
+      .pipe(
+        map((response: any) => {
+          console.log(response);
+          this.messageService.add(new Message(response.body.message, MessageType.Success));
+          return response;
+        }),
+        catchError(error => {
+          this.helpers.handleResponseError(error);
+          this.messageService.add(new Message(error, MessageType.Danger));
+          return of(error);
+        }),
+      );
   }
 
   getDashboard(): Observable<Dashboard> {

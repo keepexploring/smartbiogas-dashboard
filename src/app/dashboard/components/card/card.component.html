@@ -1,0 +1,22 @@
+<div *ngIf="!card.isNew" class="dashboard-card">
+  <div class="dashboard-card-container">
+    <div class="mb-3">
+      <div *ngIf="card.template.card_type === 'Alert'" class="icon">
+        <i-alert-triangle></i-alert-triangle>
+      </div>
+      <div *ngIf="card.template.card_type !== 'Alert'" class="icon">
+        <i-info></i-info>
+      </div>
+    </div>
+    <!-- <p class="display-1">{{value}}</p> -->
+    <!-- <p class="caption">{{card.template.title}}</p> -->
+    <h4>{{card.template.title}}</h4>
+  </div>
+</div>
+
+<div *ngIf="card.isNew" class="dashboard-card empty-card" (click)="create()">
+  <div class="dashboard-card-container">
+    <div class="display-1">+</div>
+    <div class="caption">Add New</div>
+  </div>
+</div>

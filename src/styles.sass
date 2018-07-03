@@ -43,6 +43,16 @@ app-plants-map
 	height: auto
 	width: auto
 
+.dashboard-card
+	.icon,
+	.icon svg,
+	.icon .feather,
+	.icon i-alert-triangle,
+	.icon i-info
+		width: 70px !important
+		height: 70px !important
+
+
 button i-map,
 button i-list,
 button i-layers,
@@ -54,7 +64,8 @@ button i-chevrons-right,
 button i-download-cloud,
 button i-plus-square,
 button i-edit,
-.feather
+button .feather,
+a .feather
 	width: 16px !important
 	height: 16px !important
 	vertical-align: text-bottom !important
@@ -62,25 +73,6 @@ button i-edit,
 .caption
 	text-transform: uppercase
 	letter-spacing: 1px
-
-.dashboard-box
-	+flex-align-middle
-	min-height: 300px
-	text-align: center
-	margin-bottom: $grid-gutter-width
-
-	.dashboard-box-container
-		+flex-align-middle
-		color: #fff
-		height: 100%
-		width: 100%
-		background-color: $light-blue
-
-	&:nth-child(2n) .dashboard-box-container
-		background-color: $green
-
-	.display-1
-		font-weight: 300
 
 .form-control-dark
 	color: #fff
@@ -221,4 +213,3 @@ pagination-controls
 	text-align: center
 	padding-top: 15px
 	padding-bottom: 15px
-

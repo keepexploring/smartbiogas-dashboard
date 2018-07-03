@@ -8,6 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { Card } from '../../models/card';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card',
@@ -15,12 +16,11 @@ import { Card } from '../../models/card';
   styleUrls: ['./card.component.sass'],
 })
 export class CardComponent implements OnInit, OnChanges {
-  @Input() card?: Card;
+  @Input() card: Card;
   @Input() position: number;
-
   @Output() addCard: EventEmitter<number> = new EventEmitter();
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
@@ -28,6 +28,10 @@ export class CardComponent implements OnInit, OnChanges {
     if (changes.position) {
       this.position = changes.position.currentValue;
     }
+  }
+
+  navigate() {
+    this.router.navigate(this.card.route);
   }
 
   create() {

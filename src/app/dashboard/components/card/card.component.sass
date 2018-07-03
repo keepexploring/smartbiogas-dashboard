@@ -6,32 +6,41 @@
 app-card,
 .dashboard-card
 	+flex-align-middle
-
-	background: $light-blue
 	min-height: 300px
 	text-align: center
 	margin-bottom: $grid-gutter-width
 
-	.dashboard-card-container
-		+flex-align-middle
-
-		color: #fff
-		height: 100%
-		width: 100%
+.dashboard-card
+	background-color: $light-blue
+	cursor: pointer
+	user-select: none
 
 	&:nth-child(2n) .dashboard-card-container
 		background-color: $green
 
+	.dashboard-card-container
+		+flex-align-middle
+		padding: 10px
+		color: #fff
+		height: 100%
+		width: 100%
+
 	.display-1
 		font-weight: 300
 
+	&.empty-card
+		border: 5px dashed #eee
+		background-color: #fff
+		
+		.dashboard-card-container
+			color: #b7b7b7
 
-.dashboard-card.empty-card
-	cursor: pointer
-	user-select: none
-
-	.dashboard-card-container
-		color: #b7b7b7
-
-	&:hover .dashboard-card-container
-		color: $body-color
+		&:hover .dashboard-card-container
+			color: $body-color
+			border-color: #b7b7b7
+	
+	.card-action-button
+		display: none
+	
+	&:hover .card-action-button
+		display: block

@@ -1,16 +1,17 @@
-<div *ngIf="!card.isNew" class="dashboard-card">
+<div *ngIf="card && !card.isNew" class="dashboard-card" (click)="navigate()">
   <div class="dashboard-card-container">
-    <div class="mb-3">
-      <div *ngIf="card.template.card_type === 'Alert'" class="icon">
-        <i-alert-triangle></i-alert-triangle>
-      </div>
-      <div *ngIf="card.template.card_type !== 'Alert'" class="icon">
-        <i-info></i-info>
-      </div>
-    </div>
-    <!-- <p class="display-1">{{value}}</p> -->
-    <!-- <p class="caption">{{card.template.title}}</p> -->
-    <h4>{{card.template.title}}</h4>
+    <p class="display-1">{{card.value || '??'}}</p>
+    <h5>
+      <span class="inline-card-icon">
+        <i-alert-triangle *ngIf="card.template.card_type === 'Alert'"></i-alert-triangle>
+        <i-info *ngIf="card.template.card_type !== 'Alert'"></i-info>
+      </span>
+      <span> {{card.template.title}}</span>
+    </h5>
+    <p class="caption small">{{card.template.description}}</p>
+    <button class="card-action-button btn btn-link text-white">See {{card.template.entityName}}
+      <i-arrow-right-circle></i-arrow-right-circle>
+    </button>
   </div>
 </div>
 

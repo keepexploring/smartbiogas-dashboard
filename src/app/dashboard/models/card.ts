@@ -17,6 +17,14 @@ export class Card {
   // Check if it should be a new one
   isNew: boolean = true;
 
+  get route() {
+    let route: string[] = this.template.entityRoute;
+    if (this.value) {
+      route.push(this.value);
+    }
+    return route;
+  }
+
   static fromResponse(response: HttpResponse<any>) {
     return response.body.data.map(item => {
       return this.parseSingle(item);

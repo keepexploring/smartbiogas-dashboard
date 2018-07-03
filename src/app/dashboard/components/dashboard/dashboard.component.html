@@ -1,14 +1,13 @@
 <app-view-header title="Dashboard"></app-view-header>
-<app-loading *ngIf="loading" [text]="loadingText"></app-loading>
-<div class="mb-4">
-  <div *ngIf="selectingTemplate && !loadingTemplates" class="d-flex justify-content-between align-items-center flex-wrap">
+<div *ngIf="selectingTemplate && !loadingTemplates" class="mb-4">
+  <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h3 class="text-muted">Select Template</h3>
-    <button class="btn btn-outline-secondary" (click)="resetSelection()">Cancel</button>
+    <button *ngIf="!loading && !loadingTemplates" class="btn btn-outline-secondary" (click)="resetSelection()">Cancel</button>
   </div>
 </div>
+<app-loading *ngIf="loading" [text]="loadingText"></app-loading>
+
 <div *ngIf="!loading && !loadingTemplates">
-
-
   <div *ngIf="!selectingTemplate">
     <div class="row d-flex" *ngIf="cards">
       <app-card *ngFor="let card of cards ; index as i" class="col-xs-12 col-sm-6 col-md-4" (addCard)="selectTemplate($event)"

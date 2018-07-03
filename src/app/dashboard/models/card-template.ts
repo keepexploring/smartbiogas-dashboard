@@ -11,6 +11,34 @@ export class CardTemplate {
   created: string;
   updated: string;
 
+  get entityName(): string {
+    switch (this.entity_type.toLowerCase()) {
+      case 'biogasplant':
+        return 'Plant';
+      case 'technician':
+        return 'Technician';
+      case 'job':
+        return 'Job';
+      default:
+        return '';
+    }
+  }
+
+  get entityRoute(): string[] {
+    let route: string[];
+    switch (this.entity_type.toLowerCase()) {
+      case 'biogasplant':
+        route = ['/plants'];
+      case 'technician':
+        route['/technician'];
+      case 'job':
+        route['/job'];
+      default:
+        route['/'];
+    }
+    return route;
+  }
+
   static fromResponse(response: HttpResponse<any>): CardTemplate[] {
     return response.body.data.map(item => {
       return CardTemplate.parseSingle(item);

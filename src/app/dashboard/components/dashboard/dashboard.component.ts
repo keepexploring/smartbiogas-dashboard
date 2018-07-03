@@ -14,11 +14,8 @@ export class DashboardComponent implements OnInit {
   cardTemplates: CardTemplate[];
   cards: Card[];
   selectingTemplate: boolean = false;
-
   loadingText = 'Loading Cards';
-
   selectedPosition: number;
-
   constructor(private service: DashboardService) {}
 
   ngOnInit() {
@@ -30,16 +27,11 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
     this.service.getCards().subscribe(
       items => {
-        console.log(this.cardTemplates);
         const cards = items.map(item => {
           const template = this.cardTemplates.find(t => t.id === item.card_template.id);
-
           item.template = template;
           return item;
         });
-
-        console.log(cards);
-
         this.cards = [...cards, new Card()];
       },
       null,
@@ -71,8 +63,7 @@ export class DashboardComponent implements OnInit {
     this.loadingText = 'Adding card to dashboard';
     this.loading = true;
     this.service.addCardToDashboard(this.selectedPosition, template.id).subscribe(
-      success => {
-        console.log(success);
+      () => {
         this.resetSelection();
         this.getCards();
         // Loading handled in getCards

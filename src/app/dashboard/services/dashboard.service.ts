@@ -1,6 +1,6 @@
 import { catchError, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 
 import { HelpersService } from '../../core/services/helpers.service';
@@ -27,13 +27,13 @@ export class DashboardService {
   getCards() {
     return this.http
       .get(this.endpoints.dashboard.cards, {
+        headers: new HttpHeaders({ 'x-requested-with': 'true' }),
         observe: 'response',
       })
       .pipe(
         map((response: HttpResponse<any>) => {
           const items = Card.fromResponse(response);
           this.cards = items;
-          console.log(items);
           return items;
         }),
       );
@@ -48,7 +48,6 @@ export class DashboardService {
         map((response: HttpResponse<any>) => {
           const items = CardTemplate.fromResponse(response);
           this.cardTemplates = items;
-          console.log(items);
           return items;
         }),
       );
@@ -59,7 +58,6 @@ export class DashboardService {
       .post(this.endpoints.dashboard.addCard, { position, template_id }, { observe: 'response' })
       .pipe(
         map((response: any) => {
-          console.log(response);
           this.messageService.add(new Message(response.body.message, MessageType.Success));
           return response;
         }),

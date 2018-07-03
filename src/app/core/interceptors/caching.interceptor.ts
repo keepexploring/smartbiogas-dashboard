@@ -16,6 +16,10 @@ export class CachingInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (request.headers.get('x-requested-with')) {
+      return next.handle(request);
+    }
+
     if (request.method !== 'GET') {
       return next.handle(request);
     }

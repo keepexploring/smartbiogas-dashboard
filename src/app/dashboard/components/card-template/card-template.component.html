@@ -1,0 +1,14 @@
+<div *ngIf="template" class="dashboard-card" (click)="selectTemplate()">
+  <div class="dashboard-card-container text-center">
+    <div class="mb-3">
+      <div *ngIf="template.card_type === 'Alert'" class="icon">
+        <i-alert-triangle></i-alert-triangle>
+      </div>
+      <div *ngIf="template.card_type !== 'Alert'" class="icon">
+        <i-info></i-info>
+      </div>
+    </div>
+    <h4>{{template.title}}</h4>
+    <p>{{template.description}}</p>
+  </div>
+</div>

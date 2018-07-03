@@ -1,0 +1,37 @@
+@import 'src/assets/styles/variables'
+@import 'src/assets/styles/mixins'
+@import 'node_modules/bootstrap/scss/bootstrap'
+@import 'node_modules/bootstrap/scss/variables'
+
+app-card,
+.dashboard-card
+	+flex-align-middle
+
+	background: $light-blue
+	min-height: 300px
+	text-align: center
+	margin-bottom: $grid-gutter-width
+
+	.dashboard-card-container
+		+flex-align-middle
+
+		color: #fff
+		height: 100%
+		width: 100%
+
+	&:nth-child(2n) .dashboard-card-container
+		background-color: $green
+
+	.display-1
+		font-weight: 300
+
+
+.dashboard-card.empty-card
+	cursor: pointer
+	user-select: none
+
+	.dashboard-card-container
+		color: #b7b7b7
+
+	&:hover .dashboard-card-container
+		color: $body-color

@@ -1,48 +1,26 @@
 <app-view-header title="Dashboard"></app-view-header>
+<app-loading *ngIf="loading" [text]="loadingText"></app-loading>
+<div class="mb-4">
+  <div *ngIf="selectingTemplate && !loadingTemplates" class="d-flex justify-content-between align-items-center flex-wrap">
+    <h3 class="text-muted">Select Template</h3>
+    <button class="btn btn-outline-secondary" (click)="resetSelection()">Cancel</button>
+  </div>
+</div>
+<div *ngIf="!loading && !loadingTemplates">
 
-<app-loading *ngIf="loading"></app-loading>
-<div class="row d-flex" *ngIf="dashboard">
 
-	<div class="col-xs-12 col-sm-6 col-md-4 dashboard-box">
-		<div class="dashboard-box-container">
-			<p class="display-1">{{dashboard.plants}}</p>
-			<p class="caption">No. Plants</p>
-		</div>
-	</div>
+  <div *ngIf="!selectingTemplate">
+    <div class="row d-flex" *ngIf="cards">
+      <app-card *ngFor="let card of cards ; index as i" class="col-xs-12 col-sm-6 col-md-4" (addCard)="selectTemplate($event)"
+        [card]="card" [position]="i + 1"></app-card>
+    </div>
+  </div>
 
-	<div class="col-xs-12 col-sm-6 col-md-4 dashboard-box">
-		<div class="dashboard-box-container">
-			<p class="display-1">{{dashboard.activePlants}}</p>
-			<p class="caption">No. Active Plants</p>
-		</div>
-	</div>
-
-	<div class="col-xs-12 col-sm-6 col-md-4 dashboard-box">
-		<div class="dashboard-box-container">
-			<p class="display-1">{{dashboard.faults}}</p>
-			<p class="caption">Total Faults</p>
-		</div>
-	</div>
-
-	<div class="col-xs-12 col-sm-6 col-md-4 dashboard-box">
-		<div class="dashboard-box-container">
-			<p class="display-1">{{dashboard.repairTime}}</p>
-			<p class="caption">Avg. Repair time (Days)</p>
-		</div>
-	</div>
-
-	<div class="col-xs-12 col-sm-6 col-md-4 dashboard-box">
-		<div class="dashboard-box-container">
-			<p class="display-1">{{dashboard.jobs}}</p>
-			<p class="caption">Ongoing Jobs</p>
-		</div>
-	</div>
-
-	<div class="col-xs-12 col-sm-6 col-md-4 dashboard-box">
-		<div class="dashboard-box-container">
-			<p class="display-1">{{dashboard.faultsFixed}}</p>
-			<p class="caption">Faults Fixed</p>
-		</div>
-	</div>
+  <div *ngIf="selectingTemplate && !loading">
+    <div class="row d-flex" *ngIf="cardTemplates && !loading">
+      <app-card-template *ngFor="let template of cardTemplates ; index as i" class="col-xs-12 col-sm-6 col-md-4" [template]="template"
+        (templateSelected)="addCard($event)"></app-card-template>
+    </div>
+  </div>
 
 </div>

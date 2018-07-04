@@ -9,7 +9,6 @@ import { NavigationHistoryService } from '../../../core/services/navigation-hist
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.sass'],
 })
-
 export class LoginComponent implements OnInit {
   username: string;
   password: string;
@@ -50,6 +49,9 @@ export class LoginComponent implements OnInit {
         this.username = '';
         this.password = '';
         this.errorMessage = error;
+      },
+      () => {
+        this.loading = false;
       },
     );
   }

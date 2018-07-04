@@ -1,6 +1,6 @@
 <div *ngIf="card && !card.isNew" class="dashboard-card" (click)="navigate()">
   <div class="dashboard-card-container">
-    <p class="display-1">{{card.value || '??'}}</p>
+    <p class="display-4">{{card.value || '??'}}</p>
     <h5>
       <span class="inline-card-icon">
         <i-alert-triangle *ngIf="card.template.card_type === 'Alert'"></i-alert-triangle>

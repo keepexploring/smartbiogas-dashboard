@@ -22,10 +22,10 @@ export class DashboardComponent implements OnInit {
     this.getTemplateCards();
   }
 
-  getCards() {
+  getCards(refresh: boolean = false) {
     this.loadingText = 'Loading Cards';
     this.loading = true;
-    this.service.getCards().subscribe(
+    this.service.getCards(refresh).subscribe(
       items => {
         const cards = items.map(item => {
           const template = this.cardTemplates.find(t => t.id === item.card_template.id);
@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
     this.service.getTemplateCards().subscribe(items => {
       this.cardTemplates = items;
       this.loadingTemplates = false;
-      this.getCards();
+      this.getCards(true);
     });
   }
 

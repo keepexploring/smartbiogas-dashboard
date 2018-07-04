@@ -24,19 +24,32 @@ export class DashboardService {
     private messageService: MessageService,
   ) {}
 
-  getCards() {
-    return this.http
-      .get(this.endpoints.dashboard.cards, {
-        headers: new HttpHeaders({ 'x-requested-with': 'true' }),
-        observe: 'response',
-      })
-      .pipe(
-        map((response: HttpResponse<any>) => {
-          const items = Card.fromResponse(response);
-          this.cards = items;
-          return items;
-        }),
-      );
+  getCards(refresh: boolean = false) {
+    let request;
+    if (refresh) {
+      request = this.getFreshCards();
+    } else {
+      request = this.getCachedCards();
+    }
+    return request.pipe(
+      map((response: HttpResponse<any>) => {
+        const items = Card.fromResponse(response);
+        this.cards = items;
+        return items;
+      }),
+    );
+  }
+
+  private getCachedCards() {
+    return this.http.get(this.endpoints.dashboard.cards, {
+      observe: 'response',
+    });
+  }
+  private getFreshCards() {
+    return this.http.get(this.endpoints.dashboard.cards, {
+      headers: new HttpHeaders({ 'x-requested-with': 'true' }),
+      observe: 'response',
+    });
   }
 
   getTemplateCards() {

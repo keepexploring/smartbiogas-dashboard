@@ -32,24 +32,19 @@ export class PasswordService {
   }
 
   private getResetCode(body: any) {
-    console.log(body);
     this.loading.next(true);
     return this.http
       .post(this.baseUrl + '/get_reset_code/', body, { observe: 'response' })
       .pipe(
         catchError(err => {
-          console.log('ERRRR!!', err);
           return of(err);
         }),
       )
       .subscribe(
         success => {
-          console.log('success', success);
           this.router.navigate(['/reset-password']);
         },
-        error => {
-          console.log('ERR!!', error);
-        },
+        error => {},
         () => {
           this.loading.next(false);
         },
@@ -69,7 +64,6 @@ export class PasswordService {
           this.loading.next(false);
         }),
         catchError(err => {
-          console.log('ERRRR!!', err);
           return of(err);
         }),
       );
@@ -89,7 +83,6 @@ export class PasswordService {
           this.loading.next(false);
         }),
         catchError(err => {
-          console.log('ERRRR!!', err);
           return of(err);
         }),
       );

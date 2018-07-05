@@ -10,7 +10,7 @@ export const environment = {
   googleMapsApiKey: 'AIzaSyBv5hn1XUw0YSSJlML9RJpOPEMRtGwmHME',
   apClientId: '123456',
   apClientSecret: '123456',
-  apiPageLimit: 10,
-  defaultPaginationLimit: 10,
+  apiPageLimit: 100,
+  defaultPaginationLimit: 25,
   apiPagesToPrefetch: 5,
 };

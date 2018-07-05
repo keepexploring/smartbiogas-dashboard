@@ -32,7 +32,7 @@ export class CreateTechnicianComponent implements OnInit {
     // if (this.form.valid) {
     // console.log('Submitted');
     this.techniciansService.create(this.form.value).subscribe(created => {
-      console.log('returned', created);
+      // console.log('returned', created);
     });
     // }
     return false;

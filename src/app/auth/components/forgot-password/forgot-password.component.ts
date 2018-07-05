@@ -56,7 +56,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     }
 
     if (type == 'email') {
-      console.log(this.emailForm);
       this.messageService.add(
         new Message(
           'If your email exists in the system you will soon receive a message',
@@ -65,7 +64,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
       );
       this.service.getResetCodeByEmail(this.email.value);
     } else if (type == 'phone') {
-      console.log(this.phoneNumberForm);
       this.messageService.add(
         new Message(
           'If your phone number exists in the system you will soon receive a message',

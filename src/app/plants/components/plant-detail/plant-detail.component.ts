@@ -27,14 +27,14 @@ export class PlantDetailComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.plant) {
-      console.log(changes.plant);
+      this.plant = changes.plant.currentValue;
     }
   }
 
   getPlant() {
     const id = +this.route.snapshot.paramMap.get('id');
     this.service.fetchPlant(id).subscribe((plant: Plant) => {
-      this.plant = plant[0];
+      this.plant = plant;
       this.loading = false;
     });
   }

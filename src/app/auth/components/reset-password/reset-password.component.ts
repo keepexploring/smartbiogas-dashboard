@@ -55,23 +55,16 @@ export class ResetPasswordComponent implements OnInit {
           this.messageService.add(new Message('There was an error', MessageType.Danger));
         },
       );
-
-      console.log(this.password.value);
     }
   }
 
   onSubmitCode() {
-    console.log(this.codeForm.valid);
     if (this.codeForm.valid) {
-      console.log(this.code.value);
       this.passwordService.validateCode(this.code.value).subscribe(
         success => {
-          console.log('success', success);
           this.isCodeValid = true;
         },
-        error => {
-          console.log('ERR!!', error);
-        },
+        error => {},
       );
     }
   }

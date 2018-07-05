@@ -144,7 +144,6 @@ export class TechniciansService {
   create(form: any): Observable<Technician> {
     let newTechnician: Technician;
     const technician = this.prepareForSubmission(form);
-    console.log('', technician);
     this.http
       .post(this.endpoints.technicians.create, technician, { observe: 'response' })
       .pipe(
@@ -164,7 +163,6 @@ export class TechniciansService {
           this.router.navigate(['technicians', created.body.user_id]);
         },
         error => {
-          console.log('ERR!!', error);
           this.messageService.add(new Message(error, MessageType.Danger));
         },
       );
@@ -172,8 +170,6 @@ export class TechniciansService {
   }
 
   prepareForSubmission(data: any) {
-    console.log(data);
-
     if (data.status === true || data.status === 'true') {
       data.status = true;
     } else {

@@ -80,9 +80,11 @@ export class PlantsService {
   }
 
   fetchPlant(id: number): Observable<Plant> {
-    const found = this.items.getValue().find(j => j.id == id);
-    if (found) {
-      return of(found);
+    if (this.items.getValue().length > 0) {
+      const found = this.items.getValue().find(j => j.id == id);
+      if (found) {
+        return of(found);
+      }
     }
     if (isNaN(id)) {
       this.handleNotFound('Not a valid ID');

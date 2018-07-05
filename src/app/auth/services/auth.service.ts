@@ -34,8 +34,6 @@ export class AuthService {
   }
 
   validateToken(): void {
-    console.log('validate token called');
-
     const token = this.tokenService.getCurrentToken();
     if (!token) {
       this.logOut();

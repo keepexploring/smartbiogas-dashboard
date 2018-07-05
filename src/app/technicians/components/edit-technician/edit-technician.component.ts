@@ -74,7 +74,7 @@ export class EditTechnicianComponent implements OnInit {
     //     console.log('returned', created);
     //   });
     // }
-    console.log('handle edit');
+    // console.log('handle edit');
     return false;
   }
   createForm() {

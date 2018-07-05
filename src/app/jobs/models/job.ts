@@ -128,7 +128,6 @@ export class Job {
   }
 
   private static parseContactFromJsonData(contactData: any): User {
-    // console.log(contactData);
     let contact = new User();
     contact.id = contactData.user_id;
     if (contactData && contactData.company_name) {

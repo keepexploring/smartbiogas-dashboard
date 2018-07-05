@@ -66,6 +66,15 @@ export class DashboardService {
       );
   }
 
+  modifyCardOrder(cards: Card[]) {
+    const body = cards.filter(card => !!card.id).map(card => {
+      // return { id: card.id, position: card.position };
+      return [card.id, card.position];
+    });
+
+    return this.http.put(this.endpoints.dashboard.modifyCardOrder, body, { observe: 'response' });
+  }
+
   addCardToDashboard(position: number, template_id: number): Observable<any> {
     return this.http
       .post(this.endpoints.dashboard.addCard, { position, template_id }, { observe: 'response' })

@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { Plant } from '../../models/plant';
 import * as constants from '../../../shared/constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plants-map',
@@ -28,7 +29,7 @@ export class PlantsMapComponent implements OnInit, OnChanges {
   initialLng: number = constants.initialLng;
   zoom: number = constants.initialZoom;
   mapStyles = constants.mapStyles;
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
@@ -56,5 +57,10 @@ export class PlantsMapComponent implements OnInit, OnChanges {
   onPageChange(number: number) {
     this.currentPage = number;
     this.pageChanged.emit(number);
+  }
+
+  gotoPlant(plant) {
+    console.log(plant);
+    this.router.navigate(['/plants/', plant.id]);
   }
 }

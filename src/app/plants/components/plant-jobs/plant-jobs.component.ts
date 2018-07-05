@@ -46,9 +46,7 @@ export class PlantJobsComponent implements OnInit {
 
   getJobs(page: number) {
     this.loading = true;
-    console.log('getting');
     this.service.getPlantJobs(this.plantId, page).subscribe((jobs: Job[]) => {
-      console.log(jobs);
       this.items = [...this.items, ...jobs];
       this.loading = false;
     });

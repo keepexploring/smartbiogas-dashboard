@@ -83,4 +83,28 @@ export class DashboardComponent implements OnInit {
     this.selectingTemplate = false;
     this.selectedPosition = null;
   }
+
+  onDragStart(event: any) {
+    event.dataTransfer.dropEffect = 'none';
+  }
+
+  onDrop(e: any, newIndex) {
+    event.preventDefault();
+    this.moveToIndex(this.cards, e.dragData, newIndex);
+    this.cards = this.cards.map((card, index) => {
+      card.position = index + 1;
+      return card;
+    });
+    this.service.modifyCardOrder(this.cards).subscribe(
+      success => {},
+      error => {
+        console.log('error', error);
+      },
+    );
+  }
+
+  moveToIndex(list, from, to) {
+    let cutOut = list.splice(from, 1)[0];
+    list.splice(to, 0, cutOut);
+  }
 }

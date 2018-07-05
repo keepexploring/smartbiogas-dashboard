@@ -18,6 +18,8 @@ import { NavigationModule } from './navigation/navigation.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 
+import { NgDragDropModule } from 'ng-drag-drop';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -37,6 +39,7 @@ import { RouterModule } from '@angular/router';
     PlantsModule,
     PaginationModule,
     NavigationModule,
+    NgDragDropModule.forRoot(),
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
   ],
   declarations: [AppComponent],

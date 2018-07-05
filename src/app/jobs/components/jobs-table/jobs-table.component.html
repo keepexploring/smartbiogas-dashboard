@@ -49,15 +49,14 @@
   </tbody>
 </table>
 
-<div class="text-center mt-3">
-  <app-loading *ngIf="loading" text="Loading Jobs"></app-loading>
-</div>
-
-
 <div class="table-pagination border-top">
   <pagination-controls (pageChange)="onPageChange($event)" [maxSize]="0"></pagination-controls>
   <div class="small">
     Page {{ currentPage }} /
     <span class="text-muted">{{ totalPages }}</span>
   </div>
+</div>
+
+<div class="text-center mt-3">
+  <app-loading *ngIf="loading" text="Loading Jobs"></app-loading>
 </div>

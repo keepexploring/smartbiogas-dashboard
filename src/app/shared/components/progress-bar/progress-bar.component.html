@@ -1,5 +1,5 @@
 <div class="sb-progress-bar">
-  <div class="progress" *ngIf="progress < 100">
+  <div class="progress" *ngIf="percentage < 100">
     <div class="progress-bar progress-bar-animated" role="progressbar" [class.bg-info]="percentage < 100" [class.bg-success]="percentage == 100"
       [style.width]="percentage + '%'" [attr.aria-valuenow]="percentage" [attr.aria-valuemin]="'0'" [attr.aria-valuemax]="'100'"></div>
   </div>

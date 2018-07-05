@@ -67,11 +67,10 @@ export class DashboardService {
   }
 
   modifyCardOrder(cards: Card[]) {
-    const body = cards.filter(card => !!card.id).map(card => {
-      // return { id: card.id, position: card.position };
-      return [card.id, card.position];
+    const cardList = cards.filter(card => !!card.id).map(card => {
+      return { id: card.id, position: card.position };
     });
-
+    const body = { card_order: cardList };
     return this.http.put(this.endpoints.dashboard.modifyCardOrder, body, { observe: 'response' });
   }
 

@@ -67,7 +67,7 @@ export class TechniciansService {
   };
 
   fetchTechnician(id: number) {
-    const found = this.items.getValue().find(j => j.id == id);
+    const found = this.items.getValue().find(technician => technician.id == id);
     if (found) {
       return of(found);
     }
@@ -91,7 +91,6 @@ export class TechniciansService {
         tap(items => this.items.next(items)),
         tap(() => {
           this.loadingSingle.next(false);
-          this.loading.next(false);
         }),
         catchError(this.handleNotFound),
       );

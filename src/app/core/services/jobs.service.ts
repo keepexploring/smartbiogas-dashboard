@@ -77,16 +77,17 @@ export class JobsService {
 
   getUserJobs = (page: number = 1, userId: number): Observable<Job[]> => {
     this.loadingUser.next(true);
-
-    const endpoint =
-      this.endpoints.jobs.user +
-      userId +
-      this.endpoints.getOffset(page, this.userResponseMetadata.getValue().itemsPerPage);
+    console.log(userId);
+    const endpoint = `${EndpointService.baseUri}jobs/limit=${
+      environment.apiPageLimit
+    }&fixers__user__id=${userId}&page=${page}/get_jobs/`;
 
     return this.http.get(endpoint, { observe: 'response' }).pipe(
       tap((response: HttpResponse<any>) => {
+        console.log(response);
         const responseMeta = ApiResponseMeta.fromResponse(response);
         this.userResponseMetadata.next(responseMeta);
+        return response;
       }),
       map(Job.fromResponse),
       map(received => {

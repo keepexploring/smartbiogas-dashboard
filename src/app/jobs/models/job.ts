@@ -52,13 +52,18 @@ export class Job {
     if (isSingle) {
       return Job.parse(response.body);
     }
-
+    if (response.body.data) {
+      return response.body.data.map(item => {
+        return Job.parse(item);
+      });
+    }
     return response.body.objects.map(item => {
       return Job.parse(item);
     });
   }
 
   private static parse(data: any) {
+    console.log(data);
     let item = new Job();
     item.job_id = data.job_id;
     item.job_status = data.job_status;
@@ -73,30 +78,33 @@ export class Job {
     item.due_date = data.due_date;
     item.fault_class = data.fault_class;
     item.fault_description = data.fault_description;
-    item.id = data.system_info.id;
-    item.QP_status = data.system_info.QP_status;
-    item.country = data.system_info.country;
-    item.current_status = data.system_info.current_status;
-    item.district = data.system_info.district;
-    item.funding_souce = data.system_info.funding_souce;
-    item.funding_source_notes = data.system_info.funding_source_notes;
-    item.location = data.system_info.location;
-    item.neighbourhood = data.system_info.neighbourhood;
-    item.other_address_details = data.system_info.other_address_details;
-    item.plant_id = data.system_info.plant_id;
-    item.postcode = data.system_info.postcode;
-    item.region = data.system_info.region;
-    item.sensor_status = data.system_info.sensor_status;
-    item.supplier = data.system_info.supplier;
-    item.type_biogas = data.system_info.type_biogas;
-    item.verfied = data.system_info.verfied;
-    item.village = data.system_info.village;
-    item.volume_biogas = data.system_info.volume_biogas;
-    item.ward = data.system_info.ward;
-    item.install_date = data.system_info.install_date;
+    if (data.system_info) {
+      item.id = data.system_info.id;
+      item.QP_status = data.system_info.QP_status;
+      item.country = data.system_info.country;
+      item.current_status = data.system_info.current_status;
+      item.district = data.system_info.district;
+      item.funding_souce = data.system_info.funding_souce;
+      item.funding_source_notes = data.system_info.funding_source_notes;
+      item.location = data.system_info.location;
+      item.neighbourhood = data.system_info.neighbourhood;
+      item.other_address_details = data.system_info.other_address_details;
+      item.plant_id = data.system_info.plant_id;
+      item.postcode = data.system_info.postcode;
+      item.region = data.system_info.region;
+      item.sensor_status = data.system_info.sensor_status;
+      item.supplier = data.system_info.supplier;
+      item.type_biogas = data.system_info.type_biogas;
+      item.verfied = data.system_info.verfied;
+      item.village = data.system_info.village;
+      item.volume_biogas = data.system_info.volume_biogas;
+      item.ward = data.system_info.ward;
+      item.install_date = data.system_info.install_date;
+    }
     item.constructing_tech = this.mapConstructingTech(data);
     item.contact_info = this.mapContactList(data);
     item.fixers = this.mapFixersList(data);
+    console.log(item);
     return item;
   }
 

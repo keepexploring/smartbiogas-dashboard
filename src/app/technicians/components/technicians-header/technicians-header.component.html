@@ -1,6 +1,7 @@
 <div class="d-flex justify-content-between mb-2">
   <div>
     <app-view-header [title]="title"></app-view-header>
+    <app-create-button baseRoute="technicians"></app-create-button>
   </div>
   <app-header-loading [count]="count" [total]="total" [loading]="loading" [loadingMeta]="loadingMeta" (fetch)="handleFetch()"></app-header-loading>
 </div>

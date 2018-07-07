@@ -83,6 +83,7 @@ export class PlantsService {
     if (this.items.getValue().length > 0) {
       const found = this.items.getValue().find(j => j.id == id);
       if (found) {
+        this.loading.next(false);
         return of(found);
       }
     }
@@ -93,13 +94,14 @@ export class PlantsService {
     this.loadingSingle.next(true);
     return this.http.get(this.endpoints.plants.single + id + '/', { observe: 'response' }).pipe(
       tap((response: HttpResponse<any>) => {
+        this.loading.next(false);
         if (this.items.getValue().length < 2) {
           this.prefetch(0);
         }
         return response;
       }),
       map(data => Plant.parseSingle(data.body)),
-      map(received => this.helpers.handleUpdatesAndAdditions(received, this.items.getValue())),
+      map(received => this.helpers.handleUpdatesAndAdditions(received, this.items.getValue())[0]),
       tap(items => this.items.next(items)),
       catchError(error => this.handleNotFound(error)),
     );

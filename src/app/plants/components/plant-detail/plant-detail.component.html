@@ -1,5 +1,6 @@
 <app-plants-header [title]="'Plant Details'"></app-plants-header>
 <app-loading *ngIf="loading"></app-loading>
+
 <div *ngIf="plant">
   <agm-map [latitude]="plant.lat" [longitude]="plant.lng" [styles]="mapStyles" [zoom]="zoom">
     <agm-marker [latitude]="plant.lat" [longitude]="plant.lng" [iconUrl]="plant.mapMarkerIcon"></agm-marker>
@@ -74,7 +75,14 @@
         </tbody>
       </table>
     </li>
-    <li class="p-0">
+
+    <li class="list-group-item px-0 bg-transparent" *ngIf="plant.contact">
+      <h4>Contacts</h4>
+      <app-contact-card *ngFor="let contact of plant.contact" [user]="contact"></app-contact-card>
+    </li>
+
+    <li class="list-group-item px-0 bg-transparent">
+      <h4>Jobs</h4>
       <app-plant-jobs [plantId]="plant.id"></app-plant-jobs>
     </li>
   </ul>

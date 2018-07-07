@@ -12,8 +12,12 @@
       </td>
     </tr>
     <tr *ngIf="job.plant_id">
-      <th class="vertical-th">Plant ID</th>
-      <td>{{ job.plant_id }}</td>
+      <th class="vertical-th">Plant</th>
+      <td>
+        <button class="btn-link" [routerLink]="['/plants/', job.plant_id]">
+          <b>{{job.plant_name || 'Plant'}}</b> {{ job.plant_id }}
+        </button>
+      </td>
     </tr>
     <tr *ngIf="job.constructing_tech[0]">
       <th class="vertical-th">Technician ID</th>

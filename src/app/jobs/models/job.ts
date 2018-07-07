@@ -28,6 +28,8 @@ export class Job {
   location: string;
   neighbourhood: string;
   other_address_details: string;
+  plant_long_id: string;
+  plant_name: string;
   plant_id: string;
   postcode: string;
   region: string;
@@ -63,7 +65,7 @@ export class Job {
   }
 
   private static parse(data: any) {
-    console.log(data);
+    // console.log(data);
     let item = new Job();
     item.job_id = data.job_id;
     item.job_status = data.job_status;
@@ -89,7 +91,9 @@ export class Job {
       item.location = data.system_info.location;
       item.neighbourhood = data.system_info.neighbourhood;
       item.other_address_details = data.system_info.other_address_details;
-      item.plant_id = data.system_info.plant_id;
+      item.plant_long_id = data.system_info.plant_id;
+      item.plant_id = data.system_info.id;
+      item.plant_name = data.system_info.plant_name;
       item.postcode = data.system_info.postcode;
       item.region = data.system_info.region;
       item.sensor_status = data.system_info.sensor_status;
@@ -104,7 +108,7 @@ export class Job {
     item.constructing_tech = this.mapConstructingTech(data);
     item.contact_info = this.mapContactList(data);
     item.fixers = this.mapFixersList(data);
-    console.log(item);
+    // console.log(item);
     return item;
   }
 

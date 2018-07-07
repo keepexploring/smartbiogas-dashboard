@@ -25,6 +25,10 @@ export class Plant {
   contact: BiogasPlantContact[];
   owner: BiogasPlantContact = this.getOwner();
   // Computed properties
+
+  get name() {
+    return this.biogas_plant_name;
+  }
   get coordinates(): { lat: number; lng: number } {
     let latitude: number;
     let longitude: number;

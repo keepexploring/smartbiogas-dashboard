@@ -66,7 +66,7 @@ export class TechniciansService {
       });
   };
 
-  fetchTechnician(id: number) {
+  fetchTechnician(id: number): Observable<Technician> {
     const found = this.items.getValue().find(technician => technician.id == id);
     if (found) {
       return of(found);
@@ -78,15 +78,16 @@ export class TechniciansService {
     return this.http
       .get(this.endpoints.technicians.single + id + '/', { observe: 'response' })
       .pipe(
-        tap(() => {
+        tap((response: HttpResponse<any>) => {
           this.loadingSingle.next(false);
           if (this.items.getValue().length < 2) {
             this.prefetch(0);
           }
+          return response;
         }),
         map(Technician.fromResponse),
         map(received => {
-          return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
+          return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue())[0];
         }),
         tap(items => this.items.next(items)),
         tap(() => {

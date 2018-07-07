@@ -1,6 +1,4 @@
-<div class="mt-3">
-  <h5>Jobs</h5>
-  <app-loading *ngIf="loading" [text]="'Loading Jobs'"></app-loading>
-  <app-jobs-table *ngIf="items" [items]="items" [loading]="loading" [totalItems]="totalItems" [totalPages]="totalPages" [itemsPerPage]="itemsPerPage"
-    (changedPage)="onChangePage()"></app-jobs-table>
-</div>
+<app-loading *ngIf="loading" [text]="'Loading Jobs'">
+</app-loading>
+<app-jobs-table *ngIf="items" [items]="items" [loading]="loading" [totalItems]="totalItems" [totalPages]="totalPages" [itemsPerPage]="itemsPerPage"
+  (changedPage)="onChangePage()"></app-jobs-table>

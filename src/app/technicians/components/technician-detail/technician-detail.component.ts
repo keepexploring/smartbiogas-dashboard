@@ -33,10 +33,15 @@ export class TechnicianDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    this.techniciansService.fetchTechnician(this.id).subscribe(technician => {
-      this.technician = technician[0];
-    });
-    this.getJobs(this.id);
+    this.techniciansService.fetchTechnician(this.id).subscribe(
+      technician => {
+        this.technician = technician;
+      },
+      error => {
+        console.log(error);
+      },
+    );
+    // this.getJobs(this.id);
     this.techniciansService.loadingSingle.subscribe(loadingSingle => {
       this.loading = loadingSingle;
     });

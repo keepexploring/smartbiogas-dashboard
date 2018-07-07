@@ -17,6 +17,7 @@ import { MessageComponent } from './components/message/message.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { CountryDropdownComponent } from './components/country-dropdown/country-dropdown.component';
 import { CreateButtonComponent } from './components/create-button/create-button.component';
+import { ContactCardComponent } from './components/contact-card/contact-card.component';
 
 @NgModule({
   imports: [CommonModule, SharedRoutingModule, ReactiveFormsModule, IconsModule],
@@ -34,6 +35,7 @@ import { CreateButtonComponent } from './components/create-button/create-button.
     MessagesComponent,
     CountryDropdownComponent,
     CreateButtonComponent,
+    ContactCardComponent,
   ],
   exports: [
     FormErrorsComponent,
@@ -48,6 +50,7 @@ import { CreateButtonComponent } from './components/create-button/create-button.
     MessageComponent,
     MessagesComponent,
     CreateButtonComponent,
+    ContactCardComponent,
   ],
 })
 export class SharedModule {}

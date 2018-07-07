@@ -17,6 +17,7 @@
   <thead class="bg-light">
     <tr>
       <th scope="col">ID</th>
+      <th scope="col">Name</th>
       <th class="" scope="col">Status</th>
       <th scope="col">Type/Model</th>
       <th class="" scope="col">QP</th>
@@ -26,6 +27,9 @@
     <tr *ngFor="let plant of plants | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }"
       [routerLink]="['/plants/', plant.id]">
       <td>{{plant.id}}</td>
+      <td>
+        <b>{{ plant.name || 'UNKNOWN' }}</b>
+      </td>
       <td>
         <app-plant-status [size]="'small'" [status]="plant.current_status"></app-plant-status>
       </td>

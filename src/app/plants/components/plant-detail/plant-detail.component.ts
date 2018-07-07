@@ -3,8 +3,6 @@ import { Plant } from '../../models/plant';
 import { PlantsService } from '../../services/plants.service';
 import { ActivatedRoute } from '@angular/router';
 import * as constants from '../../../shared/constants';
-import { JobsService } from '../../../core/services/jobs.service';
-import { Job } from '../../../jobs/models/job';
 
 @Component({
   selector: 'app-plant-detail',

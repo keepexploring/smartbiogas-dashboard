@@ -25,16 +25,30 @@ export class CardComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.card) {
+      // console.log(changes.card.currentValue);
+      this.card = changes.card.currentValue;
+    }
     if (changes.position) {
       this.position = changes.position.currentValue;
     }
   }
 
   navigate() {
-    this.router.navigate(this.card.route);
+    if (this.card.route) {
+      this.router.navigate(this.card.route);
+    }
   }
 
   create() {
     this.addCard.emit(this.position);
+  }
+
+  get linkText() {
+    let name: string = this.card.template.entityName;
+    if (this.card.value && name != '') {
+      return name + 's';
+    }
+    return name;
   }
 }

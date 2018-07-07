@@ -1,6 +1,7 @@
 <div *ngIf="card && !card.isNew" class="dashboard-card" (click)="navigate()">
-  <div class="dashboard-card-container">
-    <p class="display-4">{{card.value || '??'}}</p>
+  <app-loading *ngIf="card.isLoading" class="dashboard-card-container" text='Fetching Data' color="white"></app-loading>
+  <div class="dashboard-card-container" *ngIf="!card.isLoading">
+    <p class="display-4">{{card.value || ' '}}</p>
     <h5>
       <span class="inline-card-icon">
         <i-alert-triangle *ngIf="card.template.card_type === 'Alert'"></i-alert-triangle>
@@ -9,12 +10,11 @@
       <span> {{card.template.title}}</span>
     </h5>
     <p class="caption small">{{card.template.description}}</p>
-    <button class="card-action-button btn btn-link text-white">See {{card.template.entityName}}
+    <button class="card-action-button btn btn-link text-white">See {{linkText}}
       <i-arrow-right-circle></i-arrow-right-circle>
     </button>
   </div>
 </div>
-
 
 <div *ngIf="card.isNew" class="dashboard-card empty-card" (click)="create()">
   <div class="dashboard-card-container">

@@ -20,23 +20,21 @@ export class CardTemplate {
       case 'job':
         return 'Job';
       default:
-        return '';
+        return null;
     }
   }
 
   get entityRoute(): string[] {
-    let route: string[];
     switch (this.entity_type.toLowerCase()) {
       case 'biogasplant':
-        route = ['/plants'];
+        return ['/plants'];
       case 'technician':
-        route['/technician'];
+        return ['/technicians'];
       case 'job':
-        route['/job'];
+        return ['/jobs'];
       default:
-        route['/'];
+        return null;
     }
-    return route;
   }
 
   static fromResponse(response: HttpResponse<any>): CardTemplate[] {

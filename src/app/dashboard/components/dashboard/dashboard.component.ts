@@ -16,29 +16,13 @@ export class DashboardComponent implements OnInit {
   selectingTemplate: boolean = false;
   loadingText = 'Loading Cards';
   selectedPosition: number;
+  currentLength: number = 0;
+
+  emptyCard = new Card();
   constructor(private service: DashboardService) {}
 
   ngOnInit() {
     this.getTemplateCards();
-  }
-
-  getCards(refresh: boolean = false) {
-    this.loadingText = 'Loading Cards';
-    this.loading = true;
-    this.service.getCards(refresh).subscribe(
-      items => {
-        const cards = items.map(item => {
-          const template = this.cardTemplates.find(t => t.id === item.card_template.id);
-          item.template = template;
-          return item;
-        });
-        this.cards = [...cards, new Card()];
-      },
-      null,
-      () => {
-        this.loading = false;
-      },
-    );
   }
 
   getTemplateCards() {
@@ -47,7 +31,7 @@ export class DashboardComponent implements OnInit {
     this.service.getTemplateCards().subscribe(items => {
       this.cardTemplates = items;
       this.loadingTemplates = false;
-      this.getCards(true);
+      this.getCards(false);
     });
   }
 
@@ -59,18 +43,50 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  addCard(template: CardTemplate) {
-    this.loadingText = 'Adding card to dashboard';
-    this.loading = true;
-    this.service.addCardToDashboard(this.selectedPosition, template.id).subscribe(
-      () => {
-        this.resetSelection();
-        this.getCards();
-        // Loading handled in getCards
+  getCards(refresh: boolean = false) {
+    if (!this.service.loadedCardsForTheFirstTime) {
+      this.loadingText = 'Loading Cards';
+      this.loading = true;
+    }
+
+    this.service.getCards(refresh).subscribe(
+      items => {
+        this.cards = items;
+        if (!this.service.loadedCardsForTheFirstTime) {
+          this.currentLength = this.cards.length;
+        }
       },
       error => {
-        console.log('err!!', error);
+        console.log(error);
+      },
+      () => {
         this.loading = false;
+      },
+    );
+  }
+
+  addCard(template: CardTemplate) {
+    this.resetSelection();
+    this.loadingText = 'Adding card to dashboard';
+    this.currentLength = this.cards.length + 1;
+
+    this.resetSelection();
+    const card = new Card();
+    card.template = template;
+    card.isLoading = true;
+    card.isNew = false;
+    this.cards.push(card);
+
+    this.service.addCardToDashboard(this.currentLength, template.id).subscribe(
+      () => {
+        this.getCards(true);
+      },
+      error => {
+        this.cards.splice(-1, 1);
+        this.currentLength = this.currentLength - 1;
+        this.service.loadedCardsForTheFirstTime = false;
+        this.getCards(true);
+        console.log('err!!', error);
       },
     );
   }

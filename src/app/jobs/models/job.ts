@@ -48,10 +48,10 @@ export class Job {
 
   static fromResponse(response: HttpResponse<any>): Job | Job[] {
     const isSingle: boolean = !response.body.objects;
-
     if (isSingle) {
       return Job.parse(response.body);
     }
+
     if (response.body.data) {
       return response.body.data.map(item => {
         return Job.parse(item);

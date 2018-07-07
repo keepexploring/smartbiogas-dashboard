@@ -10,8 +10,10 @@
 <div *ngIf="!loading && !loadingTemplates">
   <div *ngIf="!selectingTemplate">
     <div class="row d-flex" *ngIf="cards">
-      <app-card *ngFor="let card of cards ; index as i" class="col-xs-12 col-sm-6 col-md-4" (addCard)="selectTemplate($event)"
-        [card]="card" [position]="i + 1" draggable [dragData]="i" droppable (onDrop)="onDrop($event,i)" (onDragStart)="onDragStart($event)"></app-card>
+      <app-card *ngFor="let card of cards ; index as i" class="col-xs-12 col-sm-6 col-md-4" [card]="card" [position]="i + 1" draggable
+        [dragData]="i" droppable (onDrop)="onDrop($event,i)" (onDragStart)="onDragStart($event)"></app-card>
+
+      <app-card class="col-xs-12 col-sm-6 col-md-4" (addCard)="selectTemplate($event)" [card]="emptyCard"></app-card>
     </div>
   </div>
 

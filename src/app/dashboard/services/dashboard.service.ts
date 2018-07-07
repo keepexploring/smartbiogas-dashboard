@@ -1,7 +1,7 @@
 import { catchError, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { HelpersService } from '../../core/services/helpers.service';
 import { EndpointService } from '../../core/services/endpoint.service';
@@ -17,6 +17,8 @@ export class DashboardService {
   cards: Card[] = [];
   cardTemplates: CardTemplate[] = [];
 
+  loadedCardsForTheFirstTime: boolean = false;
+
   constructor(
     private http: HttpClient,
     private helpers: HelpersService,
@@ -24,7 +26,9 @@ export class DashboardService {
     private messageService: MessageService,
   ) {}
 
-  getCards(refresh: boolean = false) {
+  getCards(refresh: boolean) {
+    console.log(this.loadedCardsForTheFirstTime);
+    this.loadedCardsForTheFirstTime = true;
     let request;
     if (refresh) {
       request = this.getFreshCards();
@@ -33,21 +37,25 @@ export class DashboardService {
     }
     return request.pipe(
       map((response: HttpResponse<any>) => {
-        const items = Card.fromResponse(response);
+        let items = Card.fromResponse(response);
+        items = items.map(item => {
+          item.template = this.cardTemplates.find(t => t.id === item.card_template.id);
+          return item;
+        });
         this.cards = items;
         return items;
       }),
     );
   }
 
-  private getCachedCards() {
-    return this.http.get(this.endpoints.dashboard.cards, {
-      observe: 'response',
-    });
-  }
   private getFreshCards() {
     return this.http.get(this.endpoints.dashboard.cards, {
       headers: new HttpHeaders({ 'x-requested-with': 'true' }),
+      observe: 'response',
+    });
+  }
+  private getCachedCards() {
+    return this.http.get(this.endpoints.dashboard.cards, {
       observe: 'response',
     });
   }
@@ -83,6 +91,7 @@ export class DashboardService {
           return response;
         }),
         catchError(error => {
+          console.log('error', error);
           this.helpers.handleResponseError(error);
           this.messageService.add(new Message(error, MessageType.Danger));
           return of(error);

@@ -11,15 +11,19 @@ export class Card {
   position: number;
   updated: string;
   value: string;
-
   template: CardTemplate;
 
   // Check if it should be a new one
   isNew: boolean = true;
+  isLoading: boolean = false;
 
   get route() {
+    if (!this.template) {
+      return null;
+    }
+
     let route: string[] = this.template.entityRoute;
-    if (this.value) {
+    if (route && this.value) {
       route.push(this.value);
     }
     return route;

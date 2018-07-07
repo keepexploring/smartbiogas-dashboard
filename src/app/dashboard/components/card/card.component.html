@@ -1,6 +1,5 @@
-<div *ngIf="card && !card.isNew" class="dashboard-card" (click)="navigate()">
-  <app-loading *ngIf="card.isLoading" class="dashboard-card-container" text='Fetching Data' color="white"></app-loading>
-  <div class="dashboard-card-container" *ngIf="!card.isLoading">
+<div *ngIf="card && !card.isNew" class="dashboard-card" (click)="navigate()" [class.opaque]="card.isLoading">
+  <div class="dashboard-card-container">
     <p class="display-4">{{card.value || ' '}}</p>
     <h5>
       <span class="inline-card-icon">
@@ -14,6 +13,7 @@
       <i-arrow-right-circle></i-arrow-right-circle>
     </button>
   </div>
+  <app-loading *ngIf="card.isLoading" text='Fetching Data' color="white"></app-loading>
 </div>
 
 <div *ngIf="card.isNew" class="dashboard-card empty-card" (click)="create()">

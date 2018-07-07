@@ -46,7 +46,7 @@ export class CardComponent implements OnInit, OnChanges {
 
   get linkText() {
     let name: string = this.card.template.entityName;
-    if (this.card.value && name != '') {
+    if (!this.card.value && name != '') {
       return name + 's';
     }
     return name;

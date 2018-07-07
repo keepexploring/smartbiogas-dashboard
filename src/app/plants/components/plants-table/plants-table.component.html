@@ -18,9 +18,9 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Name</th>
-      <th class="" scope="col">Status</th>
       <th scope="col">Type/Model</th>
       <th class="" scope="col">QP</th>
+      <th class="" scope="col">Volume Biogas</th>
     </tr>
   </thead>
   <tbody>
@@ -28,13 +28,14 @@
       [routerLink]="['/plants/', plant.id]">
       <td>{{plant.id}}</td>
       <td>
-        <b>{{ plant.name || 'UNKNOWN' }}</b>
-      </td>
-      <td>
+        <p>
+          <b>{{ plant.name || 'UNKNOWN' }}</b>
+        </p>
         <app-plant-status [size]="'small'" [status]="plant.current_status"></app-plant-status>
       </td>
       <td>{{ plant.type_biogas ? plant.type_biogas : 'Unknown' }}</td>
       <td>{{ plant.QP_status ? plant.QP_status : 'Unknown' }}</td>
+      <td>{{ plant.volume_biogas || 'Unknown' }}</td>
     </tr>
   </tbody>
 </table>

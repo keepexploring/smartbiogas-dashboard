@@ -25,7 +25,8 @@
             <tbody>
               <tr *ngIf="technician.id">
                 <th class="vertical-th">ID</th>
-                <td>{{ technician.id }}</td>
+                <td>{{ technician.id }}
+                  <br>{{technician.technicain_id}}</td>
               </tr>
               <tr *ngIf="technician.phone_number">
                 <th class="vertical-th">Phone Number</th>
@@ -51,25 +52,26 @@
                 <th class="vertical-th">Joining Date</th>
                 <td>{{ technician.datetime_created | date }}</td>
               </tr>
-              <tr *ngIf="jobs">
-                <th class="vertical-th">Jobs</th>
-                <td></td>
-              </tr>
             </tbody>
           </table>
         </li>
       </ul>
 
-      <div class="text-center mt-4">
+
+
+      <h4 class="mt-4">Jobs</h4>
+
+      <div class="text-center">
         <app-loading *ngIf="loadingJobs" text="Loading Jobs"></app-loading>
       </div>
-      <div *ngIf="jobs">
+
+      <div *ngIf="(jobs && jobs.length > 0) && !loadingJobs">
         <hr>
         <app-jobs-table [items]="jobs" [loading]="loadingJobs" [totalItems]="totalItems" [totalPages]="totalPages" [itemsPerPage]="perPage"></app-jobs-table>
       </div>
-      <div *ngIf="!jobs && !loadingJobs">
+
+      <div *ngIf="(!jobs || jobs.length == 0) && !loadingJobs">
         <small class="text-muted">No jobs found </small>
-        <app-create-button baseRoute="jobs"></app-create-button>
       </div>
 
     </div>

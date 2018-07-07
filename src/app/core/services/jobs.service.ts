@@ -20,8 +20,6 @@ export class JobsService {
   loadingSingle: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   items: BehaviorSubject<Array<Job>> = new BehaviorSubject<Array<Job>>([]);
   limit: number = environment.apiPagesToPrefetch;
-
-  userItems: BehaviorSubject<Array<Job>> = new BehaviorSubject<Array<Job>>([]);
   loadingUser: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   userResponseMetadata: BehaviorSubject<ApiResponseMeta> = new BehaviorSubject<ApiResponseMeta>(
     new ApiResponseMeta(),
@@ -77,25 +75,19 @@ export class JobsService {
 
   getUserJobs = (page: number = 1, userId: number): Observable<Job[]> => {
     this.loadingUser.next(true);
-    console.log(userId);
     const endpoint = `${EndpointService.baseUri}jobs/limit=${
       environment.apiPageLimit
     }&fixers__user__id=${userId}&page=${page}/get_jobs/`;
 
     return this.http.get(endpoint, { observe: 'response' }).pipe(
       tap((response: HttpResponse<any>) => {
-        console.log(response);
         const responseMeta = ApiResponseMeta.fromResponse(response);
         this.userResponseMetadata.next(responseMeta);
+        this.loadingUser.next(false);
         return response;
       }),
-      map(Job.fromResponse),
-      map(received => {
-        return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
-      }),
-      tap(items => this.items.next(items)),
-      tap(() => {
-        this.loadingUser.next(false);
+      map((response: HttpResponse<any>) => {
+        return Job.fromResponse(response);
       }),
       catchError(this.helpers.handleResponseError),
     );
@@ -126,35 +118,35 @@ export class JobsService {
     );
   };
 
-  fetchJob(id: number) {
-    if (isNaN(id)) {
-      this.handleNotFound('Not a valid ID');
-    }
-    this.loadingSingle.next(true);
-    this.http
-      .get(this.endpoints.jobs.user + id + '/', { observe: 'response' })
-      .pipe(
-        tap(() => {
-          if (this.items.getValue().length < 2) {
-            this.prefetch(0);
-          }
-        }),
-        map(Job.fromResponse),
-        map(received => {
-          return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
-        }),
-        tap(items => this.items.next(items)),
-        catchError(this.handleNotFound),
-      )
-      .subscribe(null, this.handleNotFound, () => {
+  fetchJob(id: string) {
+    if (this.items.getValue().length > 0) {
+      const found = this.items.getValue().find(j => j.job_id == id);
+      if (found) {
         this.loadingSingle.next(false);
         this.loading.next(false);
-      });
+        return of(found);
+      }
+    }
+
+    this.loadingSingle.next(true);
+    return this.http.get(this.endpoints.jobs.single + id + '/', { observe: 'response' }).pipe(
+      map((response: HttpResponse<any>) => {
+        this.loadingSingle.next(false);
+        this.loading.next(false);
+        const job = Job.parse(response.body);
+        const item = this.helpers.handleUpdatesAndAdditions(job, this.items.getValue());
+        this.items.next(item);
+        return item[0] || item;
+      }),
+      catchError(this.handleNotFound),
+    );
   }
 
   private handleNotFound(err: any) {
+    console.log('ERR!', err);
     this.messageService.notFound();
-    this.router.navigate(['/jobs']);
+    this.router.navigate(['/plants']);
+    this.loadingSingle.next(false);
     this.loading.next(false);
     return of(err);
   }

@@ -27,7 +27,6 @@ export class DashboardService {
   ) {}
 
   getCards(refresh: boolean) {
-    console.log(this.loadedCardsForTheFirstTime);
     this.loadedCardsForTheFirstTime = true;
     let request;
     if (refresh) {

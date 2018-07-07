@@ -24,11 +24,17 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let job of items | paginate: { currentPage: currentPage, itemsPerPage: itemsPerPage }" [routerLink]="['/jobs/',job.id]">
+    <tr *ngFor="let job of items | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }"
+      [routerLink]="['/jobs/',job.job_id]">
       <td>
         <h6 class="mb-0">
-          <b>
-            {{ job.fault_class ? job.fault_class : 'UNKNOWN' }}</b>
+          <span>
+            <b>
+              {{ job.fault_class ? job.fault_class : 'UNKNOWN' }}</b>
+          </span>
+          <br>
+          <small class="text-muted">
+            <b>ID:</b> {{ job.job_id }}</small>
           <br>
           <app-job-status [status]="job.job_status" [size]="'small'"></app-job-status>
         </h6>

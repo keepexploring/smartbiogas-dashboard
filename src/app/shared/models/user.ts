@@ -4,7 +4,7 @@ export class User {
   last_name: string;
   mobile: string;
   status: boolean;
-  company_name: string;
+  company_name: string[];
   contact_type: string;
   email: string;
   resource_uri: string;

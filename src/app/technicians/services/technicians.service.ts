@@ -80,14 +80,13 @@ export class TechniciansService {
       .pipe(
         tap((response: HttpResponse<any>) => {
           this.loadingSingle.next(false);
-          if (this.items.getValue().length < 2) {
-            this.prefetch(0);
-          }
           return response;
         }),
         map(Technician.fromResponse),
         map(received => {
-          return this.helpers.handleUpdatesAndAdditions(received, this.items.getValue())[0];
+          const item = this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
+          this.items.next(item);
+          return item[0] || item;
         }),
         tap(items => this.items.next(items)),
         tap(() => {

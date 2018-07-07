@@ -17,7 +17,7 @@ export class MainJobTableComponent implements OnInit {
   itemsPerPage: number = environment.defaultPaginationLimit;
   totalPages: number;
   itemCount: number = 0;
-  totalCount: number = 0;
+  totalItems: number = 0;
   items: Job[];
 
   constructor(private service: JobsService) {}
@@ -27,27 +27,28 @@ export class MainJobTableComponent implements OnInit {
       this.service.get(this.currentPage);
     }
 
+    this.service.loading.subscribe(loading => {
+      this.loading = loading;
+    });
+
     this.service.items.subscribe(jobs => {
       this.items = jobs;
       this.itemCount = jobs.length;
     });
 
-    this.service.responseMetadata.subscribe(responseMetadata => {
-      this.responseMetadata = responseMetadata;
-      this.totalPages = Math.ceil(responseMetadata.totalItems / this.itemsPerPage);
-      if (responseMetadata.isRemote) {
-        this.totalCount = responseMetadata.totalItems;
+    this.service.responseMetadata.subscribe(meta => {
+      this.responseMetadata = meta;
+      this.totalPages = Math.ceil(meta.totalItems / this.itemsPerPage);
+
+      if (meta.isRemote) {
+        this.totalItems = meta.totalItems;
         this.loadingMeta = false;
       }
-    });
-
-    this.service.loading.subscribe(loading => {
-      this.loading = loading;
     });
   }
 
   onChangePage(nextPage: number) {
-    if (this.itemCount < this.totalCount) {
+    if (this.itemCount < this.totalItems) {
       this.service.get(this.currentPage);
     }
     this.currentPage = nextPage;

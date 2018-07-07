@@ -27,7 +27,7 @@ export class Plant {
   // Computed properties
 
   get name() {
-    return this.biogas_plant_name;
+    return this.biogas_plant_name || 'Plant';
   }
   get coordinates(): { lat: number; lng: number } {
     let latitude: number;
@@ -36,7 +36,6 @@ export class Plant {
       let firstBracketIndex = this.location.indexOf('(') + 1;
       let lastBracketIndex = this.location.indexOf(')');
       if (firstBracketIndex > -1 && lastBracketIndex > -1) {
-        // Got lat and lng
         let locationString = this.location.substring(firstBracketIndex, lastBracketIndex);
         let coordinates = locationString.split(' ');
         longitude = parseFloat(coordinates[0]);

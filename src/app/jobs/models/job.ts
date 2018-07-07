@@ -46,26 +46,23 @@ export class Job {
   constructing_tech: User[];
   contact_info: User[];
   fixers: User[];
-  static helpers: any;
 
-  static fromResponse(response: HttpResponse<any>): Job | Job[] {
-    const isSingle: boolean = !response.body.objects;
-    if (isSingle) {
-      return Job.parse(response.body);
-    }
-
-    if (response.body.data) {
-      return response.body.data.map(item => {
+  static fromResponse(response: HttpResponse<any>): Job[] {
+    if (!!response.body.objects) {
+      return response.body.objects.map(item => {
         return Job.parse(item);
       });
     }
-    return response.body.objects.map(item => {
-      return Job.parse(item);
-    });
+
+    if (!!response.body.data) {
+      return response.body.data.map(item => {
+        const job = Job.parse(item);
+        return job;
+      });
+    }
   }
 
-  private static parse(data: any) {
-    // console.log(data);
+  static parse(data: any) {
     let item = new Job();
     item.job_id = data.job_id;
     item.job_status = data.job_status;
@@ -108,7 +105,6 @@ export class Job {
     item.constructing_tech = this.mapConstructingTech(data);
     item.contact_info = this.mapContactList(data);
     item.fixers = this.mapFixersList(data);
-    // console.log(item);
     return item;
   }
 
@@ -142,20 +138,13 @@ export class Job {
   private static parseContactFromJsonData(contactData: any): User {
     let contact = new User();
     contact.id = contactData.user_id;
-    if (contactData && contactData.company_name) {
-      contact.company_name = contactData.company_name[0];
-    }
+    contact.company_name = contactData.company_name;
     contact.contact_type = contactData.contact_type;
     contact.first_name = contactData.first_name;
     contact.last_name = contactData.last_name;
-    contact.mobile = contactData.mobile;
+    contact.mobile = contactData.mobile || contactData.phone_number;
     contact.role = contactData.role;
     contact.status = contactData.status;
-
-    if (contactData.company_name) {
-      contact.company_name = contactData.company_name[0];
-    }
-
     return contact;
   }
 }

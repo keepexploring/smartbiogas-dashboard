@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { MessageService } from './core/services/message.service';
 import { ConnectionStatusService } from './core/services/connection-status.service';
 import { NavigationHistoryService } from './core/services/navigation-history.service';
-import { CountryInformationService } from './core/services/country-information.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +21,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private connectionStatusService: ConnectionStatusService,
     private navigationHistoryService: NavigationHistoryService,
-    private countryInformationService: CountryInformationService,
   ) {}
 
   ngOnInit() {
@@ -30,7 +28,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscribeToAuthStatus();
     this.subscribeToConnectionStatus();
     this.subscribeToNavigationHistory();
-    this.subscribeToCountryInformationService();
   }
 
   subscribeToConnectionStatus(): void {
@@ -53,14 +50,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.isAuthenticated = authenticated;
     });
     this.subscriptions.push(sub);
-  }
-
-  subscribeToCountryInformationService() {
-    this.subscriptions.push(
-      this.countryInformationService.get().subscribe(() => {
-        this.subscriptions.push(this.countryInformationService.itemList.subscribe());
-      }),
-    );
   }
 
   subscribeToNavigationHistory() {

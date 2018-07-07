@@ -8,11 +8,10 @@
       <i-download-cloud></i-download-cloud>
     </button>
 
-    <div>
+    <div *ngIf="total">
       <b>{{count || 0}}</b>
       <small class="text-muted"> out of </small>
       <span>
-        <app-loading *ngIf="loadingMeta" [hideText]="true"></app-loading>
         <span>{{total}}</span>
       </span>
     </div>

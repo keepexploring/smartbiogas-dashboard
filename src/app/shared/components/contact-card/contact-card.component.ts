@@ -8,6 +8,7 @@ import { User } from '../../models/user';
 })
 export class ContactCardComponent implements OnInit, OnChanges {
   @Input() user: User;
+  @Input() isTechnician: boolean = false;
   constructor() {}
   ngOnInit() {}
 

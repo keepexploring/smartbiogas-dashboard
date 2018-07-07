@@ -1,39 +1,41 @@
 <app-jobs-header [title]="'Job Details'"></app-jobs-header>
-<table class="table table-bordered mb-0">
+<app-loading *ngIf="loading"></app-loading>
+<table class="table table-bordered mb-0" *ngIf="job">
   <tbody>
-    <tr *ngIf="job.job_id">
-      <th class="vertical-th">ID</th>
-      <td>{{ job.id }}</td>
-    </tr>
     <tr>
-      <th class="vertical-th">Status</th>
+      <th class="vertical-th">Details</th>
       <td>
+        <h5>
+          <b>{{ job.fault_class ? job.fault_class : 'UNKNOWN' }}</b>
+        </h5>
+        <p class="text-muted mb-0">
+          ID: {{ job.job_id }}</p>
         <app-job-status [status]="job.job_status" [size]="'small'"></app-job-status>
-      </td>
-    </tr>
-    <tr *ngIf="job.plant_id">
-      <th class="vertical-th">Plant</th>
-      <td>
-        <button class="btn-link" [routerLink]="['/plants/', job.plant_id]">
-          <b>{{job.plant_name || 'Plant'}}</b> {{ job.plant_id }}
+        <br>
+        <b>Plant: {{job.plant_name}} </b>
+        <small class="text-muted">( ID: {{ job.plant_id }})</small>
+        <br>
+        <button class="btn btn-sm btn-secondary" [routerLink]="['/plants/', job.plant_id]">
+          <i-compass></i-compass> View Details
         </button>
       </td>
     </tr>
-    <tr *ngIf="job.constructing_tech[0]">
-      <th class="vertical-th">Technician ID</th>
-      <td>{{ job.constructing_tech[0].id }}</td>
-    </tr>
     <tr *ngIf="job.date_flagged">
-      <th class="vertical-th">Date Flagged</th>
-      <td>{{ job.date_flagged ? (job.date_flagged | date) : '' }}</td>
-    </tr>
-    <tr *ngIf="job.due_date">
-      <th class="vertical-th">Overdue Date</th>
-      <td>{{ job.due_date ? (job.due_date | date) : '' }}</td>
-    </tr>
-    <tr *ngIf="job.install_date">
-      <th class="vertical-th">Install Date</th>
-      <td>{{ job.install_date ? (job.install_date | date) : '' }}</td>
+      <th class="vertical-th">Dates</th>
+      <td>
+        <p *ngIf="job.date_flagged">
+          <b>Flagged:</b>
+          <br> {{ job.date_flagged ? (job.date_flagged | date) : '' }}
+        </p>
+        <p *ngIf="job.due_date">
+          <b>Due:</b>
+          <br> {{ job.due_date ? (job.due_date | date) : '' }}
+        </p>
+        <p *ngIf="job.install_date">
+          <b>Installed:</b>
+          <br> {{ job.install_date ? (job.install_date | date) : '' }}
+        </p>
+      </td>
     </tr>
     <tr *ngIf="job.fault_description">
       <th class="vertical-th">Issue Identitfied</th>
@@ -42,6 +44,27 @@
     <tr *ngIf="job.other">
       <th class="vertical-th">Additional Information</th>
       <td>{{ job.other }}</td>
+    </tr>
+    <tr *ngIf="job.contact_info">
+      <th class="vertical-th">Contacts</th>
+      <td>
+        <app-contact-card *ngFor="let contact of job.contact_info" [user]="contact"></app-contact-card>
+      </td>
+    </tr>
+    <tr *ngIf="job.fixers">
+      <th class="vertical-th">Fixers</th>
+      <td>
+        <ul class="list-group list-group-flush">
+          <app-contact-card [user]="fixer" [isTechnician]="true" *ngFor="let fixer of job.fixers"></app-contact-card>
+        </ul>
+      </td>
+    </tr>
+    <tr *ngIf="job.constructing_tech">
+      <th class="vertical-th">Constructing
+        <br>Technicians</th>
+      <td>
+        <app-contact-card *ngFor="let constructingTech of job.constructing_tech" [user]="constructingTech" [isTechnician]="true"></app-contact-card>
+      </td>
     </tr>
   </tbody>
 </table>

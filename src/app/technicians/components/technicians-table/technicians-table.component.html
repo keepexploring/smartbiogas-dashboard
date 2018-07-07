@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<table *ngIf="technicians" class="table table-hover list-table mb-0" [class.table-sm]="density == 'condensed'">
+<table *ngIf="technicians && technicians.length > 0" class="table table-hover list-table mb-0" [class.table-sm]="density == 'condensed'">
   <thead class="sticky-top">
     <tr>
       <th class="d-none d-sm-table-cell" scope="col">ID</th>

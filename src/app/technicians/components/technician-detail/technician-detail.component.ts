@@ -41,7 +41,7 @@ export class TechnicianDetailComponent implements OnInit, OnDestroy {
         console.log(error);
       },
     );
-    // this.getJobs(this.id);
+    this.getJobs(this.id);
     this.techniciansService.loadingSingle.subscribe(loadingSingle => {
       this.loading = loadingSingle;
     });
@@ -50,6 +50,7 @@ export class TechnicianDetailComponent implements OnInit, OnDestroy {
   getJobs(id: number) {
     this.loadingJobs = true;
     this.jobsService.getUserJobs(1, id).subscribe(jobs => {
+      console.log(jobs);
       this.jobs = jobs;
       this.totalItems = this.jobs.length;
       this.loadingJobs = false;

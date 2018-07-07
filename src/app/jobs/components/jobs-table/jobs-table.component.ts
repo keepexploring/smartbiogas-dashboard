@@ -26,6 +26,8 @@ export class JobsTableComponent implements OnInit, OnChanges {
   currentPage: number = 1;
   density: 'default' | 'condensed' = 'default';
 
+  itemCount: number = 0;
+
   constructor() {}
 
   ngOnInit() {}
@@ -33,6 +35,7 @@ export class JobsTableComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.items) {
       this.items = changes.items.currentValue;
+      this.itemCount = this.items.length;
     }
     if (changes.loading) {
       this.loading = changes.loading.currentValue;

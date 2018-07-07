@@ -1,14 +1,16 @@
 <div class="card" *ngIf="user">
   <div class="card-body">
     <h5 class="card-title text-capitalize">{{ user.fullName }}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">{{ user.contact_type }}</h6>
-    <dl *ngIf="user.mobile">
-      <dt>Mobile:</dt>
-      <dd>{{ user.mobile }}</dd>
-    </dl>
-    <dl *ngIf="user.email">
-      <dt>Email:</dt>
-      <dd>{{ user.email }}</dd>
-    </dl>
+
+    <h6 *ngIf="user.contact_type" class="card-subtitle mb-2 text-muted">Type: {{ user.contact_type }}</h6>
+
+    <h6 *ngIf="user.role" class="card-subtitle mb-2 text-muted">Role: {{ user.role }}</h6>
+
+    <p *ngIf="user.mobile || user.phone_number">{{ user.mobile || user.phone_number }}</p>
+
+    <p *ngIf="user.email">Email: {{ user.email }}</p>
+
+    <a *ngIf="isTechnician" class="card-link" [routerLink]="['/technicians/',user.id]">
+      <i-users></i-users>View Details</a>
   </div>
 </div>

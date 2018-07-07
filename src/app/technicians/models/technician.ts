@@ -2,7 +2,7 @@ import { User } from '../../shared/models/user';
 import { HttpResponse } from '@angular/common/http';
 
 export class Technician extends User {
-  technician_id: number;
+  technician_id: string;
   country: string;
   datetime_created: string;
   datetime_modified: string;

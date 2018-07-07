@@ -95,13 +95,14 @@ export class PlantsService {
     return this.http.get(this.endpoints.plants.single + id + '/', { observe: 'response' }).pipe(
       tap((response: HttpResponse<any>) => {
         this.loading.next(false);
-        if (this.items.getValue().length < 2) {
-          this.prefetch(0);
-        }
         return response;
       }),
       map(data => Plant.parseSingle(data.body)),
-      map(received => this.helpers.handleUpdatesAndAdditions(received, this.items.getValue())[0]),
+      map(received => {
+        const item = this.helpers.handleUpdatesAndAdditions(received, this.items.getValue());
+        this.items.next(item);
+        return item[0] || item;
+      }),
       tap(items => this.items.next(items)),
       catchError(error => this.handleNotFound(error)),
     );

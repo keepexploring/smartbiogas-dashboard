@@ -6,7 +6,7 @@
 <div id="main-wrapper" class="container-fluid">
   <div class="row" *ngIf="!isLoading">
     <app-nav-sidebar [isAuthenticated]="isAuthenticated"></app-nav-sidebar>
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3">
+    <main role="main" class="col-md-10 ml-sm-auto col-lg-10 pt-3">
       <app-messages></app-messages>
       <router-outlet></router-outlet>
     </main>

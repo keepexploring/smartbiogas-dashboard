@@ -1,7 +1,5 @@
 import { throwError, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
-
-import { User } from '../../shared/models/user';
 import { TokenService } from '../../auth/services/token.service';
 
 @Injectable()
